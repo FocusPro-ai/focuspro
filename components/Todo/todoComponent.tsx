@@ -4,13 +4,30 @@ import React from "react";
 import Login from "../../pages/login";
 import { HomeIcon, PlusIcon } from "@heroicons/react/24/outline";
 import AddTaskModal from "../AddTaskModal/addTask";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeModalState } from "../../slices/modalSlice";
+import { RootState } from "../../app/store";
+import useSWR from "swr";
+import UserTodoComponent from "./userTodo";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
   const dispatch = useDispatch();
+  const userData: any = useSelector((state: RootState) => state.user.user);
 
+  const fetchAllTodoByUserId = async () => {
+    const userId = userData.id;
+    const response = await fetch("/api/Task/showTask", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId }),
+    });
+    return response.json();
+  };
+  const { data: userTodo } = useSWR<any[]>("todos", fetchAllTodoByUserId);
+  console.log(userTodo);
   return (
     <>
       <AddTaskModal />
@@ -33,8 +50,16 @@ const TodoComponent = () => {
         </div>
         <div className="my-2 mt-[2rem] h-[150vh] overflow-y-auto  w-[90%] mx-auto">
           <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg">
-            <HomeIcon height={20} width={20} /> <span>All Task (0)</span>
+            <HomeIcon height={20} width={20} />{" "}
+            <span>All Task ({userTodo?.length})</span>
           </h1>
+          <div className=" flex flex-col space-y-2 my-4">
+            {userTodo?.map((todo: any) => (
+              <>
+                <UserTodoComponent data={todo} />
+              </>
+            ))}
+          </div>
           <div className="w-full mt-[2rem] flex justify-center">
             <button
               onClick={() => dispatch(changeModalState())}

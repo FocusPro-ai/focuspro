@@ -33,6 +33,7 @@ const AddTaskModal = () => {
         description,
         startDate,
         endDate,
+        importance,
       }),
     });
     dispatch(changeModalState());

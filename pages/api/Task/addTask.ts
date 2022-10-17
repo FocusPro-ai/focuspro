@@ -10,7 +10,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function addUserTask(req: NextApiRequest, res: NextApiResponse) {
-  const { userId, heading, description, startDate, endDate } = req.body;
+  const { userId, heading, description, startDate, endDate, importance } =
+    req.body;
   await prisma.todos
     .create({
       data: {
@@ -19,6 +20,7 @@ async function addUserTask(req: NextApiRequest, res: NextApiResponse) {
         description,
         startDate,
         endDate,
+        importance,
       },
     })
     .then((data) => res.status(200).json(data))
