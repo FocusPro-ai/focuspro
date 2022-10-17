@@ -7,6 +7,10 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 
+type userDataType = {
+  id: string | undefined;
+};
+
 const AddTaskModal = () => {
   const [heading, setHeading] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -16,15 +20,16 @@ const AddTaskModal = () => {
 
   const modalState = useSelector((state: RootState) => state.modal.modal);
   const dispatch = useDispatch();
-  const userData = useSelector((state: RootState) => state.user.user);
+  const userData: any = useSelector((state: RootState) => state.user.user);
 
   const submitTask = async () => {
+    const userId = userData?.id;
     const response = await fetch("/api/Task/addTask", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         heading,
-        userId: userData?.id,
+        userId,
         description,
         startDate,
         endDate,
