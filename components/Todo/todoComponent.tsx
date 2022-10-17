@@ -26,7 +26,9 @@ const TodoComponent = () => {
     });
     return response.json();
   };
-  const { data: userTodo } = useSWR<any[]>("todos", fetchAllTodoByUserId);
+  const { data: userTodo } = useSWR("todos", fetchAllTodoByUserId, {
+    refreshInterval: 500,
+  });
   console.log(userTodo);
   return (
     <>
@@ -49,17 +51,21 @@ const TodoComponent = () => {
           )}
         </div>
         <div className="my-2 mt-[2rem] h-[150vh] overflow-y-auto  w-[90%] mx-auto">
-          <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg">
-            <HomeIcon height={20} width={20} />{" "}
-            <span>All Task ({userTodo?.length})</span>
-          </h1>
-          <div className=" flex flex-col space-y-2 my-4">
-            {userTodo?.map((todo: any) => (
-              <>
-                <UserTodoComponent data={todo} />
-              </>
-            ))}
-          </div>
+          {userTodo && (
+            <>
+              <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg">
+                <HomeIcon height={20} width={20} />{" "}
+                <span>All Task ({userTodo?.length})</span>
+              </h1>
+              <div className=" flex flex-col space-y-2 my-4">
+                {userTodo?.map((todo: any) => (
+                  <div key={todo.id}>
+                    <UserTodoComponent data={todo} />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
           <div className="w-full mt-[2rem] flex justify-center">
             <button
               onClick={() => dispatch(changeModalState())}
