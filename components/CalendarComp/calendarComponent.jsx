@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 // The import order DOES MATTER here. If you change it, you'll get an error!
 import interactionPlugin from "@fullcalendar/interaction";
@@ -11,8 +11,10 @@ const CalendarComponent = () => {
   const { data: session } = useSession();
   const [initialEvents, setInitialEvents] = useState([]);
   const email = "adityapainuli2004%25gmail.com";
-  const getAllEvents = async (fetchInfo) => {
-    console.log(fetchInfo?.start);
+  const getAllEvents = async (start, end) => {
+    if (start == undefined && end == undefined) return;
+    console.log(start);
+    console.log(end);
     const refresh_token = session?.user.refreshToken;
     const calendarId = session.user.email;
     const response = await fetch("/api/getEvents", {
@@ -20,8 +22,8 @@ const CalendarComponent = () => {
       body: JSON.stringify({
         refresh_token,
         calendarId,
-        start: fetchInfo?.start,
-        end: fetchInfo?.end,
+        start,
+        end,
       }),
       headers: {
         "Content-type": "application/json",
@@ -63,6 +65,10 @@ const CalendarComponent = () => {
     console.log(event);
     console.log("Event Recieive");
   };
+  const fetchAllEvents = async (fetchInfo) => {
+    const googleEvents = await getAllEvents(fetchInfo.start, fetchInfo.end);
+    return googleEvents;
+  };
   useEffect(() => {
     getAllEvents();
   });
@@ -85,7 +91,7 @@ const CalendarComponent = () => {
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
-        events={getAllEvents}
+        events={fetchAllEvents}
         droppable={true}
         dateClick={handleDateClick}
         eventChange={handleChange}
