@@ -12,6 +12,7 @@ const CalendarComponent = () => {
   const [initialEvents, setInitialEvents] = useState([]);
   const email = "adityapainuli2004%25gmail.com";
   const getAllEvents = async (fetchInfo) => {
+    console.log(fetchInfo?.start);
     const refresh_token = session?.user.refreshToken;
     const calendarId = session.user.email;
     const response = await fetch("/api/getEvents", {
