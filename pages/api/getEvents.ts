@@ -33,6 +33,7 @@ async function getAllEvents(req: NextApiRequest, res: NextApiResponse) {
     calendarId: "primary",
     timeMin: start,
     timeMax: end,
+    singleEvents: true,
   });
   res.status(200).json(response);
 }
