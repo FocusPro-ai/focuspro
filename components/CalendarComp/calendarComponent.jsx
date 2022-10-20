@@ -22,6 +22,7 @@ const CalendarComponent = () => {
       },
     });
     const data = await response.json();
+    console.log(data);
     const events_list = data.data.items;
     const events = [];
     events_list.map((event, index) => {
