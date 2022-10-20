@@ -37,9 +37,9 @@ const CalendarComponent = () => {
     events_list.map((event, index) => {
       const temp_event = {
         id: index,
-        title: event.summary,
-        start: event.start.dateTime,
-        end: event.end.dateTime,
+        title: event?.summary,
+        start: event?.start?.dateTime,
+        end: event?.end?.dateTime,
         backgroundColor: "#097efa",
       };
       events.push(temp_event);
