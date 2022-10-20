@@ -29,7 +29,6 @@ const TodoComponent = () => {
   const { data: userTodo } = useSWR("todos", fetchAllTodoByUserId, {
     refreshInterval: 500,
   });
-  console.log(userTodo);
   return (
     <>
       <AddTaskModal />
@@ -37,7 +36,7 @@ const TodoComponent = () => {
       <div className="shadow-lg h-auto min-w-[350px]">
         <div className="flex  justify-between items-center w-[90%] mx-auto my-2">
           <h1 className="text-2xl font-bold">
-            Focus<span className="text-purple-600">Pro</span>.ai
+            Focus<span className="text-blue-600">Pro</span>.ai
           </h1>
           {session?.user?.image && (
             <Image

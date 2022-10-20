@@ -32,12 +32,10 @@ const Home = () => {
       body: JSON.stringify({ email: session.user.email }),
     });
     const userDetails = await response.json();
-    console.log(userDetails);
     dispatch(AddUserDetails(userDetails));
   };
   useEffect(() => {
     if (session) {
-      getAllEvents();
       getUserDetails();
     }
   }, [session]);

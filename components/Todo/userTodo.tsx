@@ -7,7 +7,7 @@ const UserTodoComponent = ({ data }: any) => {
         data.importance <= 7 && "border-violet-600"
       } ${
         data.importance < 4 && "border-gray-600"
-      } cursor-pointer rounded-md p-2 `}
+      } cursor-pointer rounded-md p-2 hover:bg-gray-200 `}
     >
       <h1>{data.heading}</h1>
     </div>

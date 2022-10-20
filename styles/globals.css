@@ -1,3 +1,61 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.fc {
+  /* the calendar root */
+  margin: 20px;
+  padding-bottom: 20px;
+  height: auto;
+  overflow: hidden;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.fc {
+  height: 97%;
+}
+
+.fc::-webkit-scrollbar {
+  overflow-x: scroll;
+  /* display: none; */
+}
+
+.fc .fc-scroller {
+  /* overflow: hidden !important; */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.fc-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 0.5em;
+}
+
+.fc .fc-button-primary:disabled,
+.fc .fc-button-primary {
+  text-transform: uppercase;
+}
+
+.fc-day-past,
+.fc-day-future {
+  @apply bg-gray-50;
+}
+
+.fc .fc-timegrid-col.fc-day-today {
+  @apply bg-white;
+}
+
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-daygrid-day.fc-day-past,
+.fc .fc-daygrid-day.fc-day-future {
+  @apply bg-white;
+}
+
+.fc .fc-timegrid-slot-minor {
+  border-top-style: none;
+  border-bottom: 0.1px solid #333;
+}
