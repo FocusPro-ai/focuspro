@@ -13,9 +13,10 @@ const CalendarComponent = () => {
   const email = "adityapainuli2004%25gmail.com";
   const getAllEvents = async () => {
     const refresh_token = session?.user.refreshToken;
+    const calendarId = session.user.email;
     const response = await fetch("/api/getEvents", {
       method: "POST",
-      body: JSON.stringify({ refresh_token }),
+      body: JSON.stringify({ refresh_token, calendarId }),
       headers: {
         "Content-type": "application/json",
       },
@@ -40,7 +41,6 @@ const CalendarComponent = () => {
   };
 
   const handleDateClick = (info) => {
-    console.log(info);
     console.log("Date click handling");
   };
   const handleChange = (info) => {
