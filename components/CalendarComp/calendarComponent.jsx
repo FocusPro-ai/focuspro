@@ -11,18 +11,24 @@ const CalendarComponent = () => {
   const { data: session } = useSession();
   const [initialEvents, setInitialEvents] = useState([]);
   const email = "adityapainuli2004%25gmail.com";
-  const getAllEvents = async () => {
+  const getAllEvents = async (fetchInfo) => {
     const refresh_token = session?.user.refreshToken;
     const calendarId = session.user.email;
     const response = await fetch("/api/getEvents", {
       method: "POST",
-      body: JSON.stringify({ refresh_token, calendarId }),
+      body: JSON.stringify({
+        refresh_token,
+        calendarId,
+        start: fetchInfo?.start,
+        end: fetchInfo?.end,
+      }),
       headers: {
         "Content-type": "application/json",
       },
     });
     const data = await response.json();
     console.log(data);
+
     const events_list = data.data.items;
     const events = [];
     events_list.map((event, index) => {
