@@ -30,11 +30,11 @@ const TodoComponent = () => {
     refreshInterval: 500,
   });
   return (
-    <>
+    <div className="h-auto">
       <AddTaskModal />
 
-      <div className="shadow-lg h-auto min-w-[350px]">
-        <div className="flex  justify-between items-center w-[90%] mx-auto my-2">
+      <div className="shadow-lg max-h-screen min-w-[350px]">
+        <div className="flex h-max  justify-between items-center w-[90%] mx-auto my-2">
           <h1 className="text-2xl font-bold">
             Focus<span className="text-blue-600">Pro</span>.ai
           </h1>
@@ -49,23 +49,23 @@ const TodoComponent = () => {
             />
           )}
         </div>
-        <div className="my-2 mt-[2rem] h-[150vh] overflow-y-auto  w-[90%] mx-auto">
+        <div className="mx-4 h-max flex flex-col  ">
           {userTodo && (
-            <>
+            <div>
               <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg">
                 <HomeIcon height={20} width={20} />{" "}
                 <span>All Task ({userTodo?.length})</span>
               </h1>
-              <div className=" flex flex-col space-y-2 my-4">
+              <div className=" flex  flex-1 py-2 overflow-y-scroll h-[600px] hide-scrollbar flex-col space-y-2 my-4">
                 {userTodo?.map((todo: any) => (
                   <div key={todo.id}>
                     <UserTodoComponent data={todo} />
                   </div>
                 ))}
               </div>
-            </>
+            </div>
           )}
-          <div className="w-full mt-[2rem] flex justify-center">
+          <div className="w-full   flex justify-center">
             <button
               onClick={() => dispatch(changeModalState())}
               className="flex space-x-2 items-center my-4 bg-transparent border border-gray-300 hover:bg-gray-100 rounded-md px-3 py-2"
@@ -75,7 +75,7 @@ const TodoComponent = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply font-open-sans;
+}
 
 .fc {
   /* the calendar root */
@@ -58,4 +64,23 @@
 .fc .fc-timegrid-slot-minor {
   border-top-style: none;
   border-bottom: 0.1px solid #333;
+}
+.fc-col-header-cell.fc-day-today {
+  @apply bg-blue-500 text-white;
+}
+
+.fc-col-header-cell.fc-day-past,
+.fc-col-header-cell.fc-day-today,
+.fc-col-header-cell.fc-day-future {
+  @apply py-4;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

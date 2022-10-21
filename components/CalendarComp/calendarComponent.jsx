@@ -6,11 +6,17 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { useSession } from "next-auth/react";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
+import EventModalComponent from "../EventModal/EventModalComponent";
+import { useDispatch } from "react-redux";
+import {
+  addEventDescription,
+  changeEventModalState,
+} from "../../slices/eventModalSlice";
 
 const CalendarComponent = () => {
   const { data: session } = useSession();
   const [initialEvents, setInitialEvents] = useState([]);
-  const email = "adityapainuli2004%25gmail.com";
+  const dispatch = useDispatch();
   const getAllEvents = async (start, end) => {
     if (start == undefined && end == undefined) return;
     console.log(start);
@@ -40,6 +46,7 @@ const CalendarComponent = () => {
         title: event?.summary,
         start: event?.start?.dateTime,
         end: event?.end?.dateTime,
+        description: event?.description,
         backgroundColor: "#097efa",
       };
       events.push(temp_event);
@@ -58,6 +65,8 @@ const CalendarComponent = () => {
     console.log("Change handling");
   };
   const handleEventClick = (event) => {
+    dispatch(addEventDescription(event.event));
+    dispatch(changeEventModalState());
     console.log(event.event);
     console.log("Event Click");
   };
@@ -74,6 +83,7 @@ const CalendarComponent = () => {
   });
   return (
     <div className="w-full shadow-xl ">
+      <EventModalComponent />
       <FullCalendar
         headerToolbar={{
           left: "prev,next today",
@@ -87,6 +97,11 @@ const CalendarComponent = () => {
           googleCalendarPlugin,
         ]}
         initialView="timeGridWeek"
+        dayHeaderFormat={{
+          weekday: "short",
+          day: "2-digit",
+        }}
+        dayHeaderClassNames={"header-component"}
         // editable={true}
         selectable={true}
         selectMirror={true}
