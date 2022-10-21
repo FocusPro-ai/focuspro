@@ -15,7 +15,7 @@ const EventModalComponent = () => {
   const eventModalState = useSelector(
     (state: RootState) => state.eventModal.eventModalState
   );
-  const eventModalInfo = useSelector(
+  const eventModalInfo: any = useSelector(
     (state: RootState) => state.eventModal.eventModal
   );
   const dispatch = useDispatch();
