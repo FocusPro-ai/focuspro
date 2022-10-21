@@ -1,9 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
+interface eventModalType {
+  title: string;
+  start: any;
+  end: any;
+  id: any;
+  backgroundColor: string;
+  description: string;
+}
+
+interface initaltype {
+  eventModalState: boolean;
+  eventModal: eventModalType;
+}
+
+const initialState: initaltype = {
   eventModalState: false,
-  eventModal: [],
+  eventModal: {
+    title: "",
+    start: undefined,
+    end: undefined,
+    backgroundColor: "",
+    description: "",
+    id: undefined,
+  },
 };
 
 export const eventModalSlice = createSlice({

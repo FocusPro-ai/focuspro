@@ -15,7 +15,7 @@ const EventModalComponent = () => {
   const eventModalState = useSelector(
     (state: RootState) => state.eventModal.eventModalState
   );
-  const eventModalInfo: any = useSelector(
+  const eventModalInfo = useSelector(
     (state: RootState) => state.eventModal.eventModal
   );
   const dispatch = useDispatch();
@@ -24,7 +24,6 @@ const EventModalComponent = () => {
 
   const startDateFormat = startDate.toDateString();
   const endDateFormat = endDate.toDateString();
-  console.log(eventModalInfo.extendedProps.description);
 
   return (
     <Transition appear show={eventModalState} as={Fragment}>
@@ -72,7 +71,7 @@ const EventModalComponent = () => {
                   </p>
                 </div>
                 <p className="text-gray-600 w-[95%] mx-auto text-[16px]">
-                  {eventModalInfo?.extendedProps?.description}
+                  {eventModalInfo?.description}
                 </p>
                 <div className="mt-4 w-max mx-auto">
                   <button

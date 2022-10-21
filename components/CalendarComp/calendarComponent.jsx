@@ -65,9 +65,17 @@ const CalendarComponent = () => {
     console.log("Change handling");
   };
   const handleEventClick = (event) => {
-    dispatch(addEventDescription(event.event));
+    const payload = {
+      title: event.event.title,
+      description: event.event.extendedProps.description,
+      start: event.event.start,
+      end: event.event.end,
+      id: event.event.id,
+    };
+
+    dispatch(addEventDescription(payload));
     dispatch(changeEventModalState());
-    console.log(event.event);
+    console.log(event.event.id);
     console.log("Event Click");
   };
   const handleEventRecieve = (event) => {
