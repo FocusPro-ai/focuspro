@@ -10,16 +10,16 @@ body {
 
 .fc {
   /* the calendar root */
-  margin: 20px;
-  padding-bottom: 20px;
-  height: auto;
+  margin: 20px !important;
+  padding-bottom: 20px !important;
+  height: auto !important;
   overflow: hidden;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 
 .fc {
-  height: 97%;
+  height: 97% !important;
 }
 
 .fc::-webkit-scrollbar {
@@ -34,49 +34,49 @@ body {
 }
 
 .fc-scroller::-webkit-scrollbar {
-  display: none;
+  display: none !important;
 }
 
 .fc .fc-toolbar.fc-header-toolbar {
-  margin-bottom: 0.5em;
+  margin-bottom: 0.5em !important;
 }
 
 .fc .fc-button-primary:disabled,
 .fc .fc-button-primary {
-  text-transform: uppercase;
+  text-transform: uppercase !important;
 }
 
 .fc-day-past,
 .fc-day-future {
-  @apply bg-gray-50;
+  @apply !bg-gray-50;
 }
 
 .fc .fc-timegrid-col.fc-day-today {
-  @apply bg-white;
+  @apply !bg-white;
 }
 
 .fc .fc-daygrid-day.fc-day-today,
 .fc .fc-daygrid-day.fc-day-past,
 .fc .fc-daygrid-day.fc-day-future {
-  @apply bg-white;
+  @apply !bg-white;
 }
 
 .fc .fc-timegrid-slot-minor {
-  border-top-style: none;
-  border-bottom: 0.1px solid #333;
+  border-top-style: none !important;
+  border-bottom: 0.1px solid #333 !important;
 }
 .fc-col-header-cell.fc-day-today {
-  @apply bg-blue-500 text-white;
+  @apply !bg-blue-500 !text-white;
 }
 
 .fc-col-header-cell.fc-day-past,
 .fc-col-header-cell.fc-day-today,
 .fc-col-header-cell.fc-day-future {
-  @apply py-4;
+  @apply !py-4;
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none;
+  display: none !important;
 }
 
 /* Hide scrollbar for IE, Edge and Firefox */
