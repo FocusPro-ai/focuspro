@@ -72,7 +72,7 @@ const EventModalComponent = () => {
                   </p>
                 </div>
                 <p className="text-gray-600 w-[95%] mx-auto text-[16px]">
-                  {eventModalInfo.extendedProps.description}
+                  {eventModalInfo?.extendedProps?.description}
                 </p>
                 <div className="mt-4 w-max mx-auto">
                   <button
