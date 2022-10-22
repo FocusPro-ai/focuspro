@@ -1,6 +1,6 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "../../pages/login";
 import { HomeIcon, PlusIcon } from "@heroicons/react/24/outline";
 import AddTaskModal from "../AddTaskModal/addTask";
@@ -15,7 +15,7 @@ const TodoComponent = () => {
   const { data: session } = useSession();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
-
+  const [draggableInitialized, setDraggableInitialized] = useState(false);
   const fetchAllTodoByUserId = async () => {
     const userId = userData.id;
     const response = await fetch("/api/Task/showTask", {
@@ -32,8 +32,9 @@ const TodoComponent = () => {
   });
   useEffect(() => {
     let draggableEl = document.getElementById("draggable-event");
-    if (draggableEl) {
-      new Draggable(draggableEl, {
+    if (draggableEl && userTodo.length > 0 && !draggableInitialized) {
+      setDraggableInitialized(true);
+      let draggable = new Draggable(draggableEl, {
         itemSelector: ".fc-event",
         eventData: function (eventEl) {
           let title = eventEl.getAttribute("title");
@@ -49,7 +50,7 @@ const TodoComponent = () => {
         },
       });
     }
-  });
+  }, [userTodo, draggableInitialized]);
   return (
     <div className="h-auto">
       <AddTaskModal />
@@ -81,14 +82,17 @@ const TodoComponent = () => {
                 id="draggable-event"
                 className=" flex  flex-1 py-2 overflow-y-scroll h-[600px] hide-scrollbar flex-col space-y-2 my-4"
               >
-                {userTodo?.map((todo) => (
-                  <div key={todo.id}>
+                {userTodo.map((todo) => (
+                  <div
+                    className="fc-event"
+                    title={todo.heading}
+                    description={todo.description}
+                    importance={todo.importance}
+                    id={todo.id}
+                    key={todo.id}
+                  >
                     <div
-                      title={todo.heading}
-                      description={todo.description}
-                      importance={todo.importance}
-                      id={todo.id}
-                      className={`fc-event border-2 ${
+                      className={` border-2 ${
                         todo.importance > 8 && " border-red-500"
                       } ${todo.importance <= 7 && "border-violet-600"} ${
                         todo.importance < 4 && "border-gray-600"

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 // The import order DOES MATTER here. If you change it, you'll get an error!
 import interactionPlugin from "@fullcalendar/interaction";
@@ -16,6 +16,7 @@ import {
 const CalendarComponent = () => {
   const { data: session } = useSession();
   const [initialEvents, setInitialEvents] = useState([]);
+  const calendarRef = useRef();
   const dispatch = useDispatch();
   const addEvents = async ({ event_title, event_description, start, end }) => {
     const refresh_token = session?.user.refreshToken;
@@ -91,27 +92,29 @@ const CalendarComponent = () => {
     console.log("Event Click");
   };
   const handleEventRecieve = (event) => {
-    console.log(event.event._instance.range.end);
+    console.log(event);
     const event_prop = {
       event_title: event.event.title,
       event_description: event.event.extendedProps.description,
-      start: event.event._instance.range.start,
-      end: event.event._instance.range.end,
+      start: event.event.start,
+      end: event.event.end,
     };
-    addEvents(event_prop);
-    console.log("Event Recieive");
+    addEvents(event_prop).then((data) => {
+      console.log("added event");
+      let calendarApi = calendarRef.current.getApi();
+      calendarApi.refetchEvents();
+
+      event.event.remove();
+    });
   };
   const fetchAllEvents = async (fetchInfo) => {
     const googleEvents = await getAllEvents(fetchInfo.start, fetchInfo.end);
     return googleEvents;
   };
-  const handleDropEvent = (info) => {
+  const handleEventDrop = (info) => {
     console.log(info);
-    console.log("dropeed");
   };
-  useEffect(() => {
-    getAllEvents();
-  });
+
   return (
     <div className="w-full shadow-xl ">
       <EventModalComponent />
@@ -134,15 +137,18 @@ const CalendarComponent = () => {
         }}
         dayHeaderClassNames={"header-component"}
         editable={true}
+        forceEventDuration={true}
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
         events={fetchAllEvents}
+        ref={calendarRef}
         droppable={true}
         dateClick={handleDateClick}
         eventChange={handleChange}
         eventDurationEditable={true}
         eventBackgroundColor="#097efa"
+        eventDrop={handleEventDrop}
         // when certain event get click;
         eventClick={handleEventClick}
         // drop={handleDropEvent}
