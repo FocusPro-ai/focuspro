@@ -14,7 +14,7 @@ const Login = () => {
           Neurodiversity's first productivity tool
         </p>
       </div>
-      <div className="my-[2rem] text-center">
+      <div className="my-[2rem] mb-[1.1rem] text-center">
         <h1 className="text-5xl font-bold">
           Work on what really matters, today.
         </h1>
@@ -24,10 +24,11 @@ const Login = () => {
         </p>
         <div className="flex flex-col justify-center items-center">
           <button
-            className="bg-blue-600 my-4 w-max py-2 px-4 rounded-md text-white  "
+            className="bg-blue-600 my-4  flex items-center space-x-4 py-2 px-4 rounded-md text-white  "
             onClick={() => popupCenter("/auth/google", "Sign In With Google")}
           >
-            Sign in with Google
+            <span className="px-2">Sign in with </span>
+            <Image src="/google.svg" height={20} width={20} alt="google-logo" />
           </button>
           <div className="flex space-x-2 items-center">
             <span className="text-[13px] text-gray-500">
@@ -40,9 +41,9 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <div className="relative w-full -mb-[2rem]   min-h-[400px]">
+      <div className="relative w-full min-h-[400px]">
         <Image
-          src={"/wallpaper.png"}
+          src={"/background.png"}
           alt="background-image"
           layout="fill"
           className="object-contain "

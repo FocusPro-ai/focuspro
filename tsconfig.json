@@ -20,7 +20,8 @@
     "**/*.ts",
     "**/*.tsx",
     "pages/api/auth/[...nextauth].js",
-    "components/CalendarComp/calendarComponent.jsx"
+    "components/CalendarComp/calendarComponent.jsx",
+    "components/Todo/todoComponent.jsx"
   ],
   "exclude": ["node_modules"]
 }

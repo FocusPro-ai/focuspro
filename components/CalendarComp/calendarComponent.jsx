@@ -17,17 +17,29 @@ const CalendarComponent = () => {
   const { data: session } = useSession();
   const [initialEvents, setInitialEvents] = useState([]);
   const dispatch = useDispatch();
-  const getAllEvents = async (start, end) => {
-    if (start == undefined && end == undefined) return;
-    console.log(start);
-    console.log(end);
+  const addEvents = async ({ event_title, event_description, start, end }) => {
     const refresh_token = session?.user.refreshToken;
-    const calendarId = session.user.email;
-    const response = await fetch("/api/getEvents", {
+    const response = await fetch("/api/Calendar/addEvents", {
       method: "POST",
       body: JSON.stringify({
         refresh_token,
-        calendarId,
+        event_title,
+        event_description,
+        start,
+        end,
+      }),
+      headers: { "Content-type": "application/json" },
+    });
+    const data = await response.json();
+    console.log(data);
+  };
+  const getAllEvents = async (start, end) => {
+    if (start == undefined && end == undefined) return;
+    const refresh_token = session?.user.refreshToken;
+    const response = await fetch("/api/Calendar/getEvents", {
+      method: "POST",
+      body: JSON.stringify({
+        refresh_token,
         start,
         end,
       }),
@@ -79,12 +91,23 @@ const CalendarComponent = () => {
     console.log("Event Click");
   };
   const handleEventRecieve = (event) => {
-    console.log(event);
+    console.log(event.event._instance.range.end);
+    const event_prop = {
+      event_title: event.event.title,
+      event_description: event.event.extendedProps.description,
+      start: event.event._instance.range.start,
+      end: event.event._instance.range.end,
+    };
+    addEvents(event_prop);
     console.log("Event Recieive");
   };
   const fetchAllEvents = async (fetchInfo) => {
     const googleEvents = await getAllEvents(fetchInfo.start, fetchInfo.end);
     return googleEvents;
+  };
+  const handleDropEvent = (info) => {
+    console.log(info);
+    console.log("dropeed");
   };
   useEffect(() => {
     getAllEvents();
@@ -110,7 +133,7 @@ const CalendarComponent = () => {
           day: "2-digit",
         }}
         dayHeaderClassNames={"header-component"}
-        // editable={true}
+        editable={true}
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
@@ -122,6 +145,7 @@ const CalendarComponent = () => {
         eventBackgroundColor="#097efa"
         // when certain event get click;
         eventClick={handleEventClick}
+        // drop={handleDropEvent}
         eventReceive={handleEventRecieve}
       />
     </div>

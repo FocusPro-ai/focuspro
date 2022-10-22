@@ -1,19 +1,20 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect } from "react";
 import Login from "../../pages/login";
 import { HomeIcon, PlusIcon } from "@heroicons/react/24/outline";
 import AddTaskModal from "../AddTaskModal/addTask";
 import { useDispatch, useSelector } from "react-redux";
 import { changeModalState } from "../../slices/modalSlice";
-import { RootState } from "../../app/store";
 import useSWR from "swr";
 import UserTodoComponent from "./userTodo";
+import FullCalendar from "@fullcalendar/react";
+import { Draggable } from "@fullcalendar/interaction";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
   const dispatch = useDispatch();
-  const userData: any = useSelector((state: RootState) => state.user.user);
+  const userData = useSelector((state) => state.user.user);
 
   const fetchAllTodoByUserId = async () => {
     const userId = userData.id;
@@ -28,6 +29,26 @@ const TodoComponent = () => {
   };
   const { data: userTodo } = useSWR("todos", fetchAllTodoByUserId, {
     refreshInterval: 500,
+  });
+  useEffect(() => {
+    let draggableEl = document.getElementById("draggable-event");
+    if (draggableEl) {
+      new Draggable(draggableEl, {
+        itemSelector: ".fc-event",
+        eventData: function (eventEl) {
+          let title = eventEl.getAttribute("title");
+          let description = eventEl.getAttribute("description");
+          let importance = eventEl.getAttribute("importance");
+          let id = eventEl.getAttribute("id");
+          return {
+            title: title,
+            description: description,
+            importance: importance,
+            id: id,
+          };
+        },
+      });
+    }
   });
   return (
     <div className="h-auto">
@@ -56,10 +77,25 @@ const TodoComponent = () => {
                 <HomeIcon height={20} width={20} />{" "}
                 <span>All Task ({userTodo?.length})</span>
               </h1>
-              <div className=" flex  flex-1 py-2 overflow-y-scroll h-[600px] hide-scrollbar flex-col space-y-2 my-4">
-                {userTodo?.map((todo: any) => (
+              <div
+                id="draggable-event"
+                className=" flex  flex-1 py-2 overflow-y-scroll h-[600px] hide-scrollbar flex-col space-y-2 my-4"
+              >
+                {userTodo?.map((todo) => (
                   <div key={todo.id}>
-                    <UserTodoComponent data={todo} />
+                    <div
+                      title={todo.heading}
+                      description={todo.description}
+                      importance={todo.importance}
+                      id={todo.id}
+                      className={`fc-event border-2 ${
+                        todo.importance > 8 && " border-red-500"
+                      } ${todo.importance <= 7 && "border-violet-600"} ${
+                        todo.importance < 4 && "border-gray-600"
+                      } cursor-pointer rounded-md p-2 hover:bg-gray-200 `}
+                    >
+                      <h1>{todo.heading}</h1>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -80,3 +116,5 @@ const TodoComponent = () => {
 };
 
 export default TodoComponent;
+
+// https://codesandbox.io/s/vm45zwmo07?file=/src/index.js

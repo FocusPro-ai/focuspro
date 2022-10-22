@@ -12,13 +12,14 @@ export default async function handler(
 ) {
   switch (req.method) {
     case "POST": {
-      return getAllEvents(req, res);
+      return addEvents(req, res);
     }
   }
 }
 
-async function getAllEvents(req: NextApiRequest, res: NextApiResponse) {
-  const { refresh_token, calendarId, start, end } = req.body;
+async function addEvents(req: NextApiRequest, res: NextApiResponse) {
+  const { refresh_token, event_title, event_description, start, end } =
+    req.body;
   oauth2.setCredentials({ refresh_token: refresh_token });
   const calendar = google.calendar({ version: "v3", auth: oauth2 });
 
@@ -27,13 +28,21 @@ async function getAllEvents(req: NextApiRequest, res: NextApiResponse) {
   //   eventId: "",
   //   key: "AIzaSyDRabaMUH-qeH37jEE8-g62GNCNTD9oNN8",
   // });
-  const month = new Date().getMonth();
 
-  const response = await calendar.events.list({
-    calendarId: "primary",
-    timeMin: start,
-    timeMax: end,
-    singleEvents: true,
-  });
-  res.status(200).json(response);
+  const response = await calendar.events
+    .insert({
+      calendarId: "primary",
+      requestBody: {
+        start: {
+          dateTime: start,
+        },
+        end: {
+          dateTime: end,
+        },
+        summary: event_title,
+        description: event_description,
+      },
+    })
+    .then((data) => res.status(200).json(data))
+    .catch((e) => res.status(500).json(e.message));
 }
