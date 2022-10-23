@@ -54,8 +54,9 @@ const CalendarComponent = () => {
     const events_list = data.data.items;
     const events = [];
     events_list.map((event, index) => {
+      console.log(event);
       const temp_event = {
-        id: index,
+        id: event.id,
         title: event?.summary,
         start: event?.start?.dateTime,
         end: event?.end?.dateTime,
@@ -66,15 +67,45 @@ const CalendarComponent = () => {
     });
     return events;
   };
-  const handleEventAdd = (arg) => {
-    alert(arg.dateStr);
+  const updateEvent = async ({
+    id,
+    event_title,
+    event_description,
+    start,
+    end,
+  }) => {
+    const refresh_token = session?.user.refreshToken;
+    const response = await fetch("/api/Calendar/updateEvents", {
+      method: "POST",
+      body: JSON.stringify({
+        event_id: id,
+        refresh_token,
+        event_title,
+        event_description,
+        start,
+        end,
+      }),
+      headers: { "Content-type": "application/json" },
+    });
+    const data = await response.json();
+    console.log(data);
   };
+
+  // ------- Full calendar Functions ----
 
   const handleDateClick = (info) => {
     console.log("Date click handling");
   };
-  const handleChange = (info) => {
-    console.log(info);
+  const handleChange = (event) => {
+    console.log(event.event._def.publicId);
+    const event_prop = {
+      id: event.event._def.publicId,
+      event_title: event.event.title,
+      event_description: event.event.extendedProps.description,
+      start: event.event.start,
+      end: event.event.end,
+    };
+    updateEvent(event_prop);
     console.log("Change handling");
   };
   const handleEventClick = (event) => {
@@ -148,7 +179,7 @@ const CalendarComponent = () => {
         eventChange={handleChange}
         eventDurationEditable={true}
         eventBackgroundColor="#097efa"
-        eventDrop={handleEventDrop}
+        // eventDrop={handleEventDrop}
         // when certain event get click;
         eventClick={handleEventClick}
         // drop={handleDropEvent}
