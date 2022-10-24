@@ -10,6 +10,12 @@ import useSWR from "swr";
 import UserTodoComponent from "./userTodo";
 import FullCalendar from "@fullcalendar/react";
 import { Draggable } from "@fullcalendar/interaction";
+import {
+  addTaskDescription,
+  changeTaskModalSlice,
+} from "../../slices/taskModalSlice";
+import UpdateTaskModal from "./updateTaskModal/updateTask";
+import { Popover } from "@headlessui/react";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
@@ -80,10 +86,23 @@ const TodoComponent = () => {
               </h1>
               <div
                 id="draggable-event"
-                className=" flex  flex-1 py-2 overflow-y-scroll h-[600px] hide-scrollbar flex-col space-y-2 my-4"
+                className=" flex   flex-1 py-2 overflow-y-scroll h-[600px] hide-scrollbar flex-col space-y-2 my-4"
               >
-                {userTodo.map((todo) => (
+                <UpdateTaskModal />
+                {userTodo.map((todo, index) => (
                   <div
+                    onClick={() => {
+                      dispatch(changeTaskModalSlice());
+                      const task_prop = {
+                        title: todo.heading,
+                        importance: todo.importance,
+                        start: todo.startDate,
+                        description: todo.description,
+                        end: todo.endDate,
+                        id: todo.id,
+                      };
+                      dispatch(addTaskDescription(task_prop));
+                    }}
                     className="fc-event"
                     title={todo.heading}
                     description={todo.description}

@@ -7,6 +7,7 @@ import TodoComponent from "../components/Todo/todoComponent";
 import CalendarComponent from "../components/CalendarComp/calendarComponent";
 import { useDispatch } from "react-redux";
 import { AddUserDetails } from "../slices/userSlice";
+import { Toaster } from "react-hot-toast";
 
 const Home = () => {
   const { data: session } = useSession();
@@ -47,6 +48,7 @@ const Home = () => {
       <Head>
         <title>Focus Pro Calendar</title>
       </Head>
+      <Toaster />
       <TodoComponent />
       <CalendarComponent />
     </div>

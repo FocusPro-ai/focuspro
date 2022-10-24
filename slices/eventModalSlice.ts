@@ -3,8 +3,8 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface eventModalType {
   title: string;
-  start: any;
-  end: any;
+  start: Date;
+  end: Date;
   id: any;
   backgroundColor: string;
   description: string;
@@ -19,8 +19,8 @@ const initialState: initaltype = {
   eventModalState: false,
   eventModal: {
     title: "",
-    start: undefined,
-    end: undefined,
+    start: new Date(),
+    end: new Date(),
     backgroundColor: "",
     description: "",
     id: undefined,
