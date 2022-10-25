@@ -7,7 +7,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import { useSession } from "next-auth/react";
 import googleCalendarPlugin from "@fullcalendar/google-calendar";
 import EventModalComponent from "../EventModal/EventModalComponent";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addEventDescription,
   changeEventModalState,
@@ -18,6 +18,15 @@ const CalendarComponent = () => {
   const [initialEvents, setInitialEvents] = useState([]);
   const calendarRef = useRef();
   const dispatch = useDispatch();
+  const eventModalState = useSelector(
+    (state) => state.eventModal.eventModalState
+  );
+
+  useEffect(() => {
+    let calendarApi = calendarRef.current.getApi();
+    calendarApi.refetchEvents();
+  }, [eventModalState]);
+
   const addEvents = async ({ event_title, event_description, start, end }) => {
     const refresh_token = session?.user.refreshToken;
     const response = await fetch("/api/Calendar/addEvents", {
@@ -61,7 +70,7 @@ const CalendarComponent = () => {
         start: event?.start?.dateTime,
         end: event?.end?.dateTime,
         description: event?.description,
-        backgroundColor: "#097efa",
+        backgroundColor: "#2602f3",
       };
       events.push(temp_event);
     });
@@ -97,7 +106,7 @@ const CalendarComponent = () => {
     console.log("Date click handling");
   };
   const handleChange = (event) => {
-    console.log(event.event._def.publicId);
+    console.log(event.event._def?.publicId);
     const event_prop = {
       id: event.event._def.publicId,
       event_title: event.event.title,
@@ -119,8 +128,6 @@ const CalendarComponent = () => {
 
     dispatch(addEventDescription(payload));
     dispatch(changeEventModalState());
-    console.log(event.event.id);
-    console.log("Event Click");
   };
   const handleEventRecieve = (event) => {
     console.log(event);
@@ -138,6 +145,7 @@ const CalendarComponent = () => {
       event.event.remove();
     });
   };
+
   const fetchAllEvents = async (fetchInfo) => {
     const googleEvents = await getAllEvents(fetchInfo.start, fetchInfo.end);
     return googleEvents;
@@ -153,7 +161,7 @@ const CalendarComponent = () => {
         headerToolbar={{
           left: "prev,next today",
           center: "title",
-          right: "",
+          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
         }}
         plugins={[
           dayGridPlugin,
@@ -175,9 +183,11 @@ const CalendarComponent = () => {
         events={fetchAllEvents}
         ref={calendarRef}
         droppable={true}
+        nowIndicator={true}
         dateClick={handleDateClick}
         eventChange={handleChange}
         eventDurationEditable={true}
+        nowIndicatorClassNames={"now-indicator-line"}
         eventBackgroundColor="#097efa"
         // eventDrop={handleEventDrop}
         // when certain event get click;

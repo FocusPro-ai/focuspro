@@ -36,6 +36,10 @@ const AddTaskModal = () => {
         importance,
       }),
     });
+    setDateRange([null, null]);
+    setDescription("");
+    setHeading("");
+    setImportance(5);
     dispatch(changeModalState());
   };
 
@@ -142,7 +146,6 @@ const AddTaskModal = () => {
                     onClick={() => {
                       if (
                         heading !== "" &&
-                        description !== "" &&
                         startDate != null &&
                         endDate != null
                       ) {

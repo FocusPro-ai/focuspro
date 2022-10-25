@@ -47,6 +47,7 @@ const Home = () => {
     <div className="max-h-screen overflow-y-hidden w-full flex">
       <Head>
         <title>Focus Pro Calendar</title>
+        <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
       </Head>
       <Toaster />
       <TodoComponent />

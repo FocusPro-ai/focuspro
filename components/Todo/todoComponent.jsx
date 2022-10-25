@@ -64,7 +64,7 @@ const TodoComponent = () => {
       <div className="shadow-lg max-h-screen min-w-[350px]">
         <div className="flex h-max  justify-between items-center w-[90%] mx-auto my-2">
           <h1 className="text-2xl font-bold">
-            Focus<span className="text-blue-600">Pro</span>.ai
+            Focus<span className="text-[#2602f3]">Pro</span>.ai
           </h1>
           {session?.user?.image && (
             <Image

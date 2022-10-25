@@ -8,7 +8,7 @@ const Login = () => {
     <div className="flex  font-open-sans max-h-screen !overflow-hidden max-w-screen mt-[1rem] items-center flex-col">
       <div className="text-center">
         <h1 className="text-4xl font-bold">
-          Focus<span className="text-blue-600">Pro</span>.ai
+          Focus<span className="text-[#2602f3]">Pro</span>.ai
         </h1>
         <p className="py-2 font-semibold text-xl text-gray-500">
           Neurodiversity's first productivity tool
@@ -24,11 +24,16 @@ const Login = () => {
         </p>
         <div className="flex flex-col justify-center items-center">
           <button
-            className="bg-blue-600 my-4  flex items-center space-x-4 py-2 px-4 rounded-md text-white  "
+            className="bg-[#2602f3] my-4  flex items-center space-x-4 py-2 px-4 rounded-md text-white  "
             onClick={() => popupCenter("/auth/google", "Sign In With Google")}
           >
             <span className="px-2">Sign in with </span>
-            <Image src="/google.svg" height={20} width={20} alt="google-logo" />
+            <Image
+              src="/google-icon.svg"
+              height={20}
+              width={20}
+              alt="google-logo"
+            />
           </button>
           <div className="flex space-x-2 items-center">
             <span className="text-[13px] text-gray-500">

@@ -21,7 +21,8 @@
     "**/*.tsx",
     "pages/api/auth/[...nextauth].js",
     "components/CalendarComp/calendarComponent.jsx",
-    "components/Todo/todoComponent.jsx"
+    "components/Todo/todoComponent.jsx",
+    "components/EventModal/EventModalComponent.jsx"
   ],
   "exclude": ["node_modules"]
 }

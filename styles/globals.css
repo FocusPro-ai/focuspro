@@ -66,7 +66,7 @@ body {
   border-bottom: 0.1px solid #333 !important;
 }
 .fc-col-header-cell.fc-day-today {
-  @apply !bg-blue-500 !text-white;
+  @apply !bg-[#2602f3] !text-white;
 }
 
 .fc-col-header-cell.fc-day-past,
@@ -88,4 +88,15 @@ body {
 .fc .fc-timegrid-col.fc-day-today,
 .fc .fc-daygrid-day.fc-day-today {
   @apply !bg-white;
+}
+
+.now-indicator-line {
+  @apply !border-t-2 !z-40;
+}
+
+.fc td {
+  @apply !py-[2px];
+}
+.fc-button-active {
+  @apply !z-0;
 }
