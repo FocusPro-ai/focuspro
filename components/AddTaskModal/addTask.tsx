@@ -3,9 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { Dialog, Transition } from "@headlessui/react";
 import { changeModalState } from "../../slices/modalSlice";
-import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
+import { Dayjs } from "dayjs";
+import TextField from "@mui/material/TextField";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 type userDataType = {
   id: string | undefined;
@@ -15,8 +18,7 @@ const AddTaskModal = () => {
   const [heading, setHeading] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [importance, setImportance] = useState<number>(5);
-  const [dateRange, setDateRange] = useState([null, null]);
-  const [startDate, endDate] = dateRange;
+  const [deadline, setDeadline] = useState<Dayjs | null>(null);
 
   const modalState = useSelector((state: RootState) => state.modal.modal);
   const dispatch = useDispatch();
@@ -31,12 +33,11 @@ const AddTaskModal = () => {
         heading,
         userId,
         description,
-        startDate,
-        endDate,
+        deadline,
         importance,
       }),
     });
-    setDateRange([null, null]);
+    setDeadline(null);
     setDescription("");
     setHeading("");
     setImportance(5);
@@ -127,28 +128,22 @@ const AddTaskModal = () => {
                 </div>
                 <div className="flex space-y-2 my-2 flex-col">
                   <label className="font-bold">Deadline</label>
-                  <div className="border border-gray-300 p-2 rounded-md w-max">
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                      className="outline-none"
-                      selectsRange={true}
-                      startDate={startDate}
-                      endDate={endDate}
-                      onChange={(update: any) => {
-                        setDateRange(update);
+                      value={deadline}
+                      onChange={(newValue) => {
+                        setDeadline(newValue);
                       }}
+                      renderInput={(params) => <TextField {...params} />}
                     />
-                  </div>
+                  </LocalizationProvider>
                 </div>
                 <div className="mt-4">
                   <button
                     type="button"
                     className="bg-blue-600 font-semibold hover:bg-blue-500 rounded-md text-white p-2 "
                     onClick={() => {
-                      if (
-                        heading !== "" &&
-                        startDate != null &&
-                        endDate != null
-                      ) {
+                      if (heading !== "" && deadline !== null) {
                         submitTask();
                       }
                     }}

@@ -60,8 +60,8 @@ model Todos {
   heading     String
   description String?
   importance  Int?
-  startDate   DateTime?
-  endDate     DateTime?
+  completed   Boolean   @default(false)
+  deadline    DateTime?
   created_at  DateTime  @default(now())
   user        User      @relation(fields: [userId], references: [id])
   userId      String

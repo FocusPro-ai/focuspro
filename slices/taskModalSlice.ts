@@ -4,8 +4,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 interface taskModalType {
   title: string;
   importance: number;
-  start: any;
-  end: any;
+  deadline: any;
   id: string;
   description: string;
 }
@@ -22,8 +21,7 @@ const initialState: TaskModalSlice = {
     id: "",
     importance: 0,
     description: "",
-    start: undefined,
-    end: undefined,
+    deadline: undefined,
   },
 };
 

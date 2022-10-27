@@ -23,8 +23,13 @@ const CalendarComponent = () => {
   );
 
   useEffect(() => {
-    let calendarApi = calendarRef.current.getApi();
-    calendarApi.refetchEvents();
+    if (eventModalState == true) {
+      return;
+    }
+    if (eventModalState == false) {
+      let calendarApi = calendarRef.current.getApi();
+      calendarApi.refetchEvents();
+    }
   }, [eventModalState]);
 
   const addEvents = async ({ event_title, event_description, start, end }) => {
@@ -41,7 +46,6 @@ const CalendarComponent = () => {
       headers: { "Content-type": "application/json" },
     });
     const data = await response.json();
-    console.log(data);
   };
   const getAllEvents = async (start, end) => {
     if (start == undefined && end == undefined) return;
@@ -58,12 +62,10 @@ const CalendarComponent = () => {
       },
     });
     const data = await response.json();
-    console.log(data);
 
     const events_list = data.data.items;
     const events = [];
     events_list.map((event, index) => {
-      console.log(event);
       const temp_event = {
         id: event.id,
         title: event?.summary,
@@ -97,7 +99,6 @@ const CalendarComponent = () => {
       headers: { "Content-type": "application/json" },
     });
     const data = await response.json();
-    console.log(data);
   };
 
   // ------- Full calendar Functions ----
@@ -106,7 +107,6 @@ const CalendarComponent = () => {
     console.log("Date click handling");
   };
   const handleChange = (event) => {
-    console.log(event.event._def?.publicId);
     const event_prop = {
       id: event.event._def.publicId,
       event_title: event.event.title,
@@ -115,7 +115,6 @@ const CalendarComponent = () => {
       end: event.event.end,
     };
     updateEvent(event_prop);
-    console.log("Change handling");
   };
   const handleEventClick = (event) => {
     const payload = {
@@ -130,7 +129,6 @@ const CalendarComponent = () => {
     dispatch(changeEventModalState());
   };
   const handleEventRecieve = (event) => {
-    console.log(event);
     const event_prop = {
       event_title: event.event.title,
       event_description: event.event.extendedProps.description,
@@ -138,7 +136,6 @@ const CalendarComponent = () => {
       end: event.event.end,
     };
     addEvents(event_prop).then((data) => {
-      console.log("added event");
       let calendarApi = calendarRef.current.getApi();
       calendarApi.refetchEvents();
 

@@ -6,14 +6,12 @@ import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { changeTaskModalSlice } from "../../../slices/taskModalSlice";
 import { TrashIcon } from "@heroicons/react/24/outline";
-import DatePicker from "react-datepicker";
-import {
-  formatDate,
-  formatDayString,
-  formatIsoTimeString,
-  formatRange,
-} from "@fullcalendar/common";
 import toast from "react-hot-toast";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import TextField from "@mui/material/TextField";
+import { Dayjs } from "dayjs";
 
 const UpdateTaskModal = () => {
   const taskModalState = useSelector(
@@ -22,12 +20,12 @@ const UpdateTaskModal = () => {
   const taskModalInfo = useSelector(
     (state: RootState) => state.taskModal.taskModal
   );
-  console.log(taskModalInfo);
   const dispatch = useDispatch();
 
   const [importance, setImportance] = useState<number>(5);
   const [heading, setHeading] = useState("");
   const [description, setDescription] = useState("");
+  const [deadline, setDeadline] = useState<Dayjs | null>(null);
 
   const deleteTask = async () => {
     const id = taskModalInfo.id;
@@ -49,7 +47,9 @@ const UpdateTaskModal = () => {
       heading,
       description,
       importance,
+      deadline,
     };
+
     const response = await fetch("/api/Task/updateTask", {
       method: "POST",
       headers: {
@@ -65,6 +65,7 @@ const UpdateTaskModal = () => {
     setHeading(taskModalInfo.title);
     setImportance(taskModalInfo.importance);
     setDescription(taskModalInfo.description);
+    setDeadline(taskModalInfo.deadline);
   }, [taskModalInfo, taskModalState]);
 
   return (
@@ -98,7 +99,7 @@ const UpdateTaskModal = () => {
                   placeholder="Title"
                   value={heading}
                   onChange={(e) => setHeading(e.target.value)}
-                  className="w-full p-2 outline-none font-bold text-2xl"
+                  className="w-[95%] rounded-md px-2 py-1 outline-none bg-gray-200 mx-2 font-bold text-2xl"
                 />
                 <div className="flex m-2 items-center space-x-4">
                   <p className="text-[15px] font-semibold text-gray-500">
@@ -122,17 +123,22 @@ const UpdateTaskModal = () => {
                     Deadline of task
                   </p>
                   <span>
-                    {new Date(taskModalInfo.start).toLocaleDateString()}
-                  </span>
-                  <span className="text-gray-500 font-semibold">to</span>
-                  <span>
-                    {new Date(taskModalInfo.end).toLocaleDateString()}
+                    {/* {new Date(taskModalInfo.deadline).toLocaleDateString()} */}
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        value={deadline}
+                        onChange={(newValue: any) => {
+                          setDeadline(newValue);
+                        }}
+                        renderInput={(params: any) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
                   </span>
                 </div>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="flex-1 resize-none p-2 outline-none"
+                  className="flex-1 resize-none p-2 bg-gray-200 mx-2 outline-none"
                   placeholder="Description"
                 />
               </div>

@@ -109,7 +109,7 @@ const EventModalComponent = () => {
                 <input
                   type="text"
                   placeholder="Event Title"
-                  className="text-2xl capitalize font-bold outline-none  text-gray-900"
+                  className="text-2xl capitalize font-bold outline-none bg-gray-200 p-2 text-gray-900"
                   value={heading}
                   onChange={(e) => setHeading(e.target.value)}
                 />
@@ -127,7 +127,7 @@ const EventModalComponent = () => {
                 <textarea
                   cols={100}
                   placeholder="your description."
-                  className="w-full resize-none p-2 flex-1 h-full  outline-none"
+                  className="w-full resize-none p-2 bg-gray-200 flex-1 h-full  outline-none"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />

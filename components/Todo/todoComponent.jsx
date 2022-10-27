@@ -22,6 +22,8 @@ const TodoComponent = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
   const [draggableInitialized, setDraggableInitialized] = useState(false);
+  const [checkValue, setCheckValue] = useState(false);
+  const [checkedId, setCheckedId] = useState();
   const fetchAllTodoByUserId = async () => {
     const userId = userData.id;
     const response = await fetch("/api/Task/showTask", {
@@ -36,6 +38,17 @@ const TodoComponent = () => {
   const { data: userTodo } = useSWR("todos", fetchAllTodoByUserId, {
     refreshInterval: 500,
   });
+
+  const handleCompleteTask = async (taskId) => {
+    const response = await fetch("/api/Task/doneTask", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ taskId }),
+    });
+    const data = await response.json();
+  };
   useEffect(() => {
     let draggableEl = document.getElementById("draggable-event");
     if (draggableEl && userTodo.length > 0 && !draggableInitialized) {
@@ -91,18 +104,6 @@ const TodoComponent = () => {
                 <UpdateTaskModal />
                 {userTodo.map((todo, index) => (
                   <div
-                    onClick={() => {
-                      dispatch(changeTaskModalSlice());
-                      const task_prop = {
-                        title: todo.heading,
-                        importance: todo.importance,
-                        start: todo.startDate,
-                        description: todo.description,
-                        end: todo.endDate,
-                        id: todo.id,
-                      };
-                      dispatch(addTaskDescription(task_prop));
-                    }}
                     className="fc-event"
                     title={todo.heading}
                     description={todo.description}
@@ -111,13 +112,39 @@ const TodoComponent = () => {
                     key={todo.id}
                   >
                     <div
-                      className={` border-2 ${
+                      className={` border-2 flex items-center space-x-2 ${
                         todo.importance > 8 && " border-red-500"
                       } ${todo.importance <= 7 && "border-violet-600"} ${
                         todo.importance < 4 && "border-gray-600"
-                      } cursor-pointer rounded-md p-2 hover:bg-gray-200 `}
+                      } cursor-pointer rounded-md p-2 hover:bg-gray-200 group`}
                     >
-                      <h1>{todo.heading}</h1>
+                      <input
+                        type="checkbox"
+                        alt="completed-check"
+                        value={checkValue}
+                        onChange={(e) => {
+                          setCheckValue(e.target.checked);
+                          handleCompleteTask(todo.id);
+
+                          // console.log(e.target.value);
+                        }}
+                      />
+                      <h1
+                        onClick={() => {
+                          dispatch(changeTaskModalSlice());
+                          const task_prop = {
+                            title: todo.heading,
+                            importance: todo.importance,
+                            deadline: todo.deadline,
+                            description: todo.description,
+
+                            id: todo.id,
+                          };
+                          dispatch(addTaskDescription(task_prop));
+                        }}
+                      >
+                        {todo.heading}
+                      </h1>
                     </div>
                   </div>
                 ))}

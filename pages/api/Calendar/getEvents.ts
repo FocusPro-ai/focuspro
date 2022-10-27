@@ -22,12 +22,6 @@ async function getAllEvents(req: NextApiRequest, res: NextApiResponse) {
   oauth2.setCredentials({ refresh_token: refresh_token });
   const calendar = google.calendar({ version: "v3", auth: oauth2 });
 
-  // const response = await calendar.events.get({
-  //   calendarId,
-  //   eventId: "",
-  //   key: "AIzaSyDRabaMUH-qeH37jEE8-g62GNCNTD9oNN8",
-  // });
-
   const response = await calendar.events.list({
     calendarId: "primary",
     timeMin: start,
