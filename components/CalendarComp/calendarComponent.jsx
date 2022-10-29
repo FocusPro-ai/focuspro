@@ -13,6 +13,21 @@ import {
   changeEventModalState,
 } from "../../slices/eventModalSlice";
 
+const EventColors = [
+  "#039be5",
+  "#7986cb",
+  "#33b679",
+  "#8e24aa",
+  "#e67c73",
+  "#f6c026",
+  "#f5511d",
+  "#039be5",
+  "#616161",
+  "#3f51b5",
+  "#0b8043",
+  "#d60000",
+];
+
 const CalendarComponent = () => {
   const { data: session } = useSession();
   const [initialEvents, setInitialEvents] = useState([]);
@@ -62,6 +77,7 @@ const CalendarComponent = () => {
       },
     });
     const data = await response.json();
+    console.log(data);
 
     const events_list = data.data.items;
     const events = [];
@@ -72,7 +88,9 @@ const CalendarComponent = () => {
         start: event?.start?.dateTime,
         end: event?.end?.dateTime,
         description: event?.description,
-        backgroundColor: "#2602f3",
+        backgroundColor: event.colorId
+          ? EventColors[event.colorId]
+          : EventColors[0],
       };
       events.push(temp_event);
     });
