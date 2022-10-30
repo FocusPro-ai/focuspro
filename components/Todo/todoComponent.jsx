@@ -166,5 +166,3 @@ const TodoComponent = () => {
 };
 
 export default TodoComponent;
-
-// https://codesandbox.io/s/vm45zwmo07?file=/src/index.js
