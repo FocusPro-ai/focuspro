@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -6,6 +7,9 @@ import React from "react";
 const Login = () => {
   return (
     <div className="flex justify-between font-open-sans h-screen   items-center flex-col">
+      <Head>
+        <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+      </Head>
       <div className="flex-1 mt-[1rem]">
         <div className="text-center">
           <h1 className="text-4xl font-bold">
