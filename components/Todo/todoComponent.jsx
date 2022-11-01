@@ -22,11 +22,13 @@ const TodoComponent = () => {
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
   const [draggableInitialized, setDraggableInitialized] = useState(false);
+  const [draggableInitialized2, setDraggableInitialized2] = useState(false);
+  const [draggableInitialized3, setDraggableInitialized3] = useState(false);
   const [checkValue, setCheckValue] = useState(false);
   const [checkedId, setCheckedId] = useState();
-  const fetchAllTodoByUserId = async () => {
+  const fetchAllUrgentNotImp = async () => {
     const userId = userData.id;
-    const response = await fetch("/api/Task/showTask", {
+    const response = await fetch("/api/matrix/notImpUrgent", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -35,9 +37,52 @@ const TodoComponent = () => {
     });
     return response.json();
   };
-  const { data: userTodo } = useSWR("todos", fetchAllTodoByUserId, {
-    refreshInterval: 500,
-  });
+  const fetchAllNotUrgentImp = async () => {
+    const userId = userData.id;
+    const response = await fetch("/api/matrix/notUrgentImp", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId }),
+    });
+    return response.json();
+  };
+
+  const fetchAllUrgentAndImportant = async () => {
+    const userId = userData.id;
+    const response = await fetch("/api/matrix/urgentAndImp", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId }),
+    });
+    return response.json();
+  };
+
+  const { data: notImpUrgentTodo } = useSWR(
+    "todos-urgent-not-important",
+    fetchAllUrgentNotImp,
+    {
+      refreshInterval: 200,
+    }
+  );
+  const { data: notUrgentImpTodo } = useSWR(
+    "todos-not-urgent-important",
+    fetchAllNotUrgentImp,
+    {
+      refreshInterval: 200,
+    }
+  );
+
+  const { data: urgentAndImpTodo } = useSWR(
+    "todos-urgent-important",
+    fetchAllUrgentAndImportant,
+    {
+      refreshInterval: 200,
+    }
+  );
 
   const handleCompleteTask = async (taskId) => {
     const response = await fetch("/api/Task/doneTask", {
@@ -50,10 +95,55 @@ const TodoComponent = () => {
     const data = await response.json();
   };
   useEffect(() => {
-    let draggableEl = document.getElementById("draggable-event");
-    if (draggableEl && userTodo.length > 0 && !draggableInitialized) {
+    let draggableEl1 = document.getElementById("draggable-event1");
+    let draggableEl2 = document.getElementById("draggable-event2");
+    let draggableEl3 = document.getElementById("draggable-event3");
+
+    if (draggableEl1 && !draggableInitialized && notImpUrgentTodo?.length > 0) {
       setDraggableInitialized(true);
-      let draggable = new Draggable(draggableEl, {
+      let draggable = new Draggable(draggableEl1, {
+        itemSelector: ".fc-event",
+        eventData: function (eventEl) {
+          let title = eventEl.getAttribute("title");
+          let description = eventEl.getAttribute("description");
+          let importance = eventEl.getAttribute("importance");
+          let id = eventEl.getAttribute("id");
+          return {
+            title: title,
+            description: description,
+            importance: importance,
+            id: id,
+          };
+        },
+      });
+    } else if (
+      draggableEl2 &&
+      !draggableInitialized2 &&
+      notUrgentImpTodo?.length > 0
+    ) {
+      setDraggableInitialized2(true);
+      let draggable = new Draggable(draggableEl2, {
+        itemSelector: ".fc-event",
+        eventData: function (eventEl) {
+          let title = eventEl.getAttribute("title");
+          let description = eventEl.getAttribute("description");
+          let importance = eventEl.getAttribute("importance");
+          let id = eventEl.getAttribute("id");
+          return {
+            title: title,
+            description: description,
+            importance: importance,
+            id: id,
+          };
+        },
+      });
+    } else if (
+      draggableEl3 &&
+      !draggableInitialized3 &&
+      urgentAndImpTodo?.length > 0
+    ) {
+      setDraggableInitialized3(true);
+      let draggable = new Draggable(draggableEl3, {
         itemSelector: ".fc-event",
         eventData: function (eventEl) {
           let title = eventEl.getAttribute("title");
@@ -69,7 +159,14 @@ const TodoComponent = () => {
         },
       });
     }
-  }, [userTodo, draggableInitialized]);
+  }, [
+    draggableInitialized2,
+    draggableInitialized3,
+    notImpUrgentTodo,
+    urgentAndImpTodo,
+    notUrgentImpTodo,
+    draggableInitialized,
+  ]);
   return (
     <div className="h-auto">
       <AddTaskModal />
@@ -91,20 +188,71 @@ const TodoComponent = () => {
           )}
         </div>
         <div className="mx-4 flex-1 h-max flex flex-col  ">
-          {userTodo && (
-            <div>
-              <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg">
-                <HomeIcon height={20} width={20} />{" "}
-                <span>All Task ({userTodo?.length})</span>
-              </h1>
-              <div
-                id="draggable-event"
-                className=" flex   flex-1 py-2 overflow-y-scroll h-[600px] hide-scrollbar flex-col space-y-2 my-4"
-              >
-                <UpdateTaskModal />
-                {userTodo.map((todo, index) => (
+          <div className=" flex   flex-1 py-2 overflow-y-scroll  !h-[600px] hide-scrollbar flex-col space-y-2 my-4">
+            {notImpUrgentTodo && (
+              <div>
+                <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg py-2">
+                  <span>
+                    Urgent but not important ({notImpUrgentTodo?.length})
+                  </span>
+                </h1>
+                <div id="draggable-event1">
+                  <UpdateTaskModal />
+                  {notImpUrgentTodo?.map((todo, index) => (
+                    <div
+                      className="fc-event my-1"
+                      title={todo.heading}
+                      description={todo.description}
+                      importance={todo.importance}
+                      id={todo.id}
+                      key={todo.id}
+                    >
+                      <div
+                        className={` flex items-center space-x-2 bg-orange-400 cursor-pointer rounded-md p-2 my-2 hover:bg-orange-300 group`}
+                      >
+                        <input
+                          type="checkbox"
+                          alt="completed-check"
+                          value={checkValue}
+                          onChange={(e) => {
+                            setCheckValue(e.target.checked);
+                            handleCompleteTask(todo.id);
+
+                            // console.log(e.target.value);
+                          }}
+                        />
+                        <h1
+                          onClick={() => {
+                            dispatch(changeTaskModalSlice());
+                            const task_prop = {
+                              title: todo.heading,
+                              importance: todo.importance,
+                              deadline: todo.deadline,
+                              description: todo.description,
+
+                              id: todo.id,
+                            };
+                            dispatch(addTaskDescription(task_prop));
+                          }}
+                        >
+                          {todo.heading}
+                        </h1>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {notUrgentImpTodo && (
+              <div id="draggable-event2">
+                <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg py-2">
+                  <span>
+                    Important but not Urgent ({notUrgentImpTodo?.length})
+                  </span>
+                </h1>
+                {notUrgentImpTodo?.map((todo, index) => (
                   <div
-                    className="fc-event"
+                    className="fc-event my-1"
                     title={todo.heading}
                     description={todo.description}
                     importance={todo.importance}
@@ -112,11 +260,7 @@ const TodoComponent = () => {
                     key={todo.id}
                   >
                     <div
-                      className={` border-2 flex items-center space-x-2 ${
-                        todo.importance > 8 && " border-red-500"
-                      } ${todo.importance <= 7 && "border-violet-600"} ${
-                        todo.importance < 4 && "border-gray-600"
-                      } cursor-pointer rounded-md p-2 hover:bg-gray-200 group`}
+                      className={`  flex items-center space-x-2 bg-blue-400 cursor-pointer rounded-md p-2 hover:bg-blue-300 group`}
                     >
                       <input
                         type="checkbox"
@@ -149,8 +293,57 @@ const TodoComponent = () => {
                   </div>
                 ))}
               </div>
-            </div>
-          )}
+            )}
+            {urgentAndImpTodo && (
+              <div id="draggable-event3">
+                <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg py-2">
+                  <span>Urgent and important ({urgentAndImpTodo?.length})</span>
+                </h1>
+                {urgentAndImpTodo?.map((todo, index) => (
+                  <div
+                    className="fc-event my-1"
+                    title={todo.heading}
+                    description={todo.description}
+                    importance={todo.importance}
+                    id={todo.id}
+                    key={todo.id}
+                  >
+                    <div
+                      className={`  flex items-center space-x-2 bg-red-400 cursor-pointer rounded-md p-2 hover:bg-red-300 group`}
+                    >
+                      <input
+                        type="checkbox"
+                        alt="completed-check"
+                        value={checkValue}
+                        onChange={(e) => {
+                          setCheckValue(e.target.checked);
+                          handleCompleteTask(todo.id);
+
+                          // console.log(e.target.value);
+                        }}
+                      />
+                      <h1
+                        onClick={() => {
+                          dispatch(changeTaskModalSlice());
+                          const task_prop = {
+                            title: todo.heading,
+                            importance: todo.importance,
+                            deadline: todo.deadline,
+                            description: todo.description,
+
+                            id: todo.id,
+                          };
+                          dispatch(addTaskDescription(task_prop));
+                        }}
+                      >
+                        {todo.heading}
+                      </h1>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
         <div className="w-full   flex justify-center">
           <button
