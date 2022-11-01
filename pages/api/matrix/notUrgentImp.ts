@@ -25,7 +25,7 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
         AND: [
           {
             deadline: {
-              gte: today,
+              gt: deadline_date,
             },
           },
           {
