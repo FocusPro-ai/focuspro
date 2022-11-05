@@ -1,7 +1,7 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import Login from "../../pages/login";
+import Login from "../../pages/welcome";
 import { HomeIcon, PlusIcon } from "@heroicons/react/24/outline";
 import AddTaskModal from "../AddTaskModal/addTask";
 import { useDispatch, useSelector } from "react-redux";
@@ -99,7 +99,7 @@ const TodoComponent = () => {
     let draggableEl2 = document.getElementById("draggable-event2");
     let draggableEl3 = document.getElementById("draggable-event3");
 
-    if (draggableEl1 && !draggableInitialized && notImpUrgentTodo?.length > 0) {
+    if (draggableEl1 && !draggableInitialized && urgentAndImpTodo?.length > 0) {
       setDraggableInitialized(true);
       let draggable = new Draggable(draggableEl1, {
         itemSelector: ".fc-event",
@@ -140,7 +140,7 @@ const TodoComponent = () => {
     } else if (
       draggableEl3 &&
       !draggableInitialized3 &&
-      urgentAndImpTodo?.length > 0
+      notImpUrgentTodo?.length > 0
     ) {
       setDraggableInitialized3(true);
       let draggable = new Draggable(draggableEl3, {
@@ -190,7 +190,7 @@ const TodoComponent = () => {
         <div className="mx-4 flex-1 h-max flex flex-col  ">
           <div className=" flex   flex-1 py-2 overflow-y-scroll  !h-[600px] hide-scrollbar flex-col space-y-2 my-4">
             <UpdateTaskModal />
-            {urgentAndImpTodo && (
+            {urgentAndImpTodo?.length > 0 && (
               <div id="draggable-event1">
                 <h1 className="text-red-500 flex space-x-2   items-center font-bold text-xl py-2">
                   <span>Must do ({urgentAndImpTodo?.length})</span>
@@ -239,7 +239,7 @@ const TodoComponent = () => {
                 ))}
               </div>
             )}
-            {notImpUrgentTodo && (
+            {notImpUrgentTodo?.length > 0 && (
               <div>
                 <h1 className="text-orange-500 flex space-x-2   items-center font-bold text-xl py-2">
                   <span>Should do ({notImpUrgentTodo?.length})</span>
@@ -290,7 +290,7 @@ const TodoComponent = () => {
                 </div>
               </div>
             )}
-            {notUrgentImpTodo && (
+            {notUrgentImpTodo?.length > 0 && (
               <div id="draggable-event3">
                 <h1 className="text-gray-500 flex space-x-2   items-center font-bold text-xl py-2">
                   <span>Could do ({notUrgentImpTodo?.length})</span>
