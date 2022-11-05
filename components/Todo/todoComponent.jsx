@@ -189,15 +189,62 @@ const TodoComponent = () => {
         </div>
         <div className="mx-4 flex-1 h-max flex flex-col  ">
           <div className=" flex   flex-1 py-2 overflow-y-scroll  !h-[600px] hide-scrollbar flex-col space-y-2 my-4">
+            <UpdateTaskModal />
+            {urgentAndImpTodo && (
+              <div id="draggable-event1">
+                <h1 className="text-red-500 flex space-x-2   items-center font-bold text-xl py-2">
+                  <span>Must do ({urgentAndImpTodo?.length})</span>
+                </h1>
+                {urgentAndImpTodo?.map((todo, index) => (
+                  <div
+                    className="fc-event my-1"
+                    title={todo.heading}
+                    description={todo.description}
+                    importance={todo.importance}
+                    id={todo.id}
+                    key={todo.id}
+                  >
+                    <div
+                      className={`  flex items-center space-x-2 bg-red-400 cursor-pointer rounded-md p-2 hover:bg-red-300 group`}
+                    >
+                      <input
+                        type="checkbox"
+                        alt="completed-check"
+                        value={checkValue}
+                        onChange={(e) => {
+                          setCheckValue(e.target.checked);
+                          handleCompleteTask(todo.id);
+
+                          // console.log(e.target.value);
+                        }}
+                      />
+                      <h1
+                        onClick={() => {
+                          dispatch(changeTaskModalSlice());
+                          const task_prop = {
+                            title: todo.heading,
+                            importance: todo.importance,
+                            deadline: todo.deadline,
+                            description: todo.description,
+
+                            id: todo.id,
+                          };
+                          dispatch(addTaskDescription(task_prop));
+                        }}
+                      >
+                        {todo.heading}
+                      </h1>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
             {notImpUrgentTodo && (
               <div>
-                <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg py-2">
-                  <span>
-                    Urgent but not important ({notImpUrgentTodo?.length})
-                  </span>
+                <h1 className="text-orange-500 flex space-x-2   items-center font-bold text-xl py-2">
+                  <span>Should do ({notImpUrgentTodo?.length})</span>
                 </h1>
-                <div id="draggable-event1">
-                  <UpdateTaskModal />
+                <div id="draggable-event2">
                   {notImpUrgentTodo?.map((todo, index) => (
                     <div
                       className="fc-event my-1"
@@ -244,11 +291,9 @@ const TodoComponent = () => {
               </div>
             )}
             {notUrgentImpTodo && (
-              <div id="draggable-event2">
-                <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg py-2">
-                  <span>
-                    Important but not Urgent ({notUrgentImpTodo?.length})
-                  </span>
+              <div id="draggable-event3">
+                <h1 className="text-gray-500 flex space-x-2   items-center font-bold text-xl py-2">
+                  <span>Could do ({notUrgentImpTodo?.length})</span>
                 </h1>
                 {notUrgentImpTodo?.map((todo, index) => (
                   <div
@@ -261,55 +306,6 @@ const TodoComponent = () => {
                   >
                     <div
                       className={`  flex items-center space-x-2 bg-blue-400 cursor-pointer rounded-md p-2 hover:bg-blue-300 group`}
-                    >
-                      <input
-                        type="checkbox"
-                        alt="completed-check"
-                        value={checkValue}
-                        onChange={(e) => {
-                          setCheckValue(e.target.checked);
-                          handleCompleteTask(todo.id);
-
-                          // console.log(e.target.value);
-                        }}
-                      />
-                      <h1
-                        onClick={() => {
-                          dispatch(changeTaskModalSlice());
-                          const task_prop = {
-                            title: todo.heading,
-                            importance: todo.importance,
-                            deadline: todo.deadline,
-                            description: todo.description,
-
-                            id: todo.id,
-                          };
-                          dispatch(addTaskDescription(task_prop));
-                        }}
-                      >
-                        {todo.heading}
-                      </h1>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-            {urgentAndImpTodo && (
-              <div id="draggable-event3">
-                <h1 className="text-gray-500 flex space-x-2   items-center font-semibold text-lg py-2">
-                  <span>Urgent and important ({urgentAndImpTodo?.length})</span>
-                </h1>
-                {urgentAndImpTodo?.map((todo, index) => (
-                  <div
-                    className="fc-event my-1"
-                    title={todo.heading}
-                    description={todo.description}
-                    importance={todo.importance}
-                    id={todo.id}
-                    key={todo.id}
-                  >
-                    <div
-                      className={`  flex items-center space-x-2 bg-red-400 cursor-pointer rounded-md p-2 hover:bg-red-300 group`}
                     >
                       <input
                         type="checkbox"
