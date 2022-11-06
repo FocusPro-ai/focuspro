@@ -2,8 +2,6 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../app/store";
 import { Dialog, Transition } from "@headlessui/react";
-import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { changeEventModalState } from "../../slices/eventModalSlice";
 import Image from "next/image";
@@ -23,17 +21,19 @@ const EventModalComponent = () => {
 
   const startDateFormat = startDate.toLocaleString();
   const endDateFormat = endDate.toLocaleString();
-  const [description, setDescription] = useState("");
   const [heading, setHeading] = useState("");
+  const [description, setDescription] = useState("");
 
   const updateEvent = async () => {
+    let descriptionEl = document.getElementById("description-id");
+    console.log("update events.");
     const refresh_token = session?.user?.refreshToken;
     const response = await fetch("/api/Calendar/updateEvents", {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({
         event_title: heading,
-        event_description: description,
+        event_description: descriptionEl.innerHTML,
         start: startDate,
         end: endDate,
         event_id: eventModalInfo.id,
@@ -63,7 +63,7 @@ const EventModalComponent = () => {
     setDescription(eventModalInfo.description);
     let descriptionEl = document.getElementById("description-id");
     if (descriptionEl) {
-      descriptionEl.innerHTML = description || "";
+      descriptionEl.innerHTML = description;
     }
   }, [eventModalInfo, description]);
 
@@ -136,9 +136,12 @@ const EventModalComponent = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 /> */}
                 <div
+                  contentEditable={true}
                   id="description-id"
                   className="w-full resize-none p-2 bg-gray-200 flex-1 h-full  outline-none whitespace-pre-line"
-                ></div>
+                >
+                  {eventModalInfo.description}
+                </div>
 
                 <div className="mt-4 flex justify-between w-full items-center mx-auto">
                   <TrashIcon
