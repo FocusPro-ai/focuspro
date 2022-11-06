@@ -61,7 +61,11 @@ const EventModalComponent = () => {
   useEffect(() => {
     setHeading(eventModalInfo.title);
     setDescription(eventModalInfo.description);
-  }, [eventModalInfo]);
+    let descriptionEl = document.getElementById("description-id");
+    if (descriptionEl) {
+      descriptionEl.innerHTML = description || "";
+    }
+  }, [eventModalInfo, description]);
 
   return (
     <Transition appear show={eventModalState} as={Fragment}>
@@ -132,11 +136,9 @@ const EventModalComponent = () => {
                   onChange={(e) => setDescription(e.target.value)}
                 /> */}
                 <div
-                  contentEditable={true}
+                  id="description-id"
                   className="w-full resize-none p-2 bg-gray-200 flex-1 h-full  outline-none whitespace-pre-line"
-                >
-                  {description}
-                </div>
+                ></div>
 
                 <div className="mt-4 flex justify-between w-full items-center mx-auto">
                   <TrashIcon

@@ -140,7 +140,7 @@ const TodoComponent = () => {
     } else if (
       draggableEl2 &&
       !draggableInitialized2 &&
-      notUrgentImpTodo?.length > 0
+      notImpUrgentTodo?.length > 0
     ) {
       setDraggableInitialized2(true);
       let draggable = new Draggable(draggableEl2, {
@@ -161,7 +161,7 @@ const TodoComponent = () => {
     } else if (
       draggableEl3 &&
       !draggableInitialized3 &&
-      notImpUrgentTodo?.length > 0
+      notUrgentImpTodo?.length > 0
     ) {
       setDraggableInitialized3(true);
       let draggable = new Draggable(draggableEl3, {
@@ -244,7 +244,9 @@ const TodoComponent = () => {
                         }}
                       />
                       <h1
-                        onClick={() => {
+                        className="w-full"
+                        click
+                        onDoubleClick={() => {
                           dispatch(changeTaskModalSlice());
                           const task_prop = {
                             title: todo.heading,
