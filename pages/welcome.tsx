@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const Login = () => {
+const Welcome = () => {
   return (
     <div className="flex justify-between font-open-sans h-screen   items-center flex-col">
       <Head>
@@ -59,4 +59,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Welcome;

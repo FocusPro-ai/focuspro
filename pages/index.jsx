@@ -1,23 +1,21 @@
 import Head from "next/head";
-import Image from "next/image";
-import { useSession, signOut } from "next-auth/react";
-import Login from "./login";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import TodoComponent from "../components/Todo/todoComponent";
 import CalendarComponent from "../components/CalendarComp/calendarComponent";
 import { useDispatch } from "react-redux";
 import { AddUserDetails } from "../slices/userSlice";
 import { Toaster } from "react-hot-toast";
+import Welcome from "./welcome";
+import Loading from "./loading";
 
 const Home = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [events, setALlEvents] = useState([]);
   const dispatch = useDispatch();
 
   const getAllEvents = async () => {
     const refresh_token = session?.user.refreshToken;
-    // const refresh_token =
-    //   "1//0gDTVlDhl_jl6CgYIARAAGBASNwF-L9Ir4-7sotvXByzIvp_rQ5kysL3ihacyRMP-7u_GqH1pQ0eli4m3OMe1sCS4_f0btpqtHl4";
     const response = await fetch("/api/getEvents", {
       method: "POST",
       headers: { "Content-type": "application/json" },
@@ -40,9 +38,11 @@ const Home = () => {
       getUserDetails();
     }
   }, [session]);
+  if (status === "loading") return <Loading />;
   if (!session) {
-    return <Login />;
+    return <Welcome />;
   }
+
   return (
     <div className="max-h-screen overflow-y-hidden w-full flex">
       <Head>

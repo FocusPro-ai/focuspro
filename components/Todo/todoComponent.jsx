@@ -16,6 +16,8 @@ import {
 } from "../../slices/taskModalSlice";
 import UpdateTaskModal from "./updateTaskModal/updateTask";
 import { Popover } from "@headlessui/react";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../pages/loading";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
@@ -61,28 +63,47 @@ const TodoComponent = () => {
     return response.json();
   };
 
-  const { data: notImpUrgentTodo } = useSWR(
-    "todos-urgent-not-important",
+  // const { data: notImpUrgentTodo } = useSWR(
+  //   "todos-urgent-not-important",
+  //   fetchAllUrgentNotImp,
+  //   {
+  //     refreshInterval: 200,
+  //   }
+  // );
+  // const { data: notUrgentImpTodo } = useSWR(
+  //   "todos-not-urgent-important",
+  //   fetchAllNotUrgentImp,
+  //   {
+  //     refreshInterval: 200,
+  //   }
+  // );
+
+  // const { data: urgentAndImpTodo } = useSWR(
+  //   "todos-urgent-important",
+  //   fetchAllUrgentAndImportant,
+  //   {
+  //     refreshInterval: 200,
+  //   }
+  // );
+
+  const { data: notImpUrgentTodo, isLoading } = useQuery(
+    ["todos-urgent-not-important"],
     fetchAllUrgentNotImp,
-    {
-      refreshInterval: 200,
-    }
-  );
-  const { data: notUrgentImpTodo } = useSWR(
-    "todos-not-urgent-important",
-    fetchAllNotUrgentImp,
-    {
-      refreshInterval: 200,
-    }
+    { refetchInterval: 6000 }
   );
 
-  const { data: urgentAndImpTodo } = useSWR(
-    "todos-urgent-important",
-    fetchAllUrgentAndImportant,
-    {
-      refreshInterval: 200,
-    }
-  );
+  const { data: notUrgentImpTodo, isLoading: notUrgentImpTodoLoading } =
+    useQuery(["todos-not-urgent-important"], fetchAllNotUrgentImp, {
+      refetchInterval: 6000,
+    });
+
+  const { data: urgentAndImpTodo, isLoading: urgentAndImpTodoLoading } =
+    useQuery(
+      ["todos-urgent-important"],
+      fetchAllUrgentAndImportant,
+
+      { refetchInterval: 6000 }
+    );
 
   const handleCompleteTask = async (taskId) => {
     const response = await fetch("/api/Task/doneTask", {
@@ -167,8 +188,9 @@ const TodoComponent = () => {
     notUrgentImpTodo,
     draggableInitialized,
   ]);
+
   return (
-    <div className="h-auto">
+    <div className="h-auto min-w-[350px]">
       <AddTaskModal />
 
       <div className="shadow-lg flex flex-col min-h-screen min-w-[350px]">
@@ -190,6 +212,9 @@ const TodoComponent = () => {
         <div className="mx-4 flex-1 h-max flex flex-col  ">
           <div className=" flex   flex-1 py-2 overflow-y-scroll  !h-[600px] hide-scrollbar flex-col space-y-2 my-4">
             <UpdateTaskModal />
+            {(notUrgentImpTodoLoading ||
+              notUrgentImpTodoLoading ||
+              urgentAndImpTodoLoading) && <Loading />}
             {urgentAndImpTodo?.length > 0 && (
               <div id="draggable-event1">
                 <h1 className="text-red-500 flex space-x-2   items-center font-bold text-xl py-2">

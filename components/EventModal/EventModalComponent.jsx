@@ -124,13 +124,19 @@ const EventModalComponent = () => {
                   </p>
                 </div>
 
-                <textarea
+                {/* <textarea
                   cols={100}
                   placeholder="your description."
                   className="w-full resize-none p-2 bg-gray-200 flex-1 h-full  outline-none"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                />
+                /> */}
+                <div
+                  contentEditable={true}
+                  className="w-full resize-none p-2 bg-gray-200 flex-1 h-full  outline-none whitespace-pre-line"
+                >
+                  {description.trim()}
+                </div>
 
                 <div className="mt-4 flex justify-between w-full items-center mx-auto">
                   <TrashIcon
