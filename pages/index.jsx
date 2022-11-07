@@ -41,7 +41,7 @@ const Home = () => {
   }, [session]);
   if (status === "loading") return <Loading />;
   if (!session) {
-    return <Login />;
+    return <Welcome />;
   }
 
   return (

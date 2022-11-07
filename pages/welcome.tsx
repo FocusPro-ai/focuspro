@@ -24,7 +24,7 @@ const Welcome = () => {
     });
   };
   return (
-    <div className="flex justify-between font-open-sans h-screen   items-center flex-col">
+    <div className="flex justify-between font-open-sans h-screen overflow-hidden  items-center flex-col">
       <Head>
         <title>FocusPro | Welcome</title>
         <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
@@ -49,9 +49,9 @@ const Welcome = () => {
           </p>
           <div className="flex flex-col w-full justify-center items-center">
             <span className="text-[13px] text-gray-500 font-semibold pb-1">
-              Join the Waitlist for early free access.
+              Join the Waitlist for early access.
             </span>
-            <div className="flex space-x-2 w-[45%] items-center">
+            <div className="flex space-x-2 w-[45%] xl:my-4 items-center">
               <input
                 type="text"
                 value={email}
