@@ -66,3 +66,9 @@ model Todos {
   user        User      @relation(fields: [userId], references: [id])
   userId      String
 }
+
+model Waitlist {
+  id         String   @id @default(cuid())
+  email      String   @unique
+  created_at DateTime @default(now())
+}

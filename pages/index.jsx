@@ -8,6 +8,7 @@ import { AddUserDetails } from "../slices/userSlice";
 import { Toaster } from "react-hot-toast";
 import Welcome from "./welcome";
 import Loading from "./loading";
+import Login from "./login";
 
 const Home = () => {
   const { data: session, status } = useSession();
@@ -40,7 +41,7 @@ const Home = () => {
   }, [session]);
   if (status === "loading") return <Loading />;
   if (!session) {
-    return <Welcome />;
+    return <Login />;
   }
 
   return (
