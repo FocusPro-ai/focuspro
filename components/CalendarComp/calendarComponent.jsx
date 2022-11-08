@@ -46,7 +46,14 @@ const CalendarComponent = () => {
     }
   }, [eventModalState]);
 
-  const addEvents = async ({ event_title, event_description, start, end }) => {
+  const addEvents = async ({
+    event_title,
+    event_description,
+    start,
+    end,
+    colorId,
+  }) => {
+    console.log(colorId);
     const refresh_token = session?.user.refreshToken;
     const response = await fetch("/api/Calendar/addEvents", {
       method: "POST",
@@ -56,6 +63,7 @@ const CalendarComponent = () => {
         event_description,
         start,
         end,
+        colorId,
       }),
       headers: { "Content-type": "application/json" },
     });
@@ -145,11 +153,13 @@ const CalendarComponent = () => {
     dispatch(changeEventModalState());
   };
   const handleEventRecieve = (event) => {
+    console.log(event);
     const event_prop = {
       event_title: event.event.title,
       event_description: event.event.extendedProps.description,
       start: event.event.start,
       end: event.event.end,
+      colorId: event.event.extendedProps.colorId,
     };
     addEvents(event_prop).then((data) => {
       let calendarApi = calendarRef.current.getApi();

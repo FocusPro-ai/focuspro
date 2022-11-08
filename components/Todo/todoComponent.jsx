@@ -129,11 +129,13 @@ const TodoComponent = () => {
           let description = eventEl.getAttribute("description");
           let importance = eventEl.getAttribute("importance");
           let id = eventEl.getAttribute("id");
+          let colorId = eventEl.getAttribute("colorId");
           return {
             title: title,
             description: description,
             importance: importance,
             id: id,
+            colorId: colorId,
           };
         },
       });
@@ -150,11 +152,13 @@ const TodoComponent = () => {
           let description = eventEl.getAttribute("description");
           let importance = eventEl.getAttribute("importance");
           let id = eventEl.getAttribute("id");
+          let colorId = eventEl.getAttribute("colorId");
           return {
             title: title,
             description: description,
             importance: importance,
             id: id,
+            colorId: colorId,
           };
         },
       });
@@ -171,11 +175,14 @@ const TodoComponent = () => {
           let description = eventEl.getAttribute("description");
           let importance = eventEl.getAttribute("importance");
           let id = eventEl.getAttribute("id");
+          let colorId = eventEl.getAttribute("colorId");
+
           return {
             title: title,
             description: description,
             importance: importance,
             id: id,
+            colorId: colorId,
           };
         },
       });
@@ -217,20 +224,21 @@ const TodoComponent = () => {
               urgentAndImpTodoLoading) && <Loading />}
             {urgentAndImpTodo?.length > 0 && (
               <div id="draggable-event1">
-                <h1 className="text-red-500 flex space-x-2   items-center font-bold text-xl py-2">
+                <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
                   <span>Must do ({urgentAndImpTodo?.length})</span>
                 </h1>
                 {urgentAndImpTodo?.map((todo, index) => (
                   <div
-                    className="fc-event my-1"
+                    className="fc-event my-1 text-white"
                     title={todo.heading}
                     description={todo.description}
                     importance={todo.importance}
                     id={todo.id}
+                    colorId={11}
                     key={todo.id}
                   >
                     <div
-                      className={`  flex items-center space-x-2 bg-red-400 cursor-pointer rounded-md p-2 hover:bg-red-300 group`}
+                      className={`  flex items-center space-x-2 bg-[#d60000] cursor-pointer rounded-md p-2  group`}
                     >
                       <input
                         type="checkbox"
@@ -268,21 +276,22 @@ const TodoComponent = () => {
             )}
             {notImpUrgentTodo?.length > 0 && (
               <div>
-                <h1 className="text-orange-500 flex space-x-2   items-center font-bold text-xl py-2">
+                <h1 className="text-[#e67c73] flex space-x-2   items-center font-bold text-xl py-2">
                   <span>Should do ({notImpUrgentTodo?.length})</span>
                 </h1>
                 <div id="draggable-event2">
                   {notImpUrgentTodo?.map((todo, index) => (
                     <div
-                      className="fc-event my-1"
+                      className="fc-event my-1 text-white"
                       title={todo.heading}
                       description={todo.description}
                       importance={todo.importance}
                       id={todo.id}
+                      colorId={4}
                       key={todo.id}
                     >
                       <div
-                        className={` flex items-center space-x-2 bg-orange-400 cursor-pointer rounded-md p-2 my-2 hover:bg-orange-300 group`}
+                        className={` flex items-center space-x-2 bg-[#e67c73] cursor-pointer rounded-md p-2 my-2  group`}
                       >
                         <input
                           type="checkbox"
@@ -324,15 +333,16 @@ const TodoComponent = () => {
                 </h1>
                 {notUrgentImpTodo?.map((todo, index) => (
                   <div
-                    className="fc-event my-1"
+                    className="fc-event my-1 text-white"
                     title={todo.heading}
                     description={todo.description}
                     importance={todo.importance}
+                    colorId={0}
                     id={todo.id}
                     key={todo.id}
                   >
                     <div
-                      className={`  flex items-center space-x-2 bg-blue-400 cursor-pointer rounded-md p-2 hover:bg-blue-300 group`}
+                      className={`  flex items-center space-x-2  cursor-pointer rounded-md p-2 bg-[#039be5] group`}
                     >
                       <input
                         type="checkbox"

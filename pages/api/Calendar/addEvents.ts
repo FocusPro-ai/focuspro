@@ -18,7 +18,7 @@ export default async function handler(
 }
 
 async function addEvents(req: NextApiRequest, res: NextApiResponse) {
-  const { refresh_token, event_title, event_description, start, end } =
+  const { refresh_token, event_title, event_description, start, end, colorId } =
     req.body;
   oauth2.setCredentials({ refresh_token: refresh_token });
   const calendar = google.calendar({ version: "v3", auth: oauth2 });
@@ -41,6 +41,7 @@ async function addEvents(req: NextApiRequest, res: NextApiResponse) {
         },
         summary: event_title,
         description: event_description,
+        colorId,
       },
     })
     .then((data) => res.status(200).json(data))
