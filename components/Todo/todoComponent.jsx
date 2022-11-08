@@ -29,36 +29,39 @@ const TodoComponent = () => {
   const [checkValue, setCheckValue] = useState(false);
   const [checkedId, setCheckedId] = useState();
   const fetchAllUrgentNotImp = async () => {
-    const userId = userData.id;
+    // const userId = userData?.id;
+    // if (!userId) return;
     const response = await fetch("/api/matrix/notImpUrgent", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId: userData.id }),
     });
     return response.json();
   };
   const fetchAllNotUrgentImp = async () => {
-    const userId = userData.id;
+    // const userId = userData?.id;
+    // if (!userId) return;
     const response = await fetch("/api/matrix/notUrgentImp", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId: userData.id }),
     });
     return response.json();
   };
 
   const fetchAllUrgentAndImportant = async () => {
-    const userId = userData.id;
+    // const userId = userData?.id;
+    // if (!userId) return;
     const response = await fetch("/api/matrix/urgentAndImp", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId: userData.id }),
     });
     return response.json();
   };
@@ -89,12 +92,13 @@ const TodoComponent = () => {
   const { data: notImpUrgentTodo, isLoading } = useQuery(
     ["todos-urgent-not-important"],
     fetchAllUrgentNotImp,
-    { refetchInterval: 6000 }
+    { refetchInterval: 6000, enabled: !!userData?.id }
   );
 
   const { data: notUrgentImpTodo, isLoading: notUrgentImpTodoLoading } =
     useQuery(["todos-not-urgent-important"], fetchAllNotUrgentImp, {
       refetchInterval: 6000,
+      enabled: !!userData?.id,
     });
 
   const { data: urgentAndImpTodo, isLoading: urgentAndImpTodoLoading } =
@@ -102,7 +106,7 @@ const TodoComponent = () => {
       ["todos-urgent-important"],
       fetchAllUrgentAndImportant,
 
-      { refetchInterval: 6000 }
+      { refetchInterval: 6000, enabled: !!userData?.id }
     );
 
   const handleCompleteTask = async (taskId) => {

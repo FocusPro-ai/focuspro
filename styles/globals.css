@@ -100,3 +100,14 @@ body {
 .fc-button-active {
   @apply !z-0;
 }
+
+.container-parent {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+}
+
+.container-child {
+  scroll-snap-align: start;
+  height: 100vh;
+}
