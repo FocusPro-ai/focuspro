@@ -33,7 +33,7 @@ const Welcome = () => {
 
         <meta
           name="google-site-verification"
-          content="hGKT7XwNqlmmjjfX3n5tHgD-EEHeMsxcMZvY72A_Lgo"
+          content="vPUCxIZjnbYP--FUX0-WtP_y41HpjPhRy0giwRzIKko"
         />
       </Head>
       <Toaster />
