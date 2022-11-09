@@ -10,9 +10,16 @@ import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import "../styles/globals.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import Head from "next/head";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
+  <Head>
+    <meta
+      name="google-site-verification"
+      content="vPUCxIZjnbYP--FUX0-WtP_y41HpjPhRy0giwRzIKko"
+    />
+  </Head>;
   return (
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
