@@ -30,6 +30,10 @@ const Welcome = () => {
       <Head>
         <title>FocusPro | Welcome</title>
         <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
+        <meta
+          name="google-site-verification"
+          content="hGKT7XwNqlmmjjfX3n5tHgD-EEHeMsxcMZvY72A_Lgo"
+        />
       </Head>
       <Toaster />
       <div className="container-parent">
