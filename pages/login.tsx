@@ -61,20 +61,17 @@ const Login = () => {
             Full access for free
           </h1>
           <div className="mx-auto">
-            <p className="text-center font-semibold text-gray-800 text-xl">
-              Sign up with
-            </p>
             <button
               onClick={() => popupCenter("/auth/google", "Sign in with google")}
-              className="bg-[#2602f3] my-4  flex items-center space-x-4 py-2 px-4 rounded-md text-white  "
+              className="bg-white font-roboto   my-4  flex items-center space-x-2 py-2 px-4 rounded-md border border-gray-200 shadow-md"
             >
-              <span className="px-2">Get Started </span>
               <Image
                 src="/google-icon.svg"
                 alt="google-icon"
                 height={30}
                 width={30}
               />
+              <span className="">Sign in with Google </span>
             </button>
           </div>
           <div className="mx-4 text-center">
