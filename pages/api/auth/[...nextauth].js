@@ -47,8 +47,7 @@ export default NextAuth({
       clientSecret: String(process.env.NEXT_PUBLIC_CLIENT_SECRET),
       authorization: {
         params: {
-          scope:
-            "openid email profile https://www.googleapis.com/auth/calendar",
+          scope: "openid   https://www.googleapis.com/auth/calendar",
           prompt: "consent",
           access_type: "offline",
           response_type: "code",
