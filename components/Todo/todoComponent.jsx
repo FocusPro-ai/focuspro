@@ -37,7 +37,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id, take: 3 }),
+      body: JSON.stringify({ userId: userData.id, take: 3, completed: false }),
     });
     return response.json();
   };
@@ -49,7 +49,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id, take: 3 }),
+      body: JSON.stringify({ userId: userData.id, take: 3, completed: false }),
     });
     return response.json();
   };
@@ -62,7 +62,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id, take: 3 }),
+      body: JSON.stringify({ userId: userData.id, take: 3, completed: false }),
     });
     return response.json();
   };

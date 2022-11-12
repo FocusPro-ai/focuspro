@@ -13,7 +13,7 @@ export default async function handler(
 }
 
 async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
-  const { userId, take } = req.body;
+  const { userId, take, completed } = req.body;
   let today = new Date();
   let yesterday = new Date();
   yesterday.setDate(today.getDate() - 1);
@@ -24,7 +24,7 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
       where: {
         userId,
 
-        completed: false,
+        completed,
 
         AND: [
           {
