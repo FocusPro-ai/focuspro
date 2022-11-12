@@ -9,11 +9,6 @@ body {
   @apply font-open-sans;
 }
 
-@font-face {
-  font-family: "Open Sauce";
-  src: url("../public/fonts/Fonts/OpenSauceOne-SemiBold.ttf");
-}
-
 .fc {
   /* the calendar root */
   margin: 20px !important;

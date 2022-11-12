@@ -255,7 +255,7 @@ const TodoComponent = () => {
                 ))}
               </div>
             )}
-            <h1 className="text-[#e67c73] flex space-x-2   items-center font-bold text-xl py-2">
+            <h1 className="text-[#f5511d] flex space-x-2   items-center font-bold text-xl py-2">
               <span>Schedule this week ({notImpUrgentTodo?.length})</span>
             </h1>
             {notImpUrgentTodo?.length > 0 && (
@@ -268,11 +268,11 @@ const TodoComponent = () => {
                       description={todo.description}
                       importance={todo.importance}
                       id={todo.id}
-                      colorId={4}
+                      colorId={6}
                       key={todo.id}
                     >
                       <div
-                        className={` flex items-center space-x-2 bg-[#e67c73] cursor-pointer rounded-md p-2 my-2  group`}
+                        className={` flex items-center space-x-2 bg-[#f5511d] cursor-pointer rounded-md p-2 my-2  group`}
                       >
                         <input
                           type="checkbox"
