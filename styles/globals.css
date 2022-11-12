@@ -6,7 +6,12 @@
 @tailwind utilities;
 
 body {
-  @apply font-open-sans;
+  @apply font-openSauce;
+}
+
+@font-face {
+  font-family: "Open Sauce";
+  src: url("../public/fonts/Fonts/OpenSauceOne-SemiBold.ttf");
 }
 
 .fc {
