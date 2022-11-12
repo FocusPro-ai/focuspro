@@ -27,8 +27,8 @@ const AllTaskModal = () => {
   const dispatch = useDispatch();
   const userData: any = useSelector((state: RootState) => state.user.user);
 
-  const showAllTask = async () => {
-    const response = await fetch("/api/Task/showTask", {
+  const showUrgentImpTodo = async () => {
+    const response = await fetch("/api/matrix/urgentAndImp", {
       method: "POST",
       body: JSON.stringify({ userId: userData?.id }),
       headers: {
@@ -37,9 +37,45 @@ const AllTaskModal = () => {
     });
     return response.json();
   };
-  const { data: allTaskData, isLoading: taskLoading } = useQuery(
-    ["all-task"],
-    showAllTask,
+  const showUrgentNotImpTodo = async () => {
+    const response = await fetch("/api/matrix/notImpUrgent", {
+      method: "POST",
+      body: JSON.stringify({ userId: userData?.id }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    return response.json();
+  };
+  const showNotUrgentImpTodo = async () => {
+    const response = await fetch("/api/matrix/notUrgentImp", {
+      method: "POST",
+      body: JSON.stringify({ userId: userData?.id }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    return response.json();
+  };
+  const { data: allUrgentImpTodo, isLoading: taskLoading } = useQuery(
+    ["urgent-imp-task"],
+    showUrgentImpTodo,
+    {
+      refetchInterval: 6000,
+      enabled: !!userData?.id,
+    }
+  );
+  const { data: allNotUrgImpTodo, isLoading } = useQuery(
+    ["not-urgent-imp-task"],
+    showNotUrgentImpTodo,
+    {
+      refetchInterval: 6000,
+      enabled: !!userData?.id,
+    }
+  );
+  const { data: allNotImpUrgTodo } = useQuery(
+    ["urgent-not-imp-task"],
+    showUrgentNotImpTodo,
     {
       refetchInterval: 6000,
       enabled: !!userData?.id,
@@ -75,19 +111,20 @@ const AllTaskModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-[900px] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-[900px] max-h-[700px] overflow-y-scroll transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-2xl my-4 font-bold leading-6 text-gray-900"
                 >
                   All Task
                 </Dialog.Title>
-                <div className="mt-2">
-                  <div className="h-[500px] hide-scrollbar  overflow-y-scroll">
+                <div className="">
+                  <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
+                    <span>Do it Today ({allUrgentImpTodo?.length})</span>
+                  </h1>
+                  <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
                     <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
-                      <h1 className="w-[60%] font-semibold text-xl">
-                        Task heading
-                      </h1>
+                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
 
                       <h1 className="w-[20%] font-semibold text-xl">
                         Importance
@@ -97,7 +134,106 @@ const AllTaskModal = () => {
                         Deadline
                       </h1>
                     </div>
-                    {allTaskData?.map((task: any) => (
+                    {allUrgentImpTodo?.map((task: any) => (
+                      <div
+                        key={task.id}
+                        className="my-2 flex space-x-[2rem]  justify-between"
+                      >
+                        <h4 className="w-[60%]">{task.heading}</h4>
+                        <p className="w-[20%] text-center">{task.importance}</p>
+                        <p className="w-[10%] text-center">
+                          {task.completed ? "✅" : "❌"}
+                        </p>
+                        <span className="w-[20%]">
+                          {new Date(task.deadline).toDateString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="">
+                  <h1 className="text-[#e67c73]   flex space-x-2   items-center font-bold text-xl py-2">
+                    <span>Schedule this Week ({allNotImpUrgTodo?.length})</span>
+                  </h1>
+                  <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
+                    <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
+                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
+
+                      <h1 className="w-[20%] font-semibold text-xl">
+                        Importance
+                      </h1>
+                      <h1 className="w-[10%] font-semibold text-xl">Status</h1>
+                      <h1 className="w-[20%] font-semibold text-xl">
+                        Deadline
+                      </h1>
+                    </div>
+                    {allNotImpUrgTodo?.map((task: any) => (
+                      <div
+                        key={task.id}
+                        className="my-2 flex space-x-[2rem]  justify-between"
+                      >
+                        <h4 className="w-[60%]">{task.heading}</h4>
+                        <p className="w-[20%] text-center">{task.importance}</p>
+                        <p className="w-[10%] text-center">
+                          {task.completed ? "✅" : "❌"}
+                        </p>
+                        <span className="w-[20%]">
+                          {new Date(task.deadline).toDateString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="">
+                  <h1 className="text-[#039be5] flex space-x-2   items-center font-bold text-xl py-2">
+                    <span>Decide or Delegate ({allNotUrgImpTodo?.length})</span>
+                  </h1>
+                  <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
+                    <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
+                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
+
+                      <h1 className="w-[20%] font-semibold text-xl">
+                        Importance
+                      </h1>
+                      <h1 className="w-[10%] font-semibold text-xl">Status</h1>
+                      <h1 className="w-[20%] font-semibold text-xl">
+                        Deadline
+                      </h1>
+                    </div>
+                    {allNotUrgImpTodo?.map((task: any) => (
+                      <div
+                        key={task.id}
+                        className="my-2 flex space-x-[2rem]  justify-between"
+                      >
+                        <h4 className="w-[60%]">{task.heading}</h4>
+                        <p className="w-[20%] text-center">{task.importance}</p>
+                        <p className="w-[10%] text-center">
+                          {task.completed ? "✅" : "❌"}
+                        </p>
+                        <span className="w-[20%]">
+                          {new Date(task.deadline).toDateString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="">
+                  <h1 className="text-gray-600  flex space-x-2   items-center font-bold text-xl py-2">
+                    <span>Eliminate ({allUrgentImpTodo?.length})</span>
+                  </h1>
+                  <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
+                    <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
+                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
+
+                      <h1 className="w-[20%] font-semibold text-xl">
+                        Importance
+                      </h1>
+                      <h1 className="w-[10%] font-semibold text-xl">Status</h1>
+                      <h1 className="w-[20%] font-semibold text-xl">
+                        Deadline
+                      </h1>
+                    </div>
+                    {allUrgentImpTodo?.map((task: any) => (
                       <div
                         key={task.id}
                         className="my-2 flex space-x-[2rem]  justify-between"

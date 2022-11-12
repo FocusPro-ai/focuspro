@@ -13,7 +13,7 @@ export default async function handler(
 }
 
 async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
-  const { userId } = req.body;
+  const { userId, take } = req.body;
   let today = new Date();
   const deadline_date = new Date();
   deadline_date.setDate(today.getDate() + 3);
@@ -35,7 +35,7 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
           },
         ],
       },
-      take: 3,
+      take: take,
     })
     .then((data) => res.status(200).json(data))
     .catch((e) => res.status(500).json(e.message));

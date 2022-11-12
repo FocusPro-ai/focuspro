@@ -37,7 +37,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id }),
+      body: JSON.stringify({ userId: userData.id, take: 3 }),
     });
     return response.json();
   };
@@ -49,7 +49,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id }),
+      body: JSON.stringify({ userId: userData.id, take: 3 }),
     });
     return response.json();
   };
@@ -62,7 +62,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id }),
+      body: JSON.stringify({ userId: userData.id, take: 3 }),
     });
     return response.json();
   };
@@ -205,7 +205,7 @@ const TodoComponent = () => {
               notUrgentImpTodoLoading ||
               urgentAndImpTodoLoading) && <Loading />}
             <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Must do ({urgentAndImpTodo?.length})</span>
+              <span>Do it Today ({urgentAndImpTodo?.length})</span>
             </h1>
             {urgentAndImpTodo?.length > 0 && (
               <div id="draggable-event1">
@@ -256,7 +256,7 @@ const TodoComponent = () => {
               </div>
             )}
             <h1 className="text-[#e67c73] flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Should do ({notImpUrgentTodo?.length})</span>
+              <span>Schedule this week ({notImpUrgentTodo?.length})</span>
             </h1>
             {notImpUrgentTodo?.length > 0 && (
               <div>
@@ -308,8 +308,8 @@ const TodoComponent = () => {
                 </div>
               </div>
             )}
-            <h1 className="text-gray-500 flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Could do ({notUrgentImpTodo?.length})</span>
+            <h1 className="text-[#039be5] flex space-x-2   items-center font-bold text-xl py-2">
+              <span>Decide or delegate ({notUrgentImpTodo?.length})</span>
             </h1>
             {notUrgentImpTodo?.length > 0 && (
               <div id="draggable-event3">

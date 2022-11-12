@@ -80,7 +80,7 @@ const UpdateTaskModal = () => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Popover.Panel className="absolute left-[40%] z-[999]   w-[450px]  mt-3  -translate-x-1/2 transform px-4 sm:px-0">
+        <Popover.Panel className="absolute left-[40%] 2xl:left-[30%] z-[999]   w-[450px]  mt-3  -translate-x-1/2 transform px-4 sm:px-0">
           <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
             <div className="relative flex flex-col h-[500px]  bg-white pt-1 z-50 w-[450px]">
               <div className="flex justify-between items-center m-1 mx-3">
