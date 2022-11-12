@@ -125,6 +125,16 @@ const CalendarComponent = () => {
     });
   };
 
+  const handleDoneTask = async (id) => {
+    await fetch("/api/Task/doneTask", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ taskId: id }),
+    });
+  };
+
   // ------- Full calendar Functions ----
 
   const handleDateClick = (info) => {
@@ -166,6 +176,7 @@ const CalendarComponent = () => {
       calendarApi.refetchEvents();
 
       event.event.remove();
+      handleDoneTask(event.event.id);
     });
   };
 
