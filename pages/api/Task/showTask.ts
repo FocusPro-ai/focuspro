@@ -18,7 +18,9 @@ async function showTaskByUserId(req: NextApiRequest, res: NextApiResponse) {
     .findMany({
       where: {
         userId,
-        completed: false,
+        deadline: {
+          gte: new Date(),
+        },
       },
 
       orderBy: {

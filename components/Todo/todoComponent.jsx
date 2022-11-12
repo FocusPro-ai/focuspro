@@ -18,6 +18,7 @@ import UpdateTaskModal from "./updateTaskModal/updateTask";
 import { Popover } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../pages/loading";
+import { changeAllTaskModalState } from "../../slices/allTaskModalSlice";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
@@ -360,10 +361,16 @@ const TodoComponent = () => {
             )}
           </div>
         </div>
-        <div className="w-full   flex justify-center">
+        <div className="w-full flex-col  flex justify-center">
+          <p
+            onClick={() => dispatch(changeAllTaskModalState())}
+            className="my-2 underline w-max mx-auto cursor-pointer font-semibold text-gray-500 "
+          >
+            See all
+          </p>
           <button
             onClick={() => dispatch(changeModalState())}
-            className="flex space-x-2 items-center my-4 bg-transparent border border-gray-300 hover:bg-gray-100 rounded-md px-3 py-2"
+            className="flex space-x-2 items-center w-max mx-auto my-4 bg-transparent border border-gray-300 hover:bg-gray-100 rounded-md px-3 py-2"
           >
             <PlusIcon height={20} width={20} /> <span>New Task</span>
           </button>

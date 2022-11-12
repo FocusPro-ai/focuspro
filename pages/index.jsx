@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import Welcome from "./welcome";
 import Loading from "./loading";
 import Login from "./login";
+import AllTaskModal from "../components/Todo/allTaskModal/allTaskModal";
 
 const Home = () => {
   const { data: session, status } = useSession();
@@ -51,6 +52,7 @@ const Home = () => {
         <link rel="shortcut icon" href="/favicon.png" type="image/x-icon" />
       </Head>
       <Toaster />
+      <AllTaskModal />
       <TodoComponent />
       <CalendarComponent />
     </div>
