@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 body {
-  @apply font-openSauce;
+  @apply font-open-sans;
 }
 
 @font-face {
