@@ -15,6 +15,9 @@ export default async function handler(
 async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.body;
   let today = new Date();
+
+  let yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
   const deadline_date = new Date();
   deadline_date.setDate(today.getDate() + 3);
   const response = await prisma.todos
@@ -25,8 +28,8 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
         AND: [
           {
             deadline: {
-              gte: today,
               lte: deadline_date,
+              gte: yesterday,
             },
           },
           {
