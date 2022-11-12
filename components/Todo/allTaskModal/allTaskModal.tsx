@@ -97,7 +97,7 @@ const AllTaskModal = () => {
                         Deadline
                       </h1>
                     </div>
-                    {allTaskData.map((task: any) => (
+                    {allTaskData?.map((task: any) => (
                       <div
                         key={task.id}
                         className="my-2 flex space-x-[2rem]  justify-between"
