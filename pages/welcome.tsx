@@ -40,7 +40,7 @@ const Welcome = () => {
                 Focus<span className="text-[#2602f3]">Pro</span>.ai
               </h1>
               <p className="py-2 font-semibold text-xl text-gray-500">
-                Neurodiversity's first productivity tool
+                Neurodivergent's first productivity tool
               </p>
             </div>
             <div className="mt-[2rem] text-center">

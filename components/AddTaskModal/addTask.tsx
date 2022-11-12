@@ -82,10 +82,10 @@ const AddTaskModal = () => {
                   Add a Task
                 </Dialog.Title>
                 <div className="mt-2">
-                  <p className="text-md text-gray-500">
+                  {/* <p className="text-md text-gray-500">
                     Fill your all details and then focus on what really matters
                     to you !!
-                  </p>
+                  </p> */}
                   <form className="my-4">
                     <div className="flex space-y-2 my-2 flex-col">
                       <label htmlFor="Task-title" className="font-bold">
@@ -111,8 +111,11 @@ const AddTaskModal = () => {
                       />
                     </div>
                     <div className="flex space-y-2 my-2 flex-col">
-                      <label className="font-bold">
+                      <label className="font-bold flex space-y-1 flex-col">
                         Importance ({importance})
+                        <span className="text-[11px] text-gray-500">
+                          How important is this task to reach your goal?
+                        </span>
                       </label>
                       <input
                         type="range"
@@ -148,7 +151,7 @@ const AddTaskModal = () => {
                       }
                     }}
                   >
-                    Submit the task
+                    Automate
                   </button>
                 </div>
               </Dialog.Panel>

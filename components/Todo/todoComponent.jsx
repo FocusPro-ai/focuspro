@@ -66,29 +66,6 @@ const TodoComponent = () => {
     return response.json();
   };
 
-  // const { data: notImpUrgentTodo } = useSWR(
-  //   "todos-urgent-not-important",
-  //   fetchAllUrgentNotImp,
-  //   {
-  //     refreshInterval: 200,
-  //   }
-  // );
-  // const { data: notUrgentImpTodo } = useSWR(
-  //   "todos-not-urgent-important",
-  //   fetchAllNotUrgentImp,
-  //   {
-  //     refreshInterval: 200,
-  //   }
-  // );
-
-  // const { data: urgentAndImpTodo } = useSWR(
-  //   "todos-urgent-important",
-  //   fetchAllUrgentAndImportant,
-  //   {
-  //     refreshInterval: 200,
-  //   }
-  // );
-
   const { data: notImpUrgentTodo, isLoading } = useQuery(
     ["todos-urgent-not-important"],
     fetchAllUrgentNotImp,
@@ -226,11 +203,11 @@ const TodoComponent = () => {
             {(notUrgentImpTodoLoading ||
               notUrgentImpTodoLoading ||
               urgentAndImpTodoLoading) && <Loading />}
+            <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
+              <span>Must do ({urgentAndImpTodo?.length})</span>
+            </h1>
             {urgentAndImpTodo?.length > 0 && (
               <div id="draggable-event1">
-                <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
-                  <span>Must do ({urgentAndImpTodo?.length})</span>
-                </h1>
                 {urgentAndImpTodo?.map((todo, index) => (
                   <div
                     className="fc-event my-1 text-white"
@@ -257,7 +234,6 @@ const TodoComponent = () => {
                       />
                       <h1
                         className="w-full"
-                        click
                         onDoubleClick={() => {
                           dispatch(changeTaskModalSlice());
                           const task_prop = {
@@ -278,11 +254,11 @@ const TodoComponent = () => {
                 ))}
               </div>
             )}
+            <h1 className="text-[#e67c73] flex space-x-2   items-center font-bold text-xl py-2">
+              <span>Should do ({notImpUrgentTodo?.length})</span>
+            </h1>
             {notImpUrgentTodo?.length > 0 && (
               <div>
-                <h1 className="text-[#e67c73] flex space-x-2   items-center font-bold text-xl py-2">
-                  <span>Should do ({notImpUrgentTodo?.length})</span>
-                </h1>
                 <div id="draggable-event2">
                   {notImpUrgentTodo?.map((todo, index) => (
                     <div
@@ -309,7 +285,8 @@ const TodoComponent = () => {
                           }}
                         />
                         <h1
-                          onClick={() => {
+                          className="w-full"
+                          onDoubleClick={() => {
                             dispatch(changeTaskModalSlice());
                             const task_prop = {
                               title: todo.heading,
@@ -330,11 +307,11 @@ const TodoComponent = () => {
                 </div>
               </div>
             )}
+            <h1 className="text-gray-500 flex space-x-2   items-center font-bold text-xl py-2">
+              <span>Could do ({notUrgentImpTodo?.length})</span>
+            </h1>
             {notUrgentImpTodo?.length > 0 && (
               <div id="draggable-event3">
-                <h1 className="text-gray-500 flex space-x-2   items-center font-bold text-xl py-2">
-                  <span>Could do ({notUrgentImpTodo?.length})</span>
-                </h1>
                 {notUrgentImpTodo?.map((todo, index) => (
                   <div
                     className="fc-event my-1 text-white"
@@ -360,7 +337,8 @@ const TodoComponent = () => {
                         }}
                       />
                       <h1
-                        onClick={() => {
+                        className="w-full"
+                        onDoubleClick={() => {
                           dispatch(changeTaskModalSlice());
                           const task_prop = {
                             title: todo.heading,
