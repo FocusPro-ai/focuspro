@@ -26,6 +26,7 @@ async function updateEvent(req: NextApiRequest, res: NextApiResponse) {
     start,
     end,
     event_id,
+    colorId,
   } = req.body;
   oauth2.setCredentials({ refresh_token: refresh_token });
   const calendar = google.calendar({ version: "v3", auth: oauth2 });
@@ -49,6 +50,7 @@ async function updateEvent(req: NextApiRequest, res: NextApiResponse) {
         },
         summary: event_title,
         description: event_description,
+        colorId: colorId,
       },
     })
 

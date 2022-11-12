@@ -109,6 +109,7 @@ const CalendarComponent = () => {
     event_description,
     start,
     end,
+    colorId,
   }) => {
     const refresh_token = session?.user.refreshToken;
     const response = await fetch("/api/Calendar/updateEvents", {
@@ -120,6 +121,7 @@ const CalendarComponent = () => {
         event_description,
         start,
         end,
+        colorId,
       }),
       headers: { "Content-type": "application/json" },
     });
@@ -141,13 +143,21 @@ const CalendarComponent = () => {
     console.log("Date click handling");
   };
   const handleChange = (event) => {
+    console.log(event);
+    const background_color = event.event.backgroundColor;
+    const colorId = EventColors.findIndex(
+      (color) => background_color === color
+    );
+    console.log(colorId);
     const event_prop = {
       id: event.event._def.publicId,
       event_title: event.event.title,
       event_description: event.event.extendedProps.description,
       start: event.event.start,
       end: event.event.end,
+      colorId,
     };
+    console.log(event_prop);
     updateEvent(event_prop);
   };
   const handleEventClick = (event) => {
