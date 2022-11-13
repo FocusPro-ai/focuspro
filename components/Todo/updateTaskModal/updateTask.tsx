@@ -93,61 +93,66 @@ const UpdateTaskModal = () => {
                   className="text-gray-500 cursor-pointer p-2 hover:bg-gray-200 hover:text-blue-600 rounded-full"
                 />
               </div>
-              <div className="flex-1 flex flex-col space-y-4 my-[10px] ">
-                <input
-                  type="text"
-                  placeholder="Title"
-                  value={heading}
-                  onChange={(e) => setHeading(e.target.value)}
-                  className="w-[95%] rounded-md px-2 py-1 outline-none bg-gray-200 mx-2 font-bold text-2xl"
-                />
-                <div className="flex m-2 items-center space-x-4">
-                  <p className="text-[15px] font-semibold text-gray-500">
-                    Priority({importance})
-                  </p>
-                  <div className="flex-1 items-center pl-4  rounded-md ">
-                    {/* <span className="text-[15px] font-semibold">Meduim</span> */}
-                    <input
-                      type="range"
-                      value={importance}
-                      onChange={(e) => setImportance(Number(e.target.value))}
-                      min={1}
-                      max={10}
-                      defaultValue={9}
-                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-300"
+              <div className="m-4 my-0">
+                <div className="flex space-y-2 my-2 flex-col">
+                  <label htmlFor="Task-title" className="font-bold">
+                    Task
+                  </label>
+                  <input
+                    value={heading}
+                    onChange={(e) => setHeading(e.target.value)}
+                    type="text"
+                    className="bg-gray-50 py-2 px-1 border outline-none border-gray-300 rounded-md w-full"
+                    placeholder="Task headline"
+                  />
+                </div>
+                <div className="flex space-y-2 my-2 flex-col">
+                  <label htmlFor="Task-title" className="font-bold">
+                    Description
+                  </label>
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="bg-gray-50 resize-none h-[100px] py-2 px-1 border outline-none border-gray-300 rounded-md w-full"
+                    placeholder="Description of task"
+                  />
+                </div>
+                <div className="flex space-y-2 my-2 flex-col">
+                  <label className="font-bold flex space-y-1 flex-col">
+                    Importance ({importance})
+                    <span className="text-[13px] text-gray-500">
+                      How important is this task to reach your goal?
+                    </span>
+                  </label>
+                  <input
+                    type="range"
+                    value={importance}
+                    onChange={(e) => setImportance(Number(e.target.value))}
+                    min={1}
+                    max={10}
+                    defaultValue={9}
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-300"
+                  />
+                </div>
+                <div className="flex space-y-2 my-2 flex-col">
+                  <label className="font-bold">Deadline</label>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      value={deadline}
+                      onChange={(newValue) => {
+                        setDeadline(newValue);
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
                     />
-                  </div>
+                  </LocalizationProvider>
                 </div>
-                <div className="flex m-2 items-center space-x-4">
-                  <p className="text-[15px] font-semibold text-gray-500">
-                    Deadline of task
-                  </p>
-                  <span>
-                    {/* {new Date(taskModalInfo.deadline).toLocaleDateString()} */}
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        value={deadline}
-                        onChange={(newValue: any) => {
-                          setDeadline(newValue);
-                        }}
-                        renderInput={(params: any) => <TextField {...params} />}
-                      />
-                    </LocalizationProvider>
-                  </span>
-                </div>
-                <textarea
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  className="flex-1 resize-none p-2 bg-gray-200 mx-2 outline-none"
-                  placeholder="Description"
-                />
               </div>
-              <div className=" p-2 justify-between flex items-center">
+              <div className="mx-4 mb-0 justify-between flex items-center">
                 <TrashIcon
                   onClick={() => deleteTask()}
                   height={35}
                   width={35}
-                  className="hover:bg-gray-200 hover:text-red-500 cursor-pointer rounded-full p-2"
+                  className="hover:bg-gray-200 hover:text-red-500 cursor-pointer rounded-full p-2 pl-0"
                 />
                 <div className="flex items-center space-x-3">
                   <button

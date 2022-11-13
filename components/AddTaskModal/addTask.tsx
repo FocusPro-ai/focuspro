@@ -113,7 +113,7 @@ const AddTaskModal = () => {
                     <div className="flex space-y-2 my-2 flex-col">
                       <label className="font-bold flex space-y-1 flex-col">
                         Importance ({importance})
-                        <span className="text-[11px] text-gray-500">
+                        <span className="text-[14px] text-gray-500">
                           How important is this task to reach your goal?
                         </span>
                       </label>
