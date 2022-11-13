@@ -205,7 +205,7 @@ const TodoComponent = () => {
               notUrgentImpTodoLoading ||
               urgentAndImpTodoLoading) && <Loading />}
             <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Do it Today ({urgentAndImpTodo?.length})</span>
+              <span>({urgentAndImpTodo?.length}) Do it Today </span>
             </h1>
             {urgentAndImpTodo?.length > 0 && (
               <div id="draggable-event1">
@@ -256,7 +256,7 @@ const TodoComponent = () => {
               </div>
             )}
             <h1 className="text-[#f5511d] flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Schedule this week ({notUrgentImpTodo?.length})</span>
+              <span>({notUrgentImpTodo?.length}) Schedule this week </span>
             </h1>
             {notUrgentImpTodo?.length > 0 && (
               <div>
@@ -309,7 +309,7 @@ const TodoComponent = () => {
               </div>
             )}
             <h1 className="text-[#039be5] flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Decide or delegate ({notImpUrgentTodo?.length})</span>
+              <span>({notImpUrgentTodo?.length}) Decide or delegate </span>
             </h1>
             {notImpUrgentTodo?.length > 0 && (
               <div id="draggable-event3">
