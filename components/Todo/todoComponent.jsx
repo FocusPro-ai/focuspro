@@ -256,12 +256,12 @@ const TodoComponent = () => {
               </div>
             )}
             <h1 className="text-[#f5511d] flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Schedule this week ({notImpUrgentTodo?.length})</span>
+              <span>Schedule this week ({notUrgentImpTodo?.length})</span>
             </h1>
-            {notImpUrgentTodo?.length > 0 && (
+            {notUrgentImpTodo?.length > 0 && (
               <div>
                 <div id="draggable-event2">
-                  {notImpUrgentTodo?.map((todo, index) => (
+                  {notUrgentImpTodo?.map((todo, index) => (
                     <div
                       className="fc-event my-1 text-white"
                       title={todo.heading}
@@ -309,11 +309,11 @@ const TodoComponent = () => {
               </div>
             )}
             <h1 className="text-[#039be5] flex space-x-2   items-center font-bold text-xl py-2">
-              <span>Decide or delegate ({notUrgentImpTodo?.length})</span>
+              <span>Decide or delegate ({notImpUrgentTodo?.length})</span>
             </h1>
-            {notUrgentImpTodo?.length > 0 && (
+            {notImpUrgentTodo?.length > 0 && (
               <div id="draggable-event3">
-                {notUrgentImpTodo?.map((todo, index) => (
+                {notImpUrgentTodo?.map((todo, index) => (
                   <div
                     className="fc-event my-1 text-white"
                     title={todo.heading}

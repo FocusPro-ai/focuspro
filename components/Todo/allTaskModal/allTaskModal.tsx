@@ -57,6 +57,16 @@ const AllTaskModal = () => {
     });
     return response.json();
   };
+  const showNotUrgentNotImpTodo = async () => {
+    const response = await fetch("/api/matrix/notImpnotUrgent", {
+      method: "POST",
+      body: JSON.stringify({ userId: userData?.id }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    return response.json();
+  };
   const { data: allUrgentImpTodo, isLoading: taskLoading } = useQuery(
     ["urgent-imp-task"],
     showUrgentImpTodo,
@@ -76,6 +86,14 @@ const AllTaskModal = () => {
   const { data: allNotImpUrgTodo } = useQuery(
     ["urgent-not-imp-task"],
     showUrgentNotImpTodo,
+    {
+      refetchInterval: 6000,
+      enabled: !!userData?.id,
+    }
+  );
+  const { data: allNotUrgNotImpTodo } = useQuery(
+    ["not-urgent-not-imp-task"],
+    showNotUrgentNotImpTodo,
     {
       refetchInterval: 6000,
       enabled: !!userData?.id,
@@ -208,7 +226,7 @@ const AllTaskModal = () => {
                 </div>
                 <div className="">
                   <h1 className="text-gray-600  flex space-x-2   items-center font-bold text-xl py-2">
-                    <span>Eliminate ({allUrgentImpTodo?.length})</span>
+                    <span>Eliminate ({allNotUrgNotImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
                     {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
@@ -222,7 +240,7 @@ const AllTaskModal = () => {
                         Deadline
                       </h1>
                     </div> */}
-                    {allUrgentImpTodo?.map((task: any) => (
+                    {allNotUrgNotImpTodo?.map((task: any) => (
                       <div
                         key={task.id}
                         className="my-2 flex space-x-[2rem]  justify-between"
