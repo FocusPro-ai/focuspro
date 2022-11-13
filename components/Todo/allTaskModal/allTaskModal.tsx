@@ -240,7 +240,7 @@ const AllTaskModal = () => {
                   </div>
                 </div>
                 <div className="">
-                  <h1 className="text-gray-600  flex space-x-2   items-center font-bold text-xl py-2">
+                  <h1 className="text-black  flex space-x-2   items-center font-bold text-xl py-2">
                     <span>Eliminate ({allNotUrgNotImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
@@ -262,7 +262,7 @@ const AllTaskModal = () => {
                   </div>
                 </div>
                 <div className="">
-                  <h1 className="text-gray-600  flex space-x-2   items-center font-bold text-xl py-2">
+                  <h1 className="text-[#939DA8]  flex space-x-2   items-center font-bold text-xl py-2">
                     <span>
                       Don't worry about this yet... ({notToWorry?.length})
                     </span>
