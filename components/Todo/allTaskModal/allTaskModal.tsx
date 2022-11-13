@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { Fragment, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
@@ -67,6 +68,16 @@ const AllTaskModal = () => {
     });
     return response.json();
   };
+  const showNotToWorry = async () => {
+    const response = await fetch("/api/matrix/notToWorry", {
+      method: "POST",
+      body: JSON.stringify({ userId: userData?.id }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    return response.json();
+  };
   const { data: allUrgentImpTodo, isLoading: taskLoading } = useQuery(
     ["urgent-imp-task"],
     showUrgentImpTodo,
@@ -99,6 +110,10 @@ const AllTaskModal = () => {
       enabled: !!userData?.id,
     }
   );
+  const { data: notToWorry } = useQuery(["not-to-worry"], showNotToWorry, {
+    refetchInterval: 6000,
+    enabled: !!userData?.id,
+  });
   return (
     <Transition appear show={modalState} as={Fragment}>
       <Dialog
@@ -229,18 +244,29 @@ const AllTaskModal = () => {
                     <span>Eliminate ({allNotUrgNotImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
-                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
-
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Importance
-                      </h1>
-                      <h1 className="w-[10%] font-semibold text-xl">Status</h1>
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Deadline
-                      </h1>
-                    </div> */}
                     {allNotUrgNotImpTodo?.map((task: any) => (
+                      <div
+                        key={task.id}
+                        className="my-2 flex space-x-[2rem]  justify-between"
+                      >
+                        <h4 className="w-[60%]">{task.heading}</h4>
+                        <p className="w-[20%] text-center">{task.importance}</p>
+                        <p className="w-[10%] text-center">
+                          {task.completed ? "✅" : "❌"}
+                        </p>
+                        <span className="w-[20%]">
+                          {new Date(task.deadline).toDateString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="">
+                  <h1 className="text-gray-600  flex space-x-2   items-center font-bold text-xl py-2">
+                    <span>Don't worry about this ({notToWorry?.length})</span>
+                  </h1>
+                  <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
+                    {notToWorry?.map((task: any) => (
                       <div
                         key={task.id}
                         className="my-2 flex space-x-[2rem]  justify-between"
