@@ -28,7 +28,7 @@ const Login = () => {
           <span className="text-[#2602f3] cursor-pointer">Contact</span>
         </h4>
       </div>
-      <div className="flex-1  flex justify-between">
+      <div className="flex-1 w-[95%] mx-auto  flex justify-between">
         <div className="h-[50%] my-auto space-y-[4rem] flex flex-col justify-evenly">
           <div className="text-5xl font-bold leading-[3.5rem] ">
             <h1>
