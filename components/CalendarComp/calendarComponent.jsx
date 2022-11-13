@@ -161,12 +161,17 @@ const CalendarComponent = () => {
     updateEvent(event_prop);
   };
   const handleEventClick = (event) => {
+    const background_color = event.event.backgroundColor;
+    const colorId = EventColors.findIndex(
+      (color) => background_color === color
+    );
     const payload = {
       title: event.event.title,
       description: event.event.extendedProps.description,
       start: event.event.start,
       end: event.event.end,
       id: event.event.id,
+      colorId,
     };
 
     dispatch(addEventDescription(payload));

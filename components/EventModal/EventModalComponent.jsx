@@ -37,6 +37,7 @@ const EventModalComponent = () => {
         start: startDate,
         end: endDate,
         event_id: eventModalInfo.id,
+        colorId: eventModalInfo.colorId,
         refresh_token,
       }),
     }).then((data) => {

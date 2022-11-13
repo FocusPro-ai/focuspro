@@ -8,6 +8,7 @@ interface eventModalType {
   id: any;
   backgroundColor: string;
   description: string;
+  colorId: any;
 }
 
 interface initaltype {
@@ -24,6 +25,7 @@ const initialState: initaltype = {
     backgroundColor: "",
     description: "",
     id: undefined,
+    colorId: undefined,
   },
 };
 

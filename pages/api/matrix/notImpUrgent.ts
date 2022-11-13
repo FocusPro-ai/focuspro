@@ -35,7 +35,7 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
           },
           {
             importance: {
-              lte: 5,
+              lte: 6,
               gte: 1,
             },
           },

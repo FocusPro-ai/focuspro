@@ -30,7 +30,7 @@ const Home = () => {
     const response = await fetch("/api/user/getUserByEmail", {
       method: "POST",
       headers: { "Content-type": "application/json" },
-      body: JSON.stringify({ email: session?.user?.email }),
+      body: JSON.stringify({ email: session?.user.email }),
     });
     const userDetails = await response.json();
     dispatch(AddUserDetails(userDetails));
