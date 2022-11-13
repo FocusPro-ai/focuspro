@@ -123,17 +123,6 @@ const AllTaskModal = () => {
                     <span>Do it Today ({allUrgentImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
-                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
-
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Importance
-                      </h1>
-                      <h1 className="w-[10%] font-semibold text-xl">Status</h1>
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Deadline
-                      </h1>
-                    </div>
                     {allUrgentImpTodo?.map((task: any) => (
                       <div
                         key={task.id}
@@ -156,7 +145,7 @@ const AllTaskModal = () => {
                     <span>Schedule this Week ({allNotImpUrgTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
+                    {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
                       <h1 className="w-[60%] font-semibold text-xl">Task</h1>
 
                       <h1 className="w-[20%] font-semibold text-xl">
@@ -166,7 +155,7 @@ const AllTaskModal = () => {
                       <h1 className="w-[20%] font-semibold text-xl">
                         Deadline
                       </h1>
-                    </div>
+                    </div> */}
                     {allNotImpUrgTodo?.map((task: any) => (
                       <div
                         key={task.id}
@@ -189,7 +178,7 @@ const AllTaskModal = () => {
                     <span>Decide or Delegate ({allNotUrgImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
+                    {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
                       <h1 className="w-[60%] font-semibold text-xl">Task</h1>
 
                       <h1 className="w-[20%] font-semibold text-xl">
@@ -199,7 +188,7 @@ const AllTaskModal = () => {
                       <h1 className="w-[20%] font-semibold text-xl">
                         Deadline
                       </h1>
-                    </div>
+                    </div> */}
                     {allNotUrgImpTodo?.map((task: any) => (
                       <div
                         key={task.id}
@@ -222,7 +211,7 @@ const AllTaskModal = () => {
                     <span>Eliminate ({allUrgentImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
+                    {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
                       <h1 className="w-[60%] font-semibold text-xl">Task</h1>
 
                       <h1 className="w-[20%] font-semibold text-xl">
@@ -232,7 +221,7 @@ const AllTaskModal = () => {
                       <h1 className="w-[20%] font-semibold text-xl">
                         Deadline
                       </h1>
-                    </div>
+                    </div> */}
                     {allUrgentImpTodo?.map((task: any) => (
                       <div
                         key={task.id}
