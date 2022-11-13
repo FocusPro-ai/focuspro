@@ -170,12 +170,12 @@ const TodoComponent = () => {
       });
     }
   }, [
+    draggableInitialized,
     draggableInitialized2,
     draggableInitialized3,
     notImpUrgentTodo,
     urgentAndImpTodo,
     notUrgentImpTodo,
-    draggableInitialized,
   ]);
 
   return (
