@@ -19,9 +19,11 @@ import { Popover } from "@headlessui/react";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../pages/loading";
 import { changeAllTaskModalState } from "../../slices/allTaskModalSlice";
+import { useRouter } from "next/router";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   const dispatch = useDispatch();
   const userData = useSelector((state) => state.user.user);
   const [draggableInitialized, setDraggableInitialized] = useState(false);
@@ -189,7 +191,9 @@ const TodoComponent = () => {
           </h1>
           {session?.user?.image && (
             <Image
-              onClick={() => signOut()}
+              onClick={() => {
+                signOut({ callbackUrl: "/login" });
+              }}
               src={session?.user?.image}
               height={35}
               width={35}

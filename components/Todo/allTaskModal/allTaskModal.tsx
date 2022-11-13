@@ -175,7 +175,7 @@ const AllTaskModal = () => {
                 </div>
                 <div className="">
                   <h1 className="text-[#f5511d]   flex space-x-2   items-center font-bold text-xl py-2">
-                    <span>Schedule this Week ({allNotImpUrgTodo?.length})</span>
+                    <span>Schedule this Week ({allNotUrgImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
                     {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
@@ -189,7 +189,7 @@ const AllTaskModal = () => {
                         Deadline
                       </h1>
                     </div> */}
-                    {allNotImpUrgTodo?.map((task: any) => (
+                    {allNotUrgImpTodo?.map((task: any) => (
                       <div
                         key={task.id}
                         className="my-2 flex space-x-[2rem]  justify-between"
@@ -208,7 +208,7 @@ const AllTaskModal = () => {
                 </div>
                 <div className="">
                   <h1 className="text-[#039be5] flex space-x-2   items-center font-bold text-xl py-2">
-                    <span>Decide or Delegate ({allNotUrgImpTodo?.length})</span>
+                    <span>Decide or Delegate ({allNotImpUrgTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
                     {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
@@ -222,7 +222,7 @@ const AllTaskModal = () => {
                         Deadline
                       </h1>
                     </div> */}
-                    {allNotUrgImpTodo?.map((task: any) => (
+                    {allNotImpUrgTodo?.map((task: any) => (
                       <div
                         key={task.id}
                         className="my-2 flex space-x-[2rem]  justify-between"
