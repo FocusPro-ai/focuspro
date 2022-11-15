@@ -11,9 +11,22 @@ import "@fullcalendar/timegrid/main.css";
 import "../styles/globals.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
+// import Analytics from "@june-so/analytics-node";
+import { useEffect } from "react";
 
 function MyApp({ Component, pageProps }: AppProps) {
+  // const client = new Analytics("Kh1nkoO8kX6bKr2v");
   const queryClient = new QueryClient();
+  // useEffect(()=> {
+  //   client.identify({
+  //     userId:'019mr8mf4r',
+  //     traits : {
+  //       name:"",
+  //       email:"",
+
+  //     }
+  //   })
+  // },[])
   <Head>
     <meta
       name="google-site-verification"

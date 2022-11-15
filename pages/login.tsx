@@ -49,7 +49,9 @@ const Login = () => {
             <p className="text-[13px] w-[70%] leading-5">
               We are testing. Enjoy every feature for free if you provide us
               with thoughtful{" "}
-              <span className="text-[#2602f3] cursor-pointer">feedback</span>
+              <Link href={"https://tally.so/r/wdWJdz"}>
+                <span className="text-[#2602f3] cursor-pointer">feedback</span>
+              </Link>
             </p>
           </div>
         </div>
