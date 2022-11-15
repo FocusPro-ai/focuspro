@@ -3,18 +3,21 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import TodoComponent from "../components/Todo/todoComponent";
 import CalendarComponent from "../components/CalendarComp/calendarComponent";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AddUserDetails } from "../slices/userSlice";
 import { Toaster } from "react-hot-toast";
 import Welcome from "./welcome";
 import Loading from "./loading";
 import Login from "./login";
 import AllTaskModal from "../components/Todo/allTaskModal/allTaskModal";
+import Analytics from "@june-so/analytics-node";
 
 const Home = () => {
   const { data: session, status } = useSession();
   const [events, setALlEvents] = useState([]);
   const dispatch = useDispatch();
+
+  const userData = useSelector((state) => state.user.user);
 
   const getAllEvents = async () => {
     const refresh_token = session?.user.refreshToken;
@@ -36,10 +39,27 @@ const Home = () => {
     dispatch(AddUserDetails(userDetails));
   };
   useEffect(() => {
+    const client = new Analytics("Kh1nkoO8kX6bKr2v");
     if (session) {
       getUserDetails();
     }
   }, [session]);
+  useEffect(() => {
+    const client = new Analytics("Kh1nkoO8kX6bKr2v");
+    if (session && userData) {
+      client.identify({
+        userId: userData?.id,
+        traits: {
+          name: userData?.name,
+          email: userData?.email,
+        },
+      });
+      client.track({
+        userId: userData?.id,
+        event: "Signed In",
+      });
+    }
+  }, [session, userData]);
   if (status === "loading") return <Loading />;
   if (!session) {
     return <Welcome />;
