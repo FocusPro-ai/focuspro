@@ -51,7 +51,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id, take: 3, completed: false }),
+      body: JSON.stringify({ userId: userData.id, take: 2, completed: false }),
     });
     return response.json();
   };
@@ -64,7 +64,7 @@ const TodoComponent = () => {
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ userId: userData.id, take: 3, completed: false }),
+      body: JSON.stringify({ userId: userData.id, take: 2, completed: false }),
     });
     return response.json();
   };
@@ -368,7 +368,7 @@ const TodoComponent = () => {
         <div className="w-full flex-col  flex justify-center">
           <p
             onClick={() => dispatch(changeAllTaskModalState())}
-            className="my-2 underline w-max mx-auto cursor-pointer font-semibold text-gray-500 "
+            className="my-2 underline w-max mx-auto cursor-pointer font-semibold text-[1.1rem] text-gray-500 "
           >
             See all
           </p>

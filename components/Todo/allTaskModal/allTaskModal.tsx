@@ -68,6 +68,16 @@ const AllTaskModal = () => {
     });
     return response.json();
   };
+  const showLeftBehindTask = async () => {
+    const response = await fetch("/api/matrix/somethingLeft", {
+      method: "POST",
+      body: JSON.stringify({ userId: userData?.id }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    return response.json();
+  };
   const showNotToWorry = async () => {
     const response = await fetch("/api/matrix/notToWorry", {
       method: "POST",
@@ -105,6 +115,14 @@ const AllTaskModal = () => {
   const { data: allNotUrgNotImpTodo } = useQuery(
     ["not-urgent-not-imp-task"],
     showNotUrgentNotImpTodo,
+    {
+      refetchInterval: 6000,
+      enabled: !!userData?.id,
+    }
+  );
+  const { data: allLeftBehind } = useQuery(
+    ["left-behind-task"],
+    showLeftBehindTask,
     {
       refetchInterval: 6000,
       enabled: !!userData?.id,
@@ -151,6 +169,28 @@ const AllTaskModal = () => {
                 >
                   All Task
                 </Dialog.Title>
+                <div className="">
+                  <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
+                    <span>Something Left Behind ({allLeftBehind?.length})</span>
+                  </h1>
+                  <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
+                    {allLeftBehind?.map((task: any) => (
+                      <div
+                        key={task.id}
+                        className="my-2 flex space-x-[2rem]  justify-between"
+                      >
+                        <h4 className="w-[60%]">{task.heading}</h4>
+                        <p className="w-[20%] text-center">{task.importance}</p>
+                        <p className="w-[10%] text-center">
+                          {task.completed ? "✅" : "❌"}
+                        </p>
+                        <span className="w-[20%]">
+                          {new Date(task.deadline).toDateString()}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 <div className="">
                   <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
                     <span>Do it Today ({allUrgentImpTodo?.length})</span>

@@ -11,6 +11,7 @@ import Loading from "./loading";
 import Login from "./login";
 import AllTaskModal from "../components/Todo/allTaskModal/allTaskModal";
 import Analytics from "@june-so/analytics-node";
+import Script from "next/script";
 
 const Home = () => {
   const { data: session, status } = useSession();
