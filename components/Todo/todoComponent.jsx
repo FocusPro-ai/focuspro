@@ -368,7 +368,7 @@ const TodoComponent = () => {
         <div className="w-full flex-col  flex justify-center">
           <p
             onClick={() => dispatch(changeAllTaskModalState())}
-            className="my-2 underline w-max mx-auto cursor-pointer font-semibold text-[1.1rem] text-gray-500 "
+            className="py-1 border border-gray-500 rounded-md px-4  w-max mx-auto cursor-pointer font-bold text-[1.1rem] text-gray-500 "
           >
             See all
           </p>
