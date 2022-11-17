@@ -68,6 +68,18 @@ const TodoComponent = () => {
     });
     return response.json();
   };
+  const fetchSomethingLeftBehind = async () => {
+    // const userId = userData?.id;
+    // if (!userId) return;
+    const response = await fetch("/api/matrix/somethingLeft", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId: userData.id, take: 2, completed: false }),
+    });
+    return response.json();
+  };
 
   const { data: notImpUrgentTodo, isLoading } = useQuery(
     ["todos-urgent-not-important"],
@@ -85,6 +97,13 @@ const TodoComponent = () => {
     useQuery(
       ["todos-urgent-important"],
       fetchAllUrgentAndImportant,
+
+      { refetchInterval: 6000, enabled: !!userData?.id }
+    );
+  const { data: somethingLeftBehind, isLoading: somethingLeftBehindLoading } =
+    useQuery(
+      ["something-left-behind"],
+      fetchSomethingLeftBehind,
 
       { refetchInterval: 6000, enabled: !!userData?.id }
     );
@@ -185,7 +204,7 @@ const TodoComponent = () => {
       <AddTaskModal />
 
       <div className="shadow-lg flex flex-col min-h-screen min-w-[350px]">
-        <div className="flex h-max   justify-between items-center w-[90%] mx-auto my-2">
+        <div className="flex h-max   justify-between items-center w-[90%] mx-auto mt-[10px]">
           <h1 className="text-2xl font-bold">
             Focus<span className="text-[#2602f3]">Pro</span>.ai
           </h1>
@@ -202,12 +221,66 @@ const TodoComponent = () => {
             />
           )}
         </div>
-        <div className="mx-4 flex-1 h-max flex flex-col  ">
-          <div className=" flex   flex-1 py-2 overflow-y-scroll  !h-[600px] hide-scrollbar flex-col space-y-2 my-4">
+        <div className="mx-4 flex-1 max-h-[80%]  h-max flex flex-col  ">
+          <div className=" flex   flex-1 py-2    flex-col space-y-[5px] my-[12px] mt-1">
             <UpdateTaskModal />
             {(notUrgentImpTodoLoading ||
               notUrgentImpTodoLoading ||
-              urgentAndImpTodoLoading) && <Loading />}
+              urgentAndImpTodoLoading ||
+              somethingLeftBehindLoading) && <Loading />}
+            {somethingLeftBehind?.length > 0 && (
+              <>
+                <h1 className="text-gray-400  flex space-x-2   items-center font-bold text-xl py-2">
+                  <span>({urgentAndImpTodo?.length}) Do it Today </span>
+                </h1>
+                <div>
+                  {somethingLeftBehind?.map((todo, index) => (
+                    <div
+                      className="fc-event my-1 text-white"
+                      title={todo.heading}
+                      description={todo.description}
+                      importance={todo.importance}
+                      id={todo.id}
+                      colorId={11}
+                      key={todo.id}
+                    >
+                      <div
+                        className={`  flex items-center space-x-2 bg-gray-500 cursor-pointer rounded-md p-2  group`}
+                      >
+                        <input
+                          type="checkbox"
+                          alt="completed-check"
+                          value={checkValue}
+                          onChange={(e) => {
+                            setCheckValue(e.target.checked);
+                            handleCompleteTask(todo.id);
+
+                            // console.log(e.target.value);
+                          }}
+                        />
+                        <h1
+                          className="w-full"
+                          onDoubleClick={() => {
+                            dispatch(changeTaskModalSlice());
+                            const task_prop = {
+                              title: todo.heading,
+                              importance: todo.importance,
+                              deadline: todo.deadline,
+                              description: todo.description,
+
+                              id: todo.id,
+                            };
+                            dispatch(addTaskDescription(task_prop));
+                          }}
+                        >
+                          {todo.heading}
+                        </h1>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
             <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
               <span>({urgentAndImpTodo?.length}) Do it Today </span>
             </h1>
@@ -368,13 +441,13 @@ const TodoComponent = () => {
         <div className="w-full flex-col  flex justify-center">
           <p
             onClick={() => dispatch(changeAllTaskModalState())}
-            className="py-1 border border-gray-500 rounded-md px-4  w-max mx-auto cursor-pointer font-bold text-[1.1rem] text-gray-500 "
+            className="py-1 border border-gray-500 rounded-md px-4  w-max mx-auto cursor-pointer font-semibold text-[1rem] text-gray-500 "
           >
             See all
           </p>
           <button
             onClick={() => dispatch(changeModalState())}
-            className="flex space-x-2 items-center w-max mx-auto my-4 bg-transparent border border-gray-300 hover:bg-gray-100 rounded-md px-3 py-2"
+            className="flex space-x-2 items-center w-max mx-auto my-4 font-bold bg-transparent border border-gray-300 hover:bg-gray-100 rounded-md px-3 py-2"
           >
             <PlusIcon height={20} width={20} /> <span>New Task</span>
           </button>
