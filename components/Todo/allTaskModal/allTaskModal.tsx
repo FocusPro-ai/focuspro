@@ -170,7 +170,7 @@ const AllTaskModal = () => {
                   All Task
                 </Dialog.Title>
                 <div className="">
-                  <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
+                  <h1 className="text-[#CDC7E5]  flex space-x-2   items-center font-bold text-xl py-2">
                     <span>Something Left Behind ({allLeftBehind?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
