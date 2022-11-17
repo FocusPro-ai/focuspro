@@ -247,7 +247,7 @@ const TodoComponent = () => {
                       key={todo.id}
                     >
                       <div
-                        className={`  flex items-center space-x-2 bg-gray-500 cursor-pointer rounded-md p-2  group`}
+                        className={`  flex items-center space-x-2 bg-gray-400 cursor-pointer rounded-md p-2  group`}
                       >
                         <input
                           type="checkbox"
