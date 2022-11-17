@@ -11,6 +11,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { RootState } from "../../../app/store";
 import { changeAllTaskModalState } from "../../../slices/allTaskModalSlice";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "../../../pages/loading";
 
 type userDataType = {
   id: string | undefined;
@@ -96,7 +97,7 @@ const AllTaskModal = () => {
       enabled: !!userData?.id,
     }
   );
-  const { data: allNotUrgImpTodo, isLoading } = useQuery(
+  const { data: allNotUrgImpTodo, isLoading: allNotUrgImpLoading } = useQuery(
     ["not-urgent-imp-task"],
     showNotUrgentImpTodo,
     {
@@ -104,7 +105,7 @@ const AllTaskModal = () => {
       enabled: !!userData?.id,
     }
   );
-  const { data: allNotImpUrgTodo } = useQuery(
+  const { data: allNotImpUrgTodo, isLoading: allNotImpUrgLoading } = useQuery(
     ["urgent-not-imp-task"],
     showUrgentNotImpTodo,
     {
@@ -112,15 +113,12 @@ const AllTaskModal = () => {
       enabled: !!userData?.id,
     }
   );
-  const { data: allNotUrgNotImpTodo } = useQuery(
-    ["not-urgent-not-imp-task"],
-    showNotUrgentNotImpTodo,
-    {
+  const { data: allNotUrgNotImpTodo, isLoading: allNotUrgNotImpLoading } =
+    useQuery(["not-urgent-not-imp-task"], showNotUrgentNotImpTodo, {
       refetchInterval: 6000,
       enabled: !!userData?.id,
-    }
-  );
-  const { data: allLeftBehind } = useQuery(
+    });
+  const { data: allLeftBehind, isLoading: allLeftBehindLoading } = useQuery(
     ["left-behind-task"],
     showLeftBehindTask,
     {
@@ -128,10 +126,23 @@ const AllTaskModal = () => {
       enabled: !!userData?.id,
     }
   );
-  const { data: notToWorry } = useQuery(["not-to-worry"], showNotToWorry, {
-    refetchInterval: 6000,
-    enabled: !!userData?.id,
-  });
+  const { data: notToWorry, isLoading: notToWorryLoading } = useQuery(
+    ["not-to-worry"],
+    showNotToWorry,
+    {
+      refetchInterval: 6000,
+      enabled: !!userData?.id,
+    }
+  );
+  if (
+    allLeftBehindLoading ||
+    notToWorryLoading ||
+    allNotImpUrgLoading ||
+    allNotUrgNotImpLoading ||
+    taskLoading ||
+    allNotUrgNotImpLoading
+  )
+    <Loading />;
   return (
     <Transition appear show={modalState} as={Fragment}>
       <Dialog
@@ -169,6 +180,7 @@ const AllTaskModal = () => {
                 >
                   All Task
                 </Dialog.Title>
+
                 <div className="">
                   <h1 className="text-gray-400  flex space-x-2   items-center font-bold text-xl py-2">
                     <span>Something Left Behind ({allLeftBehind?.length})</span>
@@ -218,17 +230,6 @@ const AllTaskModal = () => {
                     <span>Schedule this Week ({allNotUrgImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
-                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
-
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Importance
-                      </h1>
-                      <h1 className="w-[10%] font-semibold text-xl">Status</h1>
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Deadline
-                      </h1>
-                    </div> */}
                     {allNotUrgImpTodo?.map((task: any) => (
                       <div
                         key={task.id}
@@ -251,17 +252,6 @@ const AllTaskModal = () => {
                     <span>Decide or Delegate ({allNotImpUrgTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {/* <div className="flex space-x-[2rem] px-2 bg-gray-200 py-2 items-center justify-between">
-                      <h1 className="w-[60%] font-semibold text-xl">Task</h1>
-
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Importance
-                      </h1>
-                      <h1 className="w-[10%] font-semibold text-xl">Status</h1>
-                      <h1 className="w-[20%] font-semibold text-xl">
-                        Deadline
-                      </h1>
-                    </div> */}
                     {allNotImpUrgTodo?.map((task: any) => (
                       <div
                         key={task.id}
