@@ -231,7 +231,9 @@ const TodoComponent = () => {
             {somethingLeftBehind?.length > 0 && (
               <>
                 <h1 className="text-gray-400  flex space-x-2   items-center font-bold text-xl py-2">
-                  <span>({urgentAndImpTodo?.length}) Do it Today </span>
+                  <span>
+                    ({urgentAndImpTodo?.length}) Something left behind{" "}
+                  </span>
                 </h1>
                 <div>
                   {somethingLeftBehind?.map((todo, index) => (
