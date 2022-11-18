@@ -36,7 +36,7 @@ const UpdateTaskModal = () => {
       },
       body: JSON.stringify({ id }),
     }).then((data) => {
-      toast.success("Successfully Task Deleted.");
+      toast.success("Successfully Task Deleted.", { icon: "✅" });
       dispatch(changeTaskModalSlice());
     });
   };
@@ -152,7 +152,7 @@ const UpdateTaskModal = () => {
                   onClick={() => deleteTask()}
                   height={35}
                   width={35}
-                  className="hover:bg-gray-200 hover:text-red-500 cursor-pointer rounded-full p-2 pl-0"
+                  className="hover:bg-gray-200 hover:text-red-500 cursor-pointer rounded-full p-2 "
                 />
                 <div className="flex items-center space-x-3">
                   <button

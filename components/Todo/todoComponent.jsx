@@ -20,6 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import Loading from "../../pages/loading";
 import { changeAllTaskModalState } from "../../slices/allTaskModalSlice";
 import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
@@ -117,6 +118,7 @@ const TodoComponent = () => {
       body: JSON.stringify({ taskId }),
     });
     const data = await response.json();
+    toast.success("You did it! Task completed", { icon: "🎉" });
   };
   useEffect(() => {
     let draggableEl1 = document.getElementById("draggable-event1");

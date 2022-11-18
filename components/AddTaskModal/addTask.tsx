@@ -9,6 +9,7 @@ import TextField from "@mui/material/TextField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import toast from "react-hot-toast";
 
 type userDataType = {
   id: string | undefined;
@@ -41,6 +42,7 @@ const AddTaskModal = () => {
     setDescription("");
     setHeading("");
     setImportance(5);
+    toast.success("New task has been created.", { icon: "🎉" });
     dispatch(changeModalState());
   };
 
