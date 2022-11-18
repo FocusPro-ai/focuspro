@@ -17,7 +17,8 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
   let today = new Date();
   const deadline_date = new Date();
   deadline_date.setDate(today.getDate() - 6);
-
+  const yesterday = new Date();
+  yesterday.setDate(today.getDate() - 1);
   const response = await prisma.todos
     .findMany({
       where: {
@@ -25,7 +26,7 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
         completed: false,
         deadline: {
           gt: deadline_date,
-          lt: today,
+          lt: yesterday,
         },
       },
       take: take,
