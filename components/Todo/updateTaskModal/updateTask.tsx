@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
 import { Popover, Transition } from "@headlessui/react";
-import { CheckIcon, ChevronDownIcon } from "@heroicons/react/20/solid";
+import { CheckIcon } from "@heroicons/react/20/solid";
 import { Fragment } from "react";
 import { changeTaskModalSlice } from "../../../slices/taskModalSlice";
 import { TrashIcon } from "@heroicons/react/24/outline";

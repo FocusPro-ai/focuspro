@@ -15,6 +15,11 @@ import Loading from "../../../pages/loading";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import toast, { Toaster } from "react-hot-toast";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import {
+  addTaskDescription,
+  changeTaskModalSlice,
+} from "../../../slices/taskModalSlice";
+import UpdateTaskModal from "../updateTaskModal/updateTask";
 
 type userDataType = {
   id: string | undefined;
@@ -162,12 +167,9 @@ const AllTaskModal = () => {
     <Loading />;
   return (
     <Transition appear show={modalState} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-10"
-        onClose={() => dispatch(changeAllTaskModalState())}
-      >
+      <Dialog as="div" className="relative z-10" onClose={() => {}}>
         <Toaster />
+
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -213,7 +215,21 @@ const AllTaskModal = () => {
                     <table width="100%" border={1}>
                       {allLeftBehind?.map((task: any) => (
                         <tr key={task.id}>
-                          <div className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between">
+                          <div
+                            onDoubleClick={() => {
+                              dispatch(changeTaskModalSlice());
+                              const task_prop = {
+                                title: task.heading,
+                                importance: task.importance,
+                                deadline: task.deadline,
+                                description: task.description,
+
+                                id: task.id,
+                              };
+                              dispatch(addTaskDescription(task_prop));
+                            }}
+                            className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
+                          >
                             <div className="w-[60%]   px-1 flex items-center">
                               <h1 className="flex-1 truncate">
                                 {task.heading}
@@ -254,6 +270,18 @@ const AllTaskModal = () => {
                         <tr key={task.id}>
                           <div
                             key={task.id}
+                            onDoubleClick={() => {
+                              dispatch(changeTaskModalSlice());
+                              const task_prop = {
+                                title: task.heading,
+                                importance: task.importance,
+                                deadline: task.deadline,
+                                description: task.description,
+
+                                id: task.id,
+                              };
+                              dispatch(addTaskDescription(task_prop));
+                            }}
                             className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
                           >
                             <div className="w-[60%]   px-1 flex items-center">
@@ -296,6 +324,18 @@ const AllTaskModal = () => {
                         <tr key={task.id}>
                           <div
                             key={task.id}
+                            onDoubleClick={() => {
+                              dispatch(changeTaskModalSlice());
+                              const task_prop = {
+                                title: task.heading,
+                                importance: task.importance,
+                                deadline: task.deadline,
+                                description: task.description,
+
+                                id: task.id,
+                              };
+                              dispatch(addTaskDescription(task_prop));
+                            }}
                             className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
                           >
                             <div className="w-[60%]   px-1 flex items-center">
@@ -338,6 +378,18 @@ const AllTaskModal = () => {
                         <tr key={task.id}>
                           <div
                             key={task.id}
+                            onDoubleClick={() => {
+                              dispatch(changeTaskModalSlice());
+                              const task_prop = {
+                                title: task.heading,
+                                importance: task.importance,
+                                deadline: task.deadline,
+                                description: task.description,
+
+                                id: task.id,
+                              };
+                              dispatch(addTaskDescription(task_prop));
+                            }}
                             className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
                           >
                             <div className="w-[60%]   px-1 flex items-center">
@@ -378,6 +430,18 @@ const AllTaskModal = () => {
                     <table width="100%">
                       {allNotUrgNotImpTodo?.map((task: any) => (
                         <tr
+                          onDoubleClick={() => {
+                            dispatch(changeTaskModalSlice());
+                            const task_prop = {
+                              title: task.heading,
+                              importance: task.importance,
+                              deadline: task.deadline,
+                              description: task.description,
+
+                              id: task.id,
+                            };
+                            dispatch(addTaskDescription(task_prop));
+                          }}
                           key={task.id}
                           className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
                         >
@@ -418,6 +482,18 @@ const AllTaskModal = () => {
                     <table width="100%">
                       {notToWorry?.map((task: any) => (
                         <tr
+                          onDoubleClick={() => {
+                            dispatch(changeTaskModalSlice());
+                            const task_prop = {
+                              title: task.heading,
+                              importance: task.importance,
+                              deadline: task.deadline,
+                              description: task.description,
+
+                              id: task.id,
+                            };
+                            dispatch(addTaskDescription(task_prop));
+                          }}
                           key={task.id}
                           className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
                         >
