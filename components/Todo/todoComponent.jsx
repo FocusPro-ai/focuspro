@@ -30,6 +30,7 @@ const TodoComponent = () => {
   const [draggableInitialized, setDraggableInitialized] = useState(false);
   const [draggableInitialized2, setDraggableInitialized2] = useState(false);
   const [draggableInitialized3, setDraggableInitialized3] = useState(false);
+  const [draggableInitialized4, setDraggableInitialized4] = useState(false);
   const [checkValue, setCheckValue] = useState(false);
   const [checkedId, setCheckedId] = useState();
   const fetchAllUrgentNotImp = async () => {
@@ -122,9 +123,6 @@ const TodoComponent = () => {
   };
   useEffect(() => {
     let draggableEl1 = document.getElementById("draggable-event1");
-    let draggableEl2 = document.getElementById("draggable-event2");
-    let draggableEl3 = document.getElementById("draggable-event3");
-
     if (draggableEl1 && !draggableInitialized && urgentAndImpTodo?.length > 0) {
       setDraggableInitialized(true);
       let draggable = new Draggable(draggableEl1, {
@@ -144,11 +142,43 @@ const TodoComponent = () => {
           };
         },
       });
-    } else if (
+    }
+  }, [draggableInitialized, urgentAndImpTodo]);
+  useEffect(() => {
+    let draggableEl4 = document.getElementById("draggable-event4");
+    if (
+      draggableEl4 &&
+      !draggableInitialized4 &&
+      somethingLeftBehind?.length > 0
+    ) {
+      setDraggableInitialized4(true);
+      new Draggable(draggableEl4, {
+        itemSelector: ".fc-event",
+        eventData: function (eventEl) {
+          let title = eventEl.getAttribute("title");
+          let description = eventEl.getAttribute("description");
+          let importance = eventEl.getAttribute("importance");
+          let id = eventEl.getAttribute("id");
+          let colorId = eventEl.getAttribute("colorId");
+          return {
+            title: title,
+            description: description,
+            importance: importance,
+            id: id,
+            colorId: colorId,
+          };
+        },
+      });
+    }
+  }, [draggableInitialized4, somethingLeftBehind]);
+  useEffect(() => {
+    let draggableEl2 = document.getElementById("draggable-event2");
+    if (
       draggableEl2 &&
       !draggableInitialized2 &&
-      notImpUrgentTodo?.length > 0
+      notUrgentImpTodo?.length > 0
     ) {
+      console.log("Hello world");
       setDraggableInitialized2(true);
       let draggable = new Draggable(draggableEl2, {
         itemSelector: ".fc-event",
@@ -167,10 +197,15 @@ const TodoComponent = () => {
           };
         },
       });
-    } else if (
+    }
+  }, [draggableInitialized2, notUrgentImpTodo]);
+
+  useEffect(() => {
+    let draggableEl3 = document.getElementById("draggable-event3");
+    if (
       draggableEl3 &&
       !draggableInitialized3 &&
-      notUrgentImpTodo?.length > 0
+      notImpUrgentTodo?.length > 0
     ) {
       setDraggableInitialized3(true);
       let draggable = new Draggable(draggableEl3, {
@@ -181,7 +216,6 @@ const TodoComponent = () => {
           let importance = eventEl.getAttribute("importance");
           let id = eventEl.getAttribute("id");
           let colorId = eventEl.getAttribute("colorId");
-
           return {
             title: title,
             description: description,
@@ -192,15 +226,7 @@ const TodoComponent = () => {
         },
       });
     }
-  }, [
-    draggableInitialized,
-    draggableInitialized2,
-    draggableInitialized3,
-    notImpUrgentTodo,
-    urgentAndImpTodo,
-    notUrgentImpTodo,
-  ]);
-
+  }, [draggableInitialized3, notImpUrgentTodo]);
   return (
     <div className="h-auto min-w-[350px]">
       <AddTaskModal />
@@ -231,7 +257,7 @@ const TodoComponent = () => {
               urgentAndImpTodoLoading ||
               somethingLeftBehindLoading) && <Loading />}
             {somethingLeftBehind?.length > 0 && (
-              <>
+              <div id="draggable-event4">
                 <h1 className="text-gray-400  flex space-x-2   items-center font-bold text-xl py-2">
                   <span>
                     ({urgentAndImpTodo?.length}) Something left behind{" "}
@@ -245,7 +271,7 @@ const TodoComponent = () => {
                       description={todo.description}
                       importance={todo.importance}
                       id={todo.id}
-                      colorId={11}
+                      colorId={8}
                       key={todo.id}
                     >
                       <div
@@ -283,7 +309,7 @@ const TodoComponent = () => {
                     </div>
                   ))}
                 </div>
-              </>
+              </div>
             )}
             <h1 className="text-[#d60000]  flex space-x-2   items-center font-bold text-xl py-2">
               <span>({urgentAndImpTodo?.length}) Do it Today </span>
