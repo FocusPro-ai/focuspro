@@ -36,7 +36,10 @@ const UpdateTaskModal = () => {
       },
       body: JSON.stringify({ id }),
     }).then((data) => {
-      toast.success("Successfully Task Deleted.", { icon: "✅" });
+      toast.success("Successfully Task Deleted.", {
+        icon: "🗑",
+        duration: 3000,
+      });
       dispatch(changeTaskModalSlice());
     });
   };
@@ -57,7 +60,7 @@ const UpdateTaskModal = () => {
       },
       body: JSON.stringify(update_prop),
     }).then((data) => {
-      toast.success("Task updated.");
+      toast.success("Task updated.", { duration: 3000 });
       dispatch(changeTaskModalSlice());
     });
   };

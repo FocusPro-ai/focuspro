@@ -118,7 +118,7 @@ const TodoComponent = () => {
       body: JSON.stringify({ taskId }),
     });
     const data = await response.json();
-    toast.success("You did it! Task completed", { icon: "🎉" });
+    toast.success("You did it! Task completed", { icon: "🎉", duration: 3000 });
   };
   useEffect(() => {
     let draggableEl1 = document.getElementById("draggable-event1");

@@ -208,9 +208,9 @@ const CalendarComponent = () => {
       <EventModalComponent />
       <FullCalendar
         headerToolbar={{
-          left: "prev,next today",
           center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+          left: "today prev,next",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
         }}
         plugins={[
           dayGridPlugin,

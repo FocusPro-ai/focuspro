@@ -42,7 +42,7 @@ const AddTaskModal = () => {
     setDescription("");
     setHeading("");
     setImportance(5);
-    toast.success("New task has been created.", { icon: "🎉" });
+    toast.success("New task has been created.", { icon: "🎉", duration: 3000 });
     dispatch(changeModalState());
   };
 

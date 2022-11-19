@@ -12,6 +12,9 @@ import { RootState } from "../../../app/store";
 import { changeAllTaskModalState } from "../../../slices/allTaskModalSlice";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../../pages/loading";
+import { TrashIcon } from "@heroicons/react/24/outline";
+import toast, { Toaster } from "react-hot-toast";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 type userDataType = {
   id: string | undefined;
@@ -28,7 +31,20 @@ const AllTaskModal = () => {
   );
   const dispatch = useDispatch();
   const userData: any = useSelector((state: RootState) => state.user.user);
-
+  const handleDeleteOfTask = async (id: string) => {
+    const response = await fetch("/api/Task/deleteTask", {
+      method: "POST",
+      body: JSON.stringify({ id }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    }).then((data) => {
+      toast.success("Task Deleted Succesfully", {
+        icon: "🧹",
+        duration: 3000,
+      });
+    });
+  };
   const showUrgentImpTodo = async () => {
     const response = await fetch("/api/matrix/urgentAndImp", {
       method: "POST",
@@ -150,6 +166,7 @@ const AllTaskModal = () => {
         className="relative z-10"
         onClose={() => dispatch(changeAllTaskModalState())}
       >
+        <Toaster />
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -176,9 +193,15 @@ const AllTaskModal = () => {
               <Dialog.Panel className="w-full max-w-[900px] max-h-[700px] overflow-y-scroll transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-2xl my-4 font-bold leading-6 text-gray-900"
+                  className="text-2xl my-4 flex justify-between items-center font-bold leading-6 text-gray-900"
                 >
-                  All Task
+                  <h1>All task</h1>
+                  <XMarkIcon
+                    height={35}
+                    width={35}
+                    className="cursor-pointer hover:bg-gray-200 p-2 rounded-full"
+                    onClick={() => dispatch(changeAllTaskModalState())}
+                  />
                 </Dialog.Title>
 
                 <div className="">
@@ -186,21 +209,38 @@ const AllTaskModal = () => {
                     <span>Something Left Behind ({allLeftBehind?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {allLeftBehind?.map((task: any) => (
-                      <div
-                        key={task.id}
-                        className="my-2 flex space-x-[2rem]  justify-between"
-                      >
-                        <h4 className="w-[60%]">{task.heading}</h4>
-                        <p className="w-[20%] text-center">{task.importance}</p>
-                        <p className="w-[10%] text-center">
-                          {task.completed ? "✅" : "❌"}
-                        </p>
-                        <span className="w-[20%]">
-                          {new Date(task.deadline).toDateString()}
-                        </span>
-                      </div>
-                    ))}
+                    <table width="100%" border={1}>
+                      {allLeftBehind?.map((task: any) => (
+                        <tr key={task.id}>
+                          <div className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between">
+                            <div className="w-[60%]   px-1 flex items-center">
+                              <h1 className="flex-1 truncate">
+                                {task.heading}
+                              </h1>{" "}
+                              <span
+                                onClick={() => handleDeleteOfTask(task.id)}
+                                className="hidden group-hover:block"
+                              >
+                                <TrashIcon
+                                  className="hover:text-red-500 cursor-pointer"
+                                  height={20}
+                                  width={20}
+                                />
+                              </span>
+                            </div>
+                            <p className="w-[20%] text-center">
+                              {task.importance}
+                            </p>
+                            <p className="w-[10%] text-center">
+                              {task.completed ? "✅" : "❌"}
+                            </p>
+                            <span className="w-[20%]">
+                              {new Date(task.deadline).toDateString()}
+                            </span>
+                          </div>
+                        </tr>
+                      ))}
+                    </table>
                   </div>
                 </div>
                 <div className="">
@@ -208,21 +248,41 @@ const AllTaskModal = () => {
                     <span>Do it Today ({allUrgentImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {allUrgentImpTodo?.map((task: any) => (
-                      <div
-                        key={task.id}
-                        className="my-2 flex space-x-[2rem]  justify-between"
-                      >
-                        <h4 className="w-[60%]">{task.heading}</h4>
-                        <p className="w-[20%] text-center">{task.importance}</p>
-                        <p className="w-[10%] text-center">
-                          {task.completed ? "✅" : "❌"}
-                        </p>
-                        <span className="w-[20%]">
-                          {new Date(task.deadline).toDateString()}
-                        </span>
-                      </div>
-                    ))}
+                    <table width="100%">
+                      {allUrgentImpTodo?.map((task: any) => (
+                        <tr key={task.id}>
+                          <div
+                            key={task.id}
+                            className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
+                          >
+                            <div className="w-[60%]   px-1 flex items-center">
+                              <h1 className="flex-1 truncate">
+                                {task.heading}
+                              </h1>{" "}
+                              <span
+                                onClick={() => handleDeleteOfTask(task.id)}
+                                className="hidden group-hover:block group"
+                              >
+                                <TrashIcon
+                                  className="hover:text-red-500 cursor-pointer"
+                                  height={20}
+                                  width={20}
+                                />
+                              </span>
+                            </div>
+                            <p className="w-[20%] text-center">
+                              {task.importance}
+                            </p>
+                            <p className="w-[10%] text-center">
+                              {task.completed ? "✅" : "❌"}
+                            </p>
+                            <span className="w-[20%]">
+                              {new Date(task.deadline).toDateString()}
+                            </span>
+                          </div>
+                        </tr>
+                      ))}
+                    </table>
                   </div>
                 </div>
                 <div className="">
@@ -230,21 +290,41 @@ const AllTaskModal = () => {
                     <span>Schedule this Week ({allNotUrgImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {allNotUrgImpTodo?.map((task: any) => (
-                      <div
-                        key={task.id}
-                        className="my-2 flex space-x-[2rem]  justify-between"
-                      >
-                        <h4 className="w-[60%]">{task.heading}</h4>
-                        <p className="w-[20%] text-center">{task.importance}</p>
-                        <p className="w-[10%] text-center">
-                          {task.completed ? "✅" : "❌"}
-                        </p>
-                        <span className="w-[20%]">
-                          {new Date(task.deadline).toDateString()}
-                        </span>
-                      </div>
-                    ))}
+                    <table width="100%">
+                      {allNotUrgImpTodo?.map((task: any) => (
+                        <tr key={task.id}>
+                          <div
+                            key={task.id}
+                            className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
+                          >
+                            <div className="w-[60%]   px-1 flex items-center">
+                              <h1 className="flex-1 truncate">
+                                {task.heading}
+                              </h1>{" "}
+                              <span
+                                onClick={() => handleDeleteOfTask(task.id)}
+                                className="hidden group-hover:block"
+                              >
+                                <TrashIcon
+                                  className="hover:text-red-500 cursor-pointer"
+                                  height={20}
+                                  width={20}
+                                />
+                              </span>
+                            </div>
+                            <p className="w-[20%] text-center">
+                              {task.importance}
+                            </p>
+                            <p className="w-[10%] text-center">
+                              {task.completed ? "✅" : "❌"}
+                            </p>
+                            <span className="w-[20%]">
+                              {new Date(task.deadline).toDateString()}
+                            </span>
+                          </div>
+                        </tr>
+                      ))}
+                    </table>
                   </div>
                 </div>
                 <div className="">
@@ -252,21 +332,41 @@ const AllTaskModal = () => {
                     <span>Decide or Delegate ({allNotImpUrgTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {allNotImpUrgTodo?.map((task: any) => (
-                      <div
-                        key={task.id}
-                        className="my-2 flex space-x-[2rem]  justify-between"
-                      >
-                        <h4 className="w-[60%]">{task.heading}</h4>
-                        <p className="w-[20%] text-center">{task.importance}</p>
-                        <p className="w-[10%] text-center">
-                          {task.completed ? "✅" : "❌"}
-                        </p>
-                        <span className="w-[20%]">
-                          {new Date(task.deadline).toDateString()}
-                        </span>
-                      </div>
-                    ))}
+                    <table width="100%">
+                      {allNotImpUrgTodo?.map((task: any) => (
+                        <tr key={task.id}>
+                          <div
+                            key={task.id}
+                            className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
+                          >
+                            <div className="w-[60%]   px-1 flex items-center">
+                              <h1 className="flex-1 truncate">
+                                {task.heading}
+                              </h1>{" "}
+                              <span
+                                onClick={() => handleDeleteOfTask(task.id)}
+                                className="hidden group-hover:block"
+                              >
+                                <TrashIcon
+                                  className="hover:text-red-500 cursor-pointer"
+                                  height={20}
+                                  width={20}
+                                />
+                              </span>
+                            </div>
+                            <p className="w-[20%] text-center">
+                              {task.importance}
+                            </p>
+                            <p className="w-[10%] text-center">
+                              {task.completed ? "✅" : "❌"}
+                            </p>
+                            <span className="w-[20%]">
+                              {new Date(task.deadline).toDateString()}
+                            </span>
+                          </div>
+                        </tr>
+                      ))}
+                    </table>
                   </div>
                 </div>
                 <div className="">
@@ -274,21 +374,37 @@ const AllTaskModal = () => {
                     <span>Eliminate ({allNotUrgNotImpTodo?.length})</span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {allNotUrgNotImpTodo?.map((task: any) => (
-                      <div
-                        key={task.id}
-                        className="my-2 flex space-x-[2rem]  justify-between"
-                      >
-                        <h4 className="w-[60%]">{task.heading}</h4>
-                        <p className="w-[20%] text-center">{task.importance}</p>
-                        <p className="w-[10%] text-center">
-                          {task.completed ? "✅" : "❌"}
-                        </p>
-                        <span className="w-[20%]">
-                          {new Date(task.deadline).toDateString()}
-                        </span>
-                      </div>
-                    ))}
+                    <table width="100%">
+                      {allNotUrgNotImpTodo?.map((task: any) => (
+                        <tr
+                          key={task.id}
+                          className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
+                        >
+                          <div className="w-[60%]   px-1 flex items-center">
+                            <h1 className="flex-1 truncate">{task.heading}</h1>{" "}
+                            <span
+                              onClick={() => handleDeleteOfTask(task.id)}
+                              className="hidden group-hover:block"
+                            >
+                              <TrashIcon
+                                className="hover:text-red-500 cursor-pointer"
+                                height={20}
+                                width={20}
+                              />
+                            </span>
+                          </div>
+                          <p className="w-[20%] text-center">
+                            {task.importance}
+                          </p>
+                          <p className="w-[10%] text-center">
+                            {task.completed ? "✅" : "❌"}
+                          </p>
+                          <span className="w-[20%]">
+                            {new Date(task.deadline).toDateString()}
+                          </span>
+                        </tr>
+                      ))}
+                    </table>
                   </div>
                 </div>
                 <div className="">
@@ -298,32 +414,38 @@ const AllTaskModal = () => {
                     </span>
                   </h1>
                   <div className="h-[25%] hide-scrollbar  overflow-y-scroll">
-                    {notToWorry?.map((task: any) => (
-                      <div
-                        key={task.id}
-                        className="my-2 flex space-x-[2rem]  justify-between"
-                      >
-                        <h4 className="w-[60%]">{task.heading}</h4>
-                        <p className="w-[20%] text-center">{task.importance}</p>
-                        <p className="w-[10%] text-center">
-                          {task.completed ? "✅" : "❌"}
-                        </p>
-                        <span className="w-[20%]">
-                          {new Date(task.deadline).toDateString()}
-                        </span>
-                      </div>
-                    ))}
+                    <table width="100%">
+                      {notToWorry?.map((task: any) => (
+                        <tr
+                          key={task.id}
+                          className="my-2 flex space-x-[2rem] group hover:bg-gray-100 py-1  justify-between"
+                        >
+                          <div className="w-[60%]   px-1 flex items-center">
+                            <h1 className="flex-1 truncate">{task.heading}</h1>{" "}
+                            <span
+                              onClick={() => handleDeleteOfTask(task.id)}
+                              className="hidden group-hover:block"
+                            >
+                              <TrashIcon
+                                className="hover:text-red-500 cursor-pointer"
+                                height={20}
+                                width={20}
+                              />
+                            </span>
+                          </div>
+                          <p className="w-[20%] text-center">
+                            {task.importance}
+                          </p>
+                          <p className="w-[10%] text-center">
+                            {task.completed ? "✅" : "❌"}
+                          </p>
+                          <span className="w-[20%]">
+                            {new Date(task.deadline).toDateString()}
+                          </span>
+                        </tr>
+                      ))}
+                    </table>
                   </div>
-                </div>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="bg-blue-600 font-semibold hover:bg-blue-500 rounded-md text-white p-2 "
-                    onClick={() => dispatch(changeAllTaskModalState())}
-                  >
-                    Close
-                  </button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
