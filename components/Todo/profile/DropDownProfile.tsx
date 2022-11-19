@@ -40,16 +40,13 @@ const DropDownProfile = () => {
         id="userDropdown"
         className={`${
           show ? "!absolute" : "hidden"
-        }  left-[0] mr-4 z-10 w-44 mt-2 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600`}
+        }  left-[0] mr-4 z-10 w-44 mt-2 bg-white  rounded divide-y  shadow `}
       >
-        <div className="py-3 px-4 text-sm text-gray-900 dark:text-white">
+        <div className="py-3 px-4 text-sm text-gray-900 ">
           <div className="capitalize font-semibold">{userName}</div>
           <div className="font-medium truncate">{email}</div>
         </div>
-        <ul
-          className="py-1 text-sm text-gray-700 dark:text-gray-200"
-          aria-labelledby="avatarButton"
-        >
+        <ul className="py-1 text-sm  " aria-labelledby="avatarButton">
           <li>
             <div
               onClick={() =>
@@ -58,7 +55,7 @@ const DropDownProfile = () => {
                   duration: 4000,
                 })
               }
-              className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  "
             >
               <InboxIcon className="h-5 w-5" />
               <span>Archive</span>
@@ -72,7 +69,7 @@ const DropDownProfile = () => {
                   duration: 4000,
                 })
               }
-              className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 "
             >
               <Cog8ToothIcon className="h-5 w-5" />
               <span> Settings</span>
@@ -80,7 +77,7 @@ const DropDownProfile = () => {
           </li>
           <li>
             <Link href={"https://tally.so/r/wdWJdz"}>
-              <div className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+              <div className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 ">
                 <ChatBubbleBottomCenterIcon className="h-5 w-5" />
                 <span>Feeback</span>
               </div>
@@ -92,7 +89,7 @@ const DropDownProfile = () => {
             onClick={() => {
               signOut({ callbackUrl: "/login" });
             }}
-            className="flex items-center cursor-pointer space-x-2 py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+            className="flex items-center cursor-pointer space-x-2 py-2 px-4 text-sm  hover:bg-gray-100  "
           >
             <ArrowRightOnRectangleIcon className="h-5 w-5" />
             <span> Sign out</span>
