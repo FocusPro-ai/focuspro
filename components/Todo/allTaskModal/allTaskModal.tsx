@@ -110,6 +110,7 @@ const AllTaskModal = () => {
     showUrgentImpTodo,
     {
       refetchInterval: 6000,
+
       enabled: !!userData?.id,
     }
   );
@@ -179,7 +180,7 @@ const AllTaskModal = () => {
           <div className="fixed inset-0 bg-black bg-opacity-25" />
         </Transition.Child>
 
-        <div className="fixed inset-0 overflow-y-auto">
+        <div className="fixed inset-0 overflow-y-auto hide-scrollbar">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -190,7 +191,7 @@ const AllTaskModal = () => {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-[900px] max-h-[700px] overflow-y-scroll transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+              <Dialog.Panel className="w-full max-w-[900px] max-h-[700px] overflow-y-scroll hide-scrollbar transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
                   className="text-2xl my-4 flex justify-between items-center font-bold leading-6 text-gray-900"

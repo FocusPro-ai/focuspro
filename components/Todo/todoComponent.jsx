@@ -21,6 +21,7 @@ import Loading from "../../pages/loading";
 import { changeAllTaskModalState } from "../../slices/allTaskModalSlice";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
+import DropDownProfile from "./profile/DropDownProfile";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
@@ -236,7 +237,7 @@ const TodoComponent = () => {
           <h1 className="text-2xl font-bold">
             Focus<span className="text-[#2602f3]">Pro</span>.ai
           </h1>
-          {session?.user?.image && (
+          {/* {session?.user?.image && (
             <Image
               onClick={() => {
                 signOut({ callbackUrl: "/login" });
@@ -247,7 +248,8 @@ const TodoComponent = () => {
               className="rounded-full cursor-pointer"
               alt="user-photo"
             />
-          )}
+          )} */}
+          <DropDownProfile />
         </div>
         <div className="mx-4 flex-1 max-h-[80%]  h-max flex flex-col  ">
           <div className=" flex   flex-1 py-2    flex-col space-y-[5px] my-[12px] mt-1">
