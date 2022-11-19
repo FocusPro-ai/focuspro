@@ -48,7 +48,7 @@ const AllTaskModal = () => {
   const showUrgentImpTodo = async () => {
     const response = await fetch("/api/matrix/urgentAndImp", {
       method: "POST",
-      body: JSON.stringify({ userId: userData?.id }),
+      body: JSON.stringify({ userId: userData.id }),
       headers: {
         "Content-type": "application/json",
       },
@@ -58,7 +58,7 @@ const AllTaskModal = () => {
   const showUrgentNotImpTodo = async () => {
     const response = await fetch("/api/matrix/notImpUrgent", {
       method: "POST",
-      body: JSON.stringify({ userId: userData?.id }),
+      body: JSON.stringify({ userId: userData.id }),
       headers: {
         "Content-type": "application/json",
       },
@@ -68,7 +68,7 @@ const AllTaskModal = () => {
   const showNotUrgentImpTodo = async () => {
     const response = await fetch("/api/matrix/notUrgentImp", {
       method: "POST",
-      body: JSON.stringify({ userId: userData?.id }),
+      body: JSON.stringify({ userId: userData.id }),
       headers: {
         "Content-type": "application/json",
       },
@@ -78,7 +78,7 @@ const AllTaskModal = () => {
   const showNotUrgentNotImpTodo = async () => {
     const response = await fetch("/api/matrix/notImpnotUrgent", {
       method: "POST",
-      body: JSON.stringify({ userId: userData?.id }),
+      body: JSON.stringify({ userId: userData.id }),
       headers: {
         "Content-type": "application/json",
       },
@@ -88,7 +88,7 @@ const AllTaskModal = () => {
   const showLeftBehindTask = async () => {
     const response = await fetch("/api/matrix/somethingLeft", {
       method: "POST",
-      body: JSON.stringify({ userId: userData?.id }),
+      body: JSON.stringify({ userId: userData.id }),
       headers: {
         "Content-type": "application/json",
       },
@@ -98,7 +98,7 @@ const AllTaskModal = () => {
   const showNotToWorry = async () => {
     const response = await fetch("/api/matrix/notToWorry", {
       method: "POST",
-      body: JSON.stringify({ userId: userData?.id }),
+      body: JSON.stringify({ userId: userData.id }),
       headers: {
         "Content-type": "application/json",
       },
