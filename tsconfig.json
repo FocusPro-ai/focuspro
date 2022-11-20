@@ -22,7 +22,8 @@
     "pages/api/auth/[...nextauth].js",
     "components/CalendarComp/calendarComponent.jsx",
     "components/Todo/todoComponent.jsx",
-    "components/EventModal/EventModalComponent.jsx"
+    "components/EventModal/EventModalComponent.jsx",
+    "components/videoModal/videoModal.jsx"
   ],
   "exclude": ["node_modules"]
 }

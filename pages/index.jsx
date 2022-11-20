@@ -12,6 +12,8 @@ import Login from "./login";
 import AllTaskModal from "../components/Todo/allTaskModal/allTaskModal";
 import Analytics from "@june-so/analytics-node";
 import Script from "next/script";
+import { changeVideoSlice, showVideoSlice } from "../slices/videoSlice";
+import VideoModal from "../components/videoModal/videoModal";
 
 const Home = () => {
   const { data: session, status } = useSession();
@@ -61,6 +63,7 @@ const Home = () => {
       });
     }
   }, [session, userData]);
+
   if (status === "loading") return <Loading />;
   if (!session) {
     return <Welcome />;
@@ -74,6 +77,7 @@ const Home = () => {
       </Head>
       <Toaster />
       <AllTaskModal />
+      <VideoModal />
       <TodoComponent />
       <CalendarComponent />
     </div>

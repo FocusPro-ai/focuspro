@@ -45,6 +45,7 @@ model User {
   todos         Todos[]
   accounts      Account[]
   session       Session[]
+  firstTime     Boolean   @default(false)
 }
 
 model VerificationToken {
