@@ -41,6 +41,16 @@ const Home = () => {
     const userDetails = await response.json();
     dispatch(AddUserDetails(userDetails));
   };
+  const handleFirstTime = async () => {
+    const response = await fetch("/api/user/sendFirstTime", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ email: session?.user.email }),
+    });
+    const data = await response.json();
+  };
   useEffect(() => {
     const client = new Analytics("Kh1nkoO8kX6bKr2v");
     if (session) {
@@ -61,6 +71,16 @@ const Home = () => {
         userId: userData?.id,
         event: "Signed In",
       });
+    }
+  }, [session, userData]);
+  useEffect(() => {
+    if (session && userData?.firstime) {
+      console.log(userData?.firstime);
+      console.log("IT works");
+      setTimeout(() => {
+        dispatch(showVideoSlice());
+      }, 3000);
+      handleFirstTime();
     }
   }, [session, userData]);
 
