@@ -249,7 +249,7 @@ const AllTaskModal = () => {
                               {task.importance}
                             </p>
                             <p className="w-[10%] text-center">
-                              {task.completed ? "✅" : "❌"}
+                              {task.completed ? "📆" : "❔"}
                             </p>
                             <span className="w-[20%]">
                               {new Date(task.deadline).toDateString()}
@@ -303,7 +303,7 @@ const AllTaskModal = () => {
                               {task.importance}
                             </p>
                             <p className="w-[10%] text-center">
-                              {task.completed ? "✅" : "❌"}
+                              {task.completed ? "📆" : "❔"}
                             </p>
                             <span className="w-[20%]">
                               {new Date(task.deadline).toDateString()}
@@ -357,7 +357,7 @@ const AllTaskModal = () => {
                               {task.importance}
                             </p>
                             <p className="w-[10%] text-center">
-                              {task.completed ? "✅" : "❌"}
+                              {task.completed ? "📆" : "❔"}
                             </p>
                             <span className="w-[20%]">
                               {new Date(task.deadline).toDateString()}
@@ -411,7 +411,7 @@ const AllTaskModal = () => {
                               {task.importance}
                             </p>
                             <p className="w-[10%] text-center">
-                              {task.completed ? "✅" : "❌"}
+                              {task.completed ? "📆" : "❔"}
                             </p>
                             <span className="w-[20%]">
                               {new Date(task.deadline).toDateString()}
@@ -462,7 +462,7 @@ const AllTaskModal = () => {
                             {task.importance}
                           </p>
                           <p className="w-[10%] text-center">
-                            {task.completed ? "✅" : "❌"}
+                            {task.completed ? "📆" : "❔"}
                           </p>
                           <span className="w-[20%]">
                             {new Date(task.deadline).toDateString()}
@@ -514,7 +514,7 @@ const AllTaskModal = () => {
                             {task.importance}
                           </p>
                           <p className="w-[10%] text-center">
-                            {task.completed ? "✅" : "❌"}
+                            {task.completed ? "📆" : "❔"}
                           </p>
                           <span className="w-[20%]">
                             {new Date(task.deadline).toDateString()}

@@ -23,9 +23,7 @@ async function getAllTodo(req: NextApiRequest, res: NextApiResponse) {
     .findMany({
       where: {
         userId,
-
         completed,
-
         AND: [
           {
             deadline: {
