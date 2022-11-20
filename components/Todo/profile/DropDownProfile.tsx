@@ -63,7 +63,8 @@ const DropDownProfile = () => {
               }
               className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  "
             >
-              <InboxIcon className="h-5 w-5" />
+              {/* <InboxIcon className="h-5 w-5" /> */}
+              <div className="text-[17px]">📥</div>
               <span>Archive</span>
             </div>
           </li>
@@ -86,14 +87,15 @@ const DropDownProfile = () => {
               onClick={() => dispatch(showVideoSlice())}
               className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  "
             >
-              <InformationCircleIcon className="h-5 w-5" />
-              <span>See around</span>
+              <div className="">📺</div>
+              <span>Tutorial</span>
             </div>
           </li>
           <li>
             <Link href={"https://tally.so/r/wdWJdz"}>
               <div className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  ">
-                <ChatBubbleBottomCenterIcon className="h-5 w-5" />
+                {/* <ChatBubbleBottomCenterIcon className="h-5 w-5" /> */}
+                <div className="">🙉</div>
                 <span>Feeback</span>
               </div>
             </Link>
@@ -107,6 +109,7 @@ const DropDownProfile = () => {
             className="flex items-center cursor-pointer space-x-2 py-2 px-4 text-sm  hover:bg-gray-100  "
           >
             <ArrowRightOnRectangleIcon className="h-5 w-5" />
+
             <span> Sign out</span>
           </div>
         </div>
