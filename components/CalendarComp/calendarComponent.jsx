@@ -11,6 +11,7 @@ import {
   addEventDescription,
   changeEventModalState,
 } from "../../slices/eventModalSlice";
+import { useQuery } from "@tanstack/react-query";
 
 const EventColors = [
   "#039be5",
@@ -35,6 +36,7 @@ const CalendarComponent = () => {
   const eventModalState = useSelector(
     (state) => state.eventModal.eventModalState
   );
+  const userData = useSelector((state) => state.user.user);
 
   useEffect(() => {
     if (eventModalState == true) {
@@ -45,6 +47,21 @@ const CalendarComponent = () => {
       calendarApi.refetchEvents();
     }
   }, [eventModalState]);
+
+  const getCalendarDB = async () => {
+    const response = await fetch("/api/calendarDB/getCalendarDB", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId: userData?.id }),
+    });
+    return response.json();
+  };
+
+  const { data: eventData } = useQuery(["calendar-events"], getCalendarDB, {
+    refetchInterval: 5000,
+  });
 
   const addEvents = async ({
     event_title,
@@ -68,6 +85,18 @@ const CalendarComponent = () => {
       headers: { "Content-type": "application/json" },
     });
     const data = await response.json();
+    console.log(data);
+    const dbResponse = await fetch("/api/calendarDB/addCalendar", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userData.id,
+        calendarId: data.data.id,
+        name: data.data.summary,
+      }),
+    });
   };
   const getAllEvents = async (start, end) => {
     if (start == undefined && end == undefined) return;
@@ -89,9 +118,18 @@ const CalendarComponent = () => {
     const events_list = data.data.items;
     const events = [];
     events_list.map((event, index) => {
+      const eventPresent = eventData.find((element) => {
+        if (element?.calendarId === event.id) {
+          return true;
+        }
+      });
+
+      console.log(eventPresent);
       const temp_event = {
         id: event.id,
-        title: event?.summary,
+        title:
+          `${eventPresent ? `<input type = "checkbox"  /> ` : ""}` +
+          `${event?.summary}`,
         start: event?.start?.dateTime,
         end: event?.end?.dateTime,
         description: event?.description,
@@ -166,7 +204,10 @@ const CalendarComponent = () => {
       (color) => background_color === color
     );
     const payload = {
-      title: event.event.title,
+      title: String(event.event.title).replaceAll(
+        '<input type = "checkbox" />',
+        ""
+      ),
       description: event.event.extendedProps.description,
       start: event.event.start,
       end: event.event.end,
@@ -179,6 +220,8 @@ const CalendarComponent = () => {
   };
   const handleEventRecieve = (event) => {
     console.log(event);
+    let calendarAPI = calendarRef.current.getApi();
+    // calendarAPI.
     const event_prop = {
       event_title: event.event.title,
       event_description: event.event.extendedProps.description,
@@ -195,6 +238,9 @@ const CalendarComponent = () => {
     });
   };
 
+  const handleEventContent = (info) => {
+    return { html: info.event.title };
+  };
   const fetchAllEvents = async (fetchInfo) => {
     const googleEvents = await getAllEvents(fetchInfo.start, fetchInfo.end);
     return googleEvents;
@@ -232,6 +278,7 @@ const CalendarComponent = () => {
         events={fetchAllEvents}
         ref={calendarRef}
         droppable={true}
+        eventContent={handleEventContent}
         nowIndicator={true}
         dateClick={handleDateClick}
         eventChange={handleChange}
@@ -240,7 +287,7 @@ const CalendarComponent = () => {
         eventBackgroundColor="#097efa"
         // eventDrop={handleEventDrop}
         // when certain event get click;
-        eventClick={handleEventClick}
+        // eventClick={handleEventClick}
         // drop={handleDropEvent}
         eventReceive={handleEventRecieve}
       />

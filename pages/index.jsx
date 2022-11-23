@@ -75,9 +75,9 @@ const Home = () => {
   }, [session, userData]);
   useEffect(() => {
     if (session && userData?.firstime) {
-      console.log(userData?.firstime);
-      console.log("IT works");
+      console.log("hello world");
       setTimeout(() => {
+        console.log("Timeout runs ");
         dispatch(showVideoSlice());
       }, 3000);
       handleFirstTime();

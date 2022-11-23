@@ -29,7 +29,7 @@ async function addEvents(req: NextApiRequest, res: NextApiResponse) {
   //   key: "AIzaSyDRabaMUH-qeH37jEE8-g62GNCNTD9oNN8",
   // });
 
-  const response = await calendar.events
+  await calendar.events
     .insert({
       calendarId: "primary",
       requestBody: {
