@@ -237,11 +237,11 @@ const CalendarComponent = () => {
     const colorId = EventColors.findIndex(
       (color) => background_color === color
     );
+
     const payload = {
-      title: String(event.event.title).replaceAll(
-        '<input type = "checkbox" />',
-        ""
-      ),
+      title: String(event.event.title)
+        .replaceAll('<input type = "checkbox"  />', "")
+        .replaceAll('<input type = "checkbox" checked />', ""),
       description: event.event.extendedProps.description,
       start: event.event.start,
       end: event.event.end,
