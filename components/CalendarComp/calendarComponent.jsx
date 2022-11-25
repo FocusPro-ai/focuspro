@@ -11,6 +11,8 @@ import {
   addEventDescription,
   changeEventModalState,
 } from "../../slices/eventModalSlice";
+import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const EventColors = [
   "#039be5",
@@ -35,6 +37,7 @@ const CalendarComponent = () => {
   const eventModalState = useSelector(
     (state) => state.eventModal.eventModalState
   );
+  const userData = useSelector((state) => state.user.user);
 
   useEffect(() => {
     if (eventModalState == true) {
@@ -46,6 +49,50 @@ const CalendarComponent = () => {
     }
   }, [eventModalState]);
 
+  const getCalendarDB = async () => {
+    const response = await fetch("/api/calendarDB/getCalendarDB", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId: userData?.id }),
+    });
+    return response.json();
+  };
+  const getCheckedTask = async () => {
+    const response = await fetch("/api/calendarDB/checkedTask", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId: userData?.id }),
+    });
+    return response.json();
+  };
+  const { data: eventData } = useQuery(["calendar-events"], getCalendarDB, {
+    refetchInterval: 5000,
+  });
+  const { data: checkedTask } = useQuery(["checked-events"], getCheckedTask, {
+    refetchInterval: 5000,
+  });
+  const handleCheckbox = async (id) => {
+    // const id = event.event.id;
+    const response = await fetch("/api/calendarDB/checkTask", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ calendarId: id }),
+    })
+      .then(() => {
+        toast.success("Hurray! Completed the task");
+        let calendarApi = calendarRef.current.getApi();
+        calendarApi.refetchEvents();
+      })
+      .catch((e) => {
+        toast.error("Something went wrong.");
+      });
+  };
   const addEvents = async ({
     event_title,
     event_description,
@@ -68,6 +115,18 @@ const CalendarComponent = () => {
       headers: { "Content-type": "application/json" },
     });
     const data = await response.json();
+    console.log(data);
+    const dbResponse = await fetch("/api/calendarDB/addCalendar", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        userId: userData.id,
+        calendarId: data.data.id,
+        name: data.data.summary,
+      }),
+    });
   };
   const getAllEvents = async (start, end) => {
     if (start == undefined && end == undefined) return;
@@ -84,14 +143,27 @@ const CalendarComponent = () => {
       },
     });
     const data = await response.json();
-    console.log(data);
 
     const events_list = data.data.items;
     const events = [];
     events_list.map((event, index) => {
+      const eventPresent = eventData.find((element) => {
+        if (element?.calendarId === event.id) {
+          return true;
+        }
+      });
+      const checked = checkedTask.find((element) => {
+        if (element?.calendarId === event.id) {
+          return true;
+        }
+      });
+
+      const eventTemplate = `<input type = "checkbox" ${
+        checked ? "checked" : ""
+      } /> `;
       const temp_event = {
         id: event.id,
-        title: event?.summary,
+        title: `${eventPresent ? eventTemplate : ""}` + `${event?.summary}`,
         start: event?.start?.dateTime,
         end: event?.end?.dateTime,
         description: event?.description,
@@ -166,7 +238,10 @@ const CalendarComponent = () => {
       (color) => background_color === color
     );
     const payload = {
-      title: event.event.title,
+      title: String(event.event.title).replaceAll(
+        '<input type = "checkbox" />',
+        ""
+      ),
       description: event.event.extendedProps.description,
       start: event.event.start,
       end: event.event.end,
@@ -179,6 +254,8 @@ const CalendarComponent = () => {
   };
   const handleEventRecieve = (event) => {
     console.log(event);
+    let calendarAPI = calendarRef.current.getApi();
+    // calendarAPI.
     const event_prop = {
       event_title: event.event.title,
       event_description: event.event.extendedProps.description,
@@ -195,6 +272,9 @@ const CalendarComponent = () => {
     });
   };
 
+  const handleEventContent = (info) => {
+    return { html: info.event.title };
+  };
   const fetchAllEvents = async (fetchInfo) => {
     const googleEvents = await getAllEvents(fetchInfo.start, fetchInfo.end);
     return googleEvents;
@@ -202,7 +282,30 @@ const CalendarComponent = () => {
   const handleEventDrop = (info) => {
     console.log(info);
   };
+  const handleDoubleClick = (info) => {
+    if (info.el.dblclick) return;
+    info.el.dblclick = true;
 
+    var timer = 0;
+    var delay = 500;
+    var prevent = false;
+    info.el.addEventListener("click", (e) => {
+      e.preventDefault();
+      timer = setTimeout(function () {
+        if (!prevent) {
+          handleCheckbox(info.event.id);
+        }
+        prevent = false;
+      }, delay);
+    });
+
+    info.el.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      clearTimeout(timer);
+      prevent = true;
+      handleEventClick(info);
+    });
+  };
   return (
     <div className="w-full shadow-xl ">
       <EventModalComponent />
@@ -232,6 +335,7 @@ const CalendarComponent = () => {
         events={fetchAllEvents}
         ref={calendarRef}
         droppable={true}
+        eventContent={handleEventContent}
         nowIndicator={true}
         dateClick={handleDateClick}
         eventChange={handleChange}
@@ -240,9 +344,10 @@ const CalendarComponent = () => {
         eventBackgroundColor="#097efa"
         // eventDrop={handleEventDrop}
         // when certain event get click;
-        eventClick={handleEventClick}
+        // eventClick={handleCheckbox}
         // drop={handleDropEvent}
         eventReceive={handleEventRecieve}
+        eventDidMount={handleDoubleClick}
       />
     </div>
   );
