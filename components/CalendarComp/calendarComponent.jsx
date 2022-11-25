@@ -12,6 +12,7 @@ import {
   changeEventModalState,
 } from "../../slices/eventModalSlice";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const EventColors = [
   "#039be5",
@@ -58,11 +59,40 @@ const CalendarComponent = () => {
     });
     return response.json();
   };
-
+  const getCheckedTask = async () => {
+    const response = await fetch("/api/calendarDB/checkedTask", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ userId: userData?.id }),
+    });
+    return response.json();
+  };
   const { data: eventData } = useQuery(["calendar-events"], getCalendarDB, {
     refetchInterval: 5000,
   });
-
+  const { data: checkedTask } = useQuery(["checked-events"], getCheckedTask, {
+    refetchInterval: 5000,
+  });
+  const handleCheckbox = async (id) => {
+    // const id = event.event.id;
+    const response = await fetch("/api/calendarDB/checkTask", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({ calendarId: id }),
+    })
+      .then(() => {
+        toast.success("Hurray! Completed the task");
+        let calendarApi = calendarRef.current.getApi();
+        calendarApi.refetchEvents();
+      })
+      .catch((e) => {
+        toast.error("Something went wrong.");
+      });
+  };
   const addEvents = async ({
     event_title,
     event_description,
@@ -113,7 +143,6 @@ const CalendarComponent = () => {
       },
     });
     const data = await response.json();
-    console.log(data);
 
     const events_list = data.data.items;
     const events = [];
@@ -123,13 +152,18 @@ const CalendarComponent = () => {
           return true;
         }
       });
+      const checked = checkedTask.find((element) => {
+        if (element?.calendarId === event.id) {
+          return true;
+        }
+      });
 
-      console.log(eventPresent);
+      const eventTemplate = `<input type = "checkbox" ${
+        checked ? "checked" : ""
+      } /> `;
       const temp_event = {
         id: event.id,
-        title:
-          `${eventPresent ? `<input type = "checkbox"  /> ` : ""}` +
-          `${event?.summary}`,
+        title: `${eventPresent ? eventTemplate : ""}` + `${event?.summary}`,
         start: event?.start?.dateTime,
         end: event?.end?.dateTime,
         description: event?.description,
@@ -248,7 +282,30 @@ const CalendarComponent = () => {
   const handleEventDrop = (info) => {
     console.log(info);
   };
+  const handleDoubleClick = (info) => {
+    if (info.el.dblclick) return;
+    info.el.dblclick = true;
 
+    var timer = 0;
+    var delay = 500;
+    var prevent = false;
+    info.el.addEventListener("click", (e) => {
+      e.preventDefault();
+      timer = setTimeout(function () {
+        if (!prevent) {
+          handleCheckbox(info.event.id);
+        }
+        prevent = false;
+      }, delay);
+    });
+
+    info.el.addEventListener("dblclick", (e) => {
+      e.preventDefault();
+      clearTimeout(timer);
+      prevent = true;
+      handleEventClick(info);
+    });
+  };
   return (
     <div className="w-full shadow-xl ">
       <EventModalComponent />
@@ -287,9 +344,10 @@ const CalendarComponent = () => {
         eventBackgroundColor="#097efa"
         // eventDrop={handleEventDrop}
         // when certain event get click;
-        // eventClick={handleEventClick}
+        // eventClick={handleCheckbox}
         // drop={handleDropEvent}
         eventReceive={handleEventRecieve}
+        eventDidMount={handleDoubleClick}
       />
     </div>
   );

@@ -78,7 +78,7 @@ model Waitlist {
 model TaskToCalendar {
   id         String  @id @default(cuid())
   name       String
-  calendarId String
+  calendarId String  @unique
   completed  Boolean @default(false)
   User       User    @relation(fields: [userId], references: [id])
   userId     String
