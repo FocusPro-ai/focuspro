@@ -22,6 +22,7 @@ import { changeAllTaskModalState } from "../../slices/allTaskModalSlice";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import DropDownProfile from "./profile/DropDownProfile";
+import AddEventModalComponent from "../AddEventModal/addEventModal";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
@@ -231,7 +232,7 @@ const TodoComponent = () => {
   return (
     <div className="h-auto min-w-[350px]">
       <AddTaskModal />
-
+      <AddEventModalComponent />
       <div className="shadow-lg flex flex-col min-h-screen min-w-[350px]">
         <div className="flex h-max   justify-between items-center w-[90%] mx-auto mt-[10px]">
           <h1 className="text-2xl font-bold">

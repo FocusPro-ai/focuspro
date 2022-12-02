@@ -5,6 +5,7 @@ import eventModalReducer from "../slices/eventModalSlice";
 import taskModalReducer from "../slices/taskModalSlice";
 import allTaskModalReducer from "../slices/allTaskModalSlice";
 import videoSliceReducer from "../slices/videoSlice";
+import createEventModalReducer from "../slices/SelectCreateEvent/createEventModal";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     eventModal: eventModalReducer,
     taskModal: taskModalReducer,
     allTaskModal: allTaskModalReducer,
+    createEventModal: createEventModalReducer,
     videoSlice: videoSliceReducer,
   },
 });

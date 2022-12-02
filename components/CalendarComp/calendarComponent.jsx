@@ -13,6 +13,10 @@ import {
 } from "../../slices/eventModalSlice";
 import { useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
+import {
+  addEventModal,
+  changeEventModalSlice,
+} from "../../slices/SelectCreateEvent/createEventModal";
 
 const EventColors = [
   "#039be5",
@@ -37,13 +41,16 @@ const CalendarComponent = () => {
   const eventModalState = useSelector(
     (state) => state.eventModal.eventModalState
   );
+  const createEventModalState = useSelector(
+    (state) => state.createEventModal.eventModalSlice
+  );
   const userData = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    if (eventModalState == true) {
+    if (eventModalState == true || createEventModalState == true) {
       return;
     }
-    if (eventModalState == false) {
+    if (eventModalState == false || createEventModalState == false) {
       let calendarApi = calendarRef.current.getApi();
       calendarApi.refetchEvents();
     }
@@ -252,6 +259,17 @@ const CalendarComponent = () => {
     dispatch(addEventDescription(payload));
     dispatch(changeEventModalState());
   };
+  const handleEventSelection = (info) => {
+    console.log(info.start);
+    const payload = {
+      title: "",
+      description: "",
+      start: info.start,
+      end: info.end,
+    };
+    dispatch(addEventModal(payload));
+    dispatch(changeEventModalSlice());
+  };
   const handleEventRecieve = (event) => {
     console.log(event);
     let calendarAPI = calendarRef.current.getApi();
@@ -348,6 +366,7 @@ const CalendarComponent = () => {
         // drop={handleDropEvent}
         eventReceive={handleEventRecieve}
         eventDidMount={handleDoubleClick}
+        select={handleEventSelection}
       />
     </div>
   );
