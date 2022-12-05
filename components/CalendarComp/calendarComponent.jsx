@@ -191,12 +191,15 @@ const CalendarComponent = () => {
     colorId,
   }) => {
     const refresh_token = session?.user.refreshToken;
+    const title = String(event_title)
+      .replaceAll('<input type = "checkbox"  />', "")
+      .replaceAll('<input type = "checkbox" checked />', "");
     const response = await fetch("/api/Calendar/updateEvents", {
       method: "POST",
       body: JSON.stringify({
         event_id: id,
         refresh_token,
-        event_title,
+        event_title: title,
         event_description,
         start,
         end,
