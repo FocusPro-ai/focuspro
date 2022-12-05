@@ -304,6 +304,8 @@ const CalendarComponent = () => {
     console.log(info);
   };
   const handleDoubleClick = (info) => {
+    console.log(info);
+
     if (info.el.dblclick) return;
     info.el.dblclick = true;
 
@@ -314,7 +316,12 @@ const CalendarComponent = () => {
       e.preventDefault();
       timer = setTimeout(function () {
         if (!prevent) {
-          handleCheckbox(info.event.id);
+          eventData.find((element) => {
+            if (element?.calendarId === info.event.id) {
+              console.log("This is checkbox");
+              handleCheckbox(info.event.id);
+            }
+          });
         }
         prevent = false;
       }, delay);
