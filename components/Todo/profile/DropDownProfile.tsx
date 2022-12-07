@@ -100,6 +100,15 @@ const DropDownProfile = () => {
               </div>
             </Link>
           </li>
+          <li>
+            <Link href={"https://focusproai.frill.co/b/wmwewgmq/feature-ideas"}>
+              <div className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  ">
+                {/* <ChatBubbleBottomCenterIcon className="h-5 w-5" /> */}
+                <div className="">💖</div>
+                <span>Feature Voting</span>
+              </div>
+            </Link>
+          </li>
         </ul>
         <div className="py-1">
           <div
