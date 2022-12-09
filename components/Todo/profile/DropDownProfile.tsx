@@ -92,19 +92,24 @@ const DropDownProfile = () => {
             </div>
           </li>
           <li>
-            <Link href={"https://tally.so/r/wdWJdz"}>
+            <a
+              rel="noreferrer"
+              target="_blank"
+              href={"https://tally.so/r/wdWJdz"}
+            >
               <div className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  ">
                 {/* <ChatBubbleBottomCenterIcon className="h-5 w-5" /> */}
                 <div className="">🙉</div>
                 <span>Feeback</span>
               </div>
-            </Link>
+            </a>
           </li>
           <li>
-            <Link
+            <a
               href={
                 "https://app.frill.co/embed/widget/b5248ba2-626b-4c2c-ae5f-ba2374a68ce9"
               }
+              rel="noreferrer"
               target="_blank"
             >
               <div className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  ">
@@ -112,7 +117,7 @@ const DropDownProfile = () => {
                 <div className="">💖</div>
                 <span>Feature Voting</span>
               </div>
-            </Link>
+            </a>
           </li>
         </ul>
         <div className="py-1">
