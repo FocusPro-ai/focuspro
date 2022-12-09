@@ -17,6 +17,7 @@ import {
   addEventModal,
   changeEventModalSlice,
 } from "../../slices/SelectCreateEvent/createEventModal";
+import Analytics from "@june-so/analytics-node";
 
 const EventColors = [
   "#039be5",
@@ -93,6 +94,18 @@ const CalendarComponent = () => {
     })
       .then(() => {
         toast.success("Hurray! Completed the task");
+        const client = new Analytics("Kh1nkoO8kX6bKr2v");
+        client.identify({
+          userId: userData?.id,
+          traits: {
+            name: userData?.name,
+            email: userData?.email,
+          },
+        });
+        client.track({
+          userId: userData?.id,
+          event: "Checked a Task",
+        });
         let calendarApi = calendarRef.current.getApi();
         calendarApi.refetchEvents();
       })

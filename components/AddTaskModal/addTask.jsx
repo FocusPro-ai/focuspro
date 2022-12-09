@@ -10,20 +10,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import toast from "react-hot-toast";
-
-type userDataType = {
-  id: string | undefined;
-};
+import Analytics from "@june-so/analytics-node";
 
 const AddTaskModal = () => {
-  const [heading, setHeading] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [importance, setImportance] = useState<number>(5);
-  const [deadline, setDeadline] = useState<Dayjs | null>(null);
+  const [heading, setHeading] = useState("");
+  const [description, setDescription] = useState("");
+  const [importance, setImportance] = useState(5);
+  const [deadline, setDeadline] = useState(null, null);
 
-  const modalState = useSelector((state: RootState) => state.modal.modal);
+  const modalState = useSelector((state) => state.modal.modal);
   const dispatch = useDispatch();
-  const userData: any = useSelector((state: RootState) => state.user.user);
+  const userData = useSelector((state) => state.user.user);
 
   const submitTask = async () => {
     const userId = userData?.id;
@@ -37,6 +34,18 @@ const AddTaskModal = () => {
         deadline,
         importance,
       }),
+    });
+    const client = new Analytics("Kh1nkoO8kX6bKr2v");
+    client.identify({
+      userId: userData?.id,
+      traits: {
+        name: userData?.name,
+        email: userData?.email,
+      },
+    });
+    client.track({
+      userId: userData?.id,
+      event: "Task Created",
     });
     setDeadline(null);
     setDescription("");

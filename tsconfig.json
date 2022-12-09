@@ -24,7 +24,8 @@
     "components/Todo/todoComponent.jsx",
     "components/EventModal/EventModalComponent.jsx",
     "components/videoModal/videoModal.jsx",
-    "components/AddEventModal/addEventModal.jsx"
+    "components/AddEventModal/addEventModal.jsx",
+    "components/AddTaskModal/addTask.jsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import DropDownProfile from "./profile/DropDownProfile";
 import AddEventModalComponent from "../AddEventModal/addEventModal";
+import Analytics from "@june-so/analytics-node";
 
 const TodoComponent = () => {
   const { data: session } = useSession();
@@ -145,6 +146,18 @@ const TodoComponent = () => {
         },
       });
     }
+    const client = new Analytics("Kh1nkoO8kX6bKr2v");
+    client.identify({
+      userId: userData?.id,
+      traits: {
+        name: userData?.name,
+        email: userData?.email,
+      },
+    });
+    client.track({
+      userId: userData?.id,
+      event: "Dragged Task",
+    });
   }, [draggableInitialized, urgentAndImpTodo]);
   useEffect(() => {
     let draggableEl4 = document.getElementById("draggable-event4");
@@ -172,6 +185,18 @@ const TodoComponent = () => {
         },
       });
     }
+    const client = new Analytics("Kh1nkoO8kX6bKr2v");
+    client.identify({
+      userId: userData?.id,
+      traits: {
+        name: userData?.name,
+        email: userData?.email,
+      },
+    });
+    client.track({
+      userId: userData?.id,
+      event: "Dragged Task",
+    });
   }, [draggableInitialized4, somethingLeftBehind]);
   useEffect(() => {
     let draggableEl2 = document.getElementById("draggable-event2");
@@ -200,6 +225,18 @@ const TodoComponent = () => {
         },
       });
     }
+    const client = new Analytics("Kh1nkoO8kX6bKr2v");
+    client.identify({
+      userId: userData?.id,
+      traits: {
+        name: userData?.name,
+        email: userData?.email,
+      },
+    });
+    client.track({
+      userId: userData?.id,
+      event: "Dragged Task",
+    });
   }, [draggableInitialized2, notUrgentImpTodo]);
 
   useEffect(() => {
@@ -228,6 +265,18 @@ const TodoComponent = () => {
         },
       });
     }
+    const client = new Analytics("Kh1nkoO8kX6bKr2v");
+    client.identify({
+      userId: userData?.id,
+      traits: {
+        name: userData?.name,
+        email: userData?.email,
+      },
+    });
+    client.track({
+      userId: userData?.id,
+      event: "Dragged Task",
+    });
   }, [draggableInitialized3, notImpUrgentTodo]);
   return (
     <div className="h-auto min-w-[350px]">
