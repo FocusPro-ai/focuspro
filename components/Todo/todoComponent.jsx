@@ -158,7 +158,13 @@ const TodoComponent = () => {
       userId: userData?.id,
       event: "Dragged Task",
     });
-  }, [draggableInitialized, urgentAndImpTodo]);
+  }, [
+    draggableInitialized,
+    urgentAndImpTodo,
+    userData?.email,
+    userData?.name,
+    userData?.id,
+  ]);
   useEffect(() => {
     let draggableEl4 = document.getElementById("draggable-event4");
     if (
@@ -197,7 +203,13 @@ const TodoComponent = () => {
       userId: userData?.id,
       event: "Dragged Task",
     });
-  }, [draggableInitialized4, somethingLeftBehind]);
+  }, [
+    draggableInitialized4,
+    somethingLeftBehind,
+    userData?.email,
+    userData?.name,
+    userData?.id,
+  ]);
   useEffect(() => {
     let draggableEl2 = document.getElementById("draggable-event2");
     if (
@@ -237,7 +249,13 @@ const TodoComponent = () => {
       userId: userData?.id,
       event: "Dragged Task",
     });
-  }, [draggableInitialized2, notUrgentImpTodo]);
+  }, [
+    draggableInitialized2,
+    notUrgentImpTodo,
+    userData?.email,
+    userData?.name,
+    userData?.id,
+  ]);
 
   useEffect(() => {
     let draggableEl3 = document.getElementById("draggable-event3");
@@ -277,7 +295,13 @@ const TodoComponent = () => {
       userId: userData?.id,
       event: "Dragged Task",
     });
-  }, [draggableInitialized3, notImpUrgentTodo]);
+  }, [
+    draggableInitialized3,
+    notImpUrgentTodo,
+    userData?.email,
+    userData?.name,
+    userData?.id,
+  ]);
   return (
     <div className="h-auto min-w-[350px]">
       <AddTaskModal />
