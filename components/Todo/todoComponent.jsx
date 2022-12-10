@@ -146,25 +146,21 @@ const TodoComponent = () => {
         },
       });
     }
-    const client = new Analytics("Kh1nkoO8kX6bKr2v");
-    client.identify({
-      userId: userData?.id,
-      traits: {
-        name: userData?.name,
-        email: userData?.email,
-      },
-    });
-    client.track({
-      userId: userData?.id,
-      event: "Dragged Task",
-    });
-  }, [
-    draggableInitialized,
-    urgentAndImpTodo,
-    userData?.email,
-    userData?.name,
-    userData?.id,
-  ]);
+    if (userData) {
+      const client = new Analytics("Kh1nkoO8kX6bKr2v");
+      client.identify({
+        userId: userData.id,
+        traits: {
+          name: userData.name,
+          email: userData.email,
+        },
+      });
+      client.track({
+        userId: userData.id,
+        event: "Dragged Task",
+      });
+    }
+  }, [draggableInitialized, urgentAndImpTodo, userData]);
   useEffect(() => {
     let draggableEl4 = document.getElementById("draggable-event4");
     if (
@@ -191,25 +187,21 @@ const TodoComponent = () => {
         },
       });
     }
-    const client = new Analytics("Kh1nkoO8kX6bKr2v");
-    client.identify({
-      userId: userData?.id,
-      traits: {
-        name: userData?.name,
-        email: userData?.email,
-      },
-    });
-    client.track({
-      userId: userData?.id,
-      event: "Dragged Task",
-    });
-  }, [
-    draggableInitialized4,
-    somethingLeftBehind,
-    userData?.email,
-    userData?.name,
-    userData?.id,
-  ]);
+    if (userData) {
+      const client = new Analytics("Kh1nkoO8kX6bKr2v");
+      client.identify({
+        userId: userData.id,
+        traits: {
+          name: userData.name,
+          email: userData.email,
+        },
+      });
+      client.track({
+        userId: userData.id,
+        event: "Dragged Task",
+      });
+    }
+  }, [draggableInitialized4, somethingLeftBehind, userData]);
   useEffect(() => {
     let draggableEl2 = document.getElementById("draggable-event2");
     if (
@@ -237,25 +229,21 @@ const TodoComponent = () => {
         },
       });
     }
-    const client = new Analytics("Kh1nkoO8kX6bKr2v");
-    client.identify({
-      userId: userData?.id,
-      traits: {
-        name: userData?.name,
-        email: userData?.email,
-      },
-    });
-    client.track({
-      userId: userData?.id,
-      event: "Dragged Task",
-    });
-  }, [
-    draggableInitialized2,
-    notUrgentImpTodo,
-    userData?.email,
-    userData?.name,
-    userData?.id,
-  ]);
+    if (userData) {
+      const client = new Analytics("Kh1nkoO8kX6bKr2v");
+      client.identify({
+        userId: userData.id,
+        traits: {
+          name: userData.name,
+          email: userData.email,
+        },
+      });
+      client.track({
+        userId: userData.id,
+        event: "Dragged Task",
+      });
+    }
+  }, [draggableInitialized2, notUrgentImpTodo, userData]);
 
   useEffect(() => {
     let draggableEl3 = document.getElementById("draggable-event3");
@@ -283,25 +271,21 @@ const TodoComponent = () => {
         },
       });
     }
-    const client = new Analytics("Kh1nkoO8kX6bKr2v");
-    client.identify({
-      userId: userData?.id,
-      traits: {
-        name: userData?.name,
-        email: userData?.email,
-      },
-    });
-    client.track({
-      userId: userData?.id,
-      event: "Dragged Task",
-    });
-  }, [
-    draggableInitialized3,
-    notImpUrgentTodo,
-    userData?.email,
-    userData?.name,
-    userData?.id,
-  ]);
+    if (userData) {
+      const client = new Analytics("Kh1nkoO8kX6bKr2v");
+      client.identify({
+        userId: userData.id,
+        traits: {
+          name: userData.name,
+          email: userData.email,
+        },
+      });
+      client.track({
+        userId: userData.id,
+        event: "Dragged Task",
+      });
+    }
+  }, [draggableInitialized3, notImpUrgentTodo, userData]);
   return (
     <div className="h-auto min-w-[350px]">
       <AddTaskModal />
