@@ -95,6 +95,10 @@ body {
   @apply !border-t-2 !z-40;
 }
 
+.calendar-event {
+  font-weight: bold;
+}
+
 .fc td {
   @apply !py-[2px];
 }

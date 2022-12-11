@@ -152,10 +152,10 @@ const AddTaskModal = () => {
                     />
                   </LocalizationProvider>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 flex flex-col justify-end">
                   <button
                     type="button"
-                    className="bg-blue-600 font-semibold hover:bg-blue-500 rounded-md text-white p-2 "
+                    className="bg-blue-600 ml-auto  font-semibold hover:bg-blue-500 rounded-md text-white p-2 "
                     onClick={() => {
                       if (heading !== "" && deadline !== null) {
                         submitTask();

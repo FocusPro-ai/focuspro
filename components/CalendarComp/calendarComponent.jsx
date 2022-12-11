@@ -370,6 +370,7 @@ const CalendarComponent = () => {
         dayHeaderClassNames={"header-component"}
         editable={true}
         forceEventDuration={true}
+        displayEventTime={true}
         selectable={true}
         selectMirror={true}
         dayMaxEvents={true}
@@ -389,6 +390,7 @@ const CalendarComponent = () => {
         // drop={handleDropEvent}
         eventReceive={handleEventRecieve}
         eventDidMount={handleDoubleClick}
+        eventClassNames={"calendar-event"}
         select={handleEventSelection}
       />
     </div>
