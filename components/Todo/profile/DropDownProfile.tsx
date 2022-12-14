@@ -16,6 +16,7 @@ import { InboxIcon, InformationCircleIcon } from "@heroicons/react/20/solid";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { showVideoSlice } from "../../../slices/videoSlice";
+import { changeSettingSlice } from "../../../slices/settingSlice";
 
 const DropDownProfile = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -70,12 +71,7 @@ const DropDownProfile = () => {
           </li>
           <li>
             <div
-              onClick={() =>
-                toast.success("Coming soon...", {
-                  icon: "🏃‍♂️🏃‍♂️",
-                  duration: 4000,
-                })
-              }
+              onClick={() => dispatch(changeSettingSlice())}
               className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  "
             >
               <Cog8ToothIcon className="h-5 w-5" />

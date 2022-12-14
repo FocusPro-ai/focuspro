@@ -349,7 +349,7 @@ const TodoComponent = () => {
                           }}
                         />
                         <h1
-                          className="w-full"
+                          className="w-full font-bold"
                           onDoubleClick={() => {
                             dispatch(changeTaskModalSlice());
                             const task_prop = {
@@ -401,7 +401,7 @@ const TodoComponent = () => {
                         }}
                       />
                       <h1
-                        className="w-full"
+                        className="w-full font-bold"
                         onDoubleClick={() => {
                           dispatch(changeTaskModalSlice());
                           const task_prop = {
@@ -453,7 +453,7 @@ const TodoComponent = () => {
                           }}
                         />
                         <h1
-                          className="w-full"
+                          className="w-full font-bold"
                           onDoubleClick={() => {
                             dispatch(changeTaskModalSlice());
                             const task_prop = {
@@ -505,7 +505,7 @@ const TodoComponent = () => {
                         }}
                       />
                       <h1
-                        className="w-full"
+                        className="w-full font-bold"
                         onDoubleClick={() => {
                           dispatch(changeTaskModalSlice());
                           const task_prop = {
