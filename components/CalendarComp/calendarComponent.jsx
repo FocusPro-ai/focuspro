@@ -18,6 +18,10 @@ import {
   changeEventModalSlice,
 } from "../../slices/SelectCreateEvent/createEventModal";
 import Analytics from "@june-so/analytics-node";
+import { loginRequest } from "../../outlook-integration/authConfig";
+import { useMsal } from "@azure/msal-react";
+import { useIsAuthenticated } from "@azure/msal-react";
+import { callCalendarEvents } from "../../outlook-integration/graph";
 
 const EventColors = [
   "#039be5",
@@ -37,8 +41,40 @@ const EventColors = [
 const CalendarComponent = () => {
   const { data: session } = useSession();
   const [initialEvents, setInitialEvents] = useState([]);
+  const isAuthenticatedWithOutlook = useIsAuthenticated();
   const calendarRef = useRef();
   const dispatch = useDispatch();
+  const { instance, accounts, inProgress } = useMsal();
+  const [accessToken, setAccessToken] = useState(null);
+  const name = accounts[0] && accounts[0].name;
+
+  // Request Access Token .
+  function RequestAcessToken() {
+    const request = {
+      ...loginRequest,
+      account: accounts[0],
+    };
+    instance
+      .acquireTokenSilent(request)
+      .then((response) => {
+        setAccessToken(response.accessToken);
+        callCalendarEvents(response.accessToken).then((response) => {
+          console.log(response.value);
+          setInitialEvents(response.value);
+          console.log(initialEvents);
+        });
+      })
+      .catch((e) => {
+        instance.acquireTokenPopup(request).then((response) => {
+          setAccessToken(response.accessToken);
+
+          callCalendarEvents(response.accessToken).then((response) => {
+            setInitialEvents(response.value);
+            console.log(initialEvents);
+          });
+        });
+      });
+  }
   const eventModalState = useSelector(
     (state) => state.eventModal.eventModalState
   );
@@ -56,6 +92,12 @@ const CalendarComponent = () => {
       calendarApi.refetchEvents();
     }
   }, [eventModalState]);
+
+  useEffect(() => {
+    if (isAuthenticatedWithOutlook) {
+      RequestAcessToken();
+    }
+  }, [isAuthenticatedWithOutlook]);
 
   const getCalendarDB = async () => {
     const response = await fetch("/api/calendarDB/getCalendarDB", {
@@ -164,8 +206,31 @@ const CalendarComponent = () => {
     });
     const data = await response.json();
 
+    // Outlook Events
+    // 1. Capturing the token .
+    // 2. Get all outlook events.
+
     const events_list = data.data.items;
+    console.log(data.data.items);
     const events = [];
+
+    initialEvents.map((event) => {
+      var startTime = new Date(event.start.dateTime);
+      startTime.setHours(startTime.getHours() + 5);
+      startTime.setMinutes(startTime.getMinutes() + 30);
+      var endTime = new Date(event.end.dateTime);
+      endTime.setHours(endTime.getHours() + 5);
+      endTime.setMinutes(endTime.getMinutes() + 30);
+
+      const tempEvent = {
+        id: event.id,
+        title: event.subject,
+        start: startTime,
+        end: endTime,
+        description: event.bodyPreview,
+      };
+      events.push(tempEvent);
+    });
     events_list.map((event, index) => {
       const eventPresent = eventData.find((element) => {
         if (element?.calendarId === event.id) {
@@ -181,6 +246,7 @@ const CalendarComponent = () => {
       const eventTemplate = `<input type = "checkbox" ${
         checked ? "checked" : ""
       } /> `;
+      // console.log("Google Events", event.start.dateTime);
       const temp_event = {
         id: event.id,
         title: `${eventPresent ? eventTemplate : ""}` + `${event?.summary}`,
@@ -313,12 +379,8 @@ const CalendarComponent = () => {
     const googleEvents = await getAllEvents(fetchInfo.start, fetchInfo.end);
     return googleEvents;
   };
-  const handleEventDrop = (info) => {
-    console.log(info);
-  };
+  const handleEventDrop = (info) => {};
   const handleDoubleClick = (info) => {
-    console.log(info);
-
     if (info.el.dblclick) return;
     info.el.dblclick = true;
 
@@ -391,6 +453,7 @@ const CalendarComponent = () => {
         eventReceive={handleEventRecieve}
         eventDidMount={handleDoubleClick}
         eventClassNames={"calendar-event"}
+        eventMinHeight={16}
         select={handleEventSelection}
       />
     </div>

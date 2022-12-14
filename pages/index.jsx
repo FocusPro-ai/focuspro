@@ -14,6 +14,7 @@ import Analytics from "@june-so/analytics-node";
 import Script from "next/script";
 import { changeVideoSlice, showVideoSlice } from "../slices/videoSlice";
 import VideoModal from "../components/videoModal/videoModal";
+import SettingModal from "../components/settingComp/settingModal";
 
 const Home = () => {
   const { data: session, status } = useSession();
@@ -99,6 +100,7 @@ const Home = () => {
       <AllTaskModal />
       <VideoModal />
       <TodoComponent />
+      <SettingModal />
       <CalendarComponent />
     </div>
   );
