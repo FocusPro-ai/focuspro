@@ -213,7 +213,7 @@ const CalendarComponent = () => {
     const events_list = data.data.items;
 
     const events = [];
-    console.log("Intial-events", initialEvents);
+    console.log("outlook-events", initialEvents);
     initialEvents.map((event) => {
       var startTime = new Date(event.start.dateTime);
       startTime.setHours(startTime.getHours() + 5);
@@ -260,6 +260,7 @@ const CalendarComponent = () => {
       };
       events.push(temp_event);
     });
+    console.log("Final Events", events);
     return events;
   };
   const updateEvent = async ({
