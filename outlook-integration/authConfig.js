@@ -4,11 +4,13 @@ export const msalConfig = {
     authority:
       "https://login.microsoftonline.com/3dec2c66-305c-48fc-bace-e9d62b3bef8e",
     redirectUri: "https://www.focuspro.app",
+
   },
   cache: {
     cacheLocation: "sessionStorage",
     storeAuthStateInCookie: false,
   },
+
   system: {
     loggerOptions: {
       loggerCallback: (level, message, containsPii) => {
@@ -34,6 +36,7 @@ export const msalConfig = {
       },
     },
   },
+
 };
 
 export const loginRequest = {
