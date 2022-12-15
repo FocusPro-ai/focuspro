@@ -214,7 +214,7 @@ const CalendarComponent = () => {
 
     const events = [];
     console.log("outlook-events", initialEvents);
-    initialEvents.map((event) => {
+    initialEvents?.map((event) => {
       var startTime = new Date(event.start.dateTime);
       startTime.setHours(startTime.getHours() + 5);
       startTime.setMinutes(startTime.getMinutes() + 30);
@@ -232,7 +232,7 @@ const CalendarComponent = () => {
       };
       events.push(tempEvent);
     });
-    events_list.map((event, index) => {
+    events_list?.map((event, index) => {
       const eventPresent = eventData.find((element) => {
         if (element?.calendarId === event.id) {
           return true;
