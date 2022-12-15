@@ -211,9 +211,9 @@ const CalendarComponent = () => {
     // 2. Get all outlook events.
 
     const events_list = data.data.items;
-    console.log(data.data.items);
-    const events = [];
 
+    const events = [];
+    console.log("Intial-events", initialEvents);
     initialEvents.map((event) => {
       var startTime = new Date(event.start.dateTime);
       startTime.setHours(startTime.getHours() + 5);
@@ -228,6 +228,7 @@ const CalendarComponent = () => {
         start: startTime,
         end: endTime,
         description: event.bodyPreview,
+        backgroundColor: "#097efa",
       };
       events.push(tempEvent);
     });
