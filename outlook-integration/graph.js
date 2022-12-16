@@ -2,8 +2,8 @@ import { graphConfig } from "./authConfig";
 
 export async function callCalendarEvents(accessToken) {
   const headers = new Headers();
-  const bearer = `Bearer ${accessToken}`;
-  headers.append("Authorization", bearer);
+  const Bearer = `Bearer ${accessToken}`;
+  headers.append("Authorization", Bearer);
 
   const options = {
     method: "GET",
