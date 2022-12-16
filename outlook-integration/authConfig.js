@@ -40,7 +40,13 @@ export const msalConfig = {
 };
 
 export const loginRequest = {
-  scopes: ["User.Read", "Calendars.ReadWrite", "Calendars.Read"],
+  scopes: [
+    "User.Read",
+    "Calendars.ReadWrite",
+    "Calendars.Read",
+    "MailboxSettings.Read",
+    "MailboxSettings.ReadWrite",
+  ],
 };
 
 export const graphConfig = {
