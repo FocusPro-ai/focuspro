@@ -11,7 +11,7 @@ export const msalConfig = {
     cacheLocation: "sessionStorage",
     storeAuthStateInCookie: false,
   },
-
+  consent: true,
   system: {
     loggerOptions: {
       loggerCallback: (level, message, containsPii) => {
