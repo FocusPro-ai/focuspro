@@ -217,30 +217,29 @@ const CalendarComponent = () => {
     const data = await response.json();
     const events_list = data.data.items;
 
-    const ianaTimezones = findIana(app.user?.timeZone);
-    const OutlookEvent = await getUserCalendar(
-      app.authProvider,
-      ianaTimezones[0].valueOf()
-    );
+    if (app.user) {
+      const ianaTimezones = findIana(app.user?.timeZone);
+      const OutlookEvent = await getUserCalendar(
+        app.authProvider,
+        ianaTimezones[0].valueOf()
+      );
 
-    OutlookEvent?.map((event) => {
-      var startTime = new Date(event.start.dateTime);
-      // startTime.setHours(startTime.getHours() + 5);
-      // startTime.setMinutes(startTime.getMinutes() + 30);
-      var endTime = new Date(event.end.dateTime);
-      // endTime.setHours(endTime.getHours() + 5);
-      // endTime.setMinutes(endTime.getMinutes() + 30);
+      OutlookEvent?.map((event) => {
+        var startTime = new Date(event.start.dateTime);
 
-      const tempEvent = {
-        id: event.id,
-        title: event.subject,
-        start: startTime,
-        end: endTime,
-        description: event.bodyPreview,
-        backgroundColor: "#097efa",
-      };
-      events.push(tempEvent);
-    });
+        var endTime = new Date(event.end.dateTime);
+
+        const tempEvent = {
+          id: event.id,
+          title: event.subject,
+          start: startTime,
+          end: endTime,
+          description: event.bodyPreview,
+          backgroundColor: "#097efa",
+        };
+        events.push(tempEvent);
+      });
+    }
     events_list?.map((event, index) => {
       const eventPresent = eventData.find((element) => {
         if (element?.calendarId === event.id) {
