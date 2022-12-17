@@ -11,16 +11,43 @@ import "@fullcalendar/timegrid/main.css";
 import "../styles/globals.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import Head from "next/head";
-import { PublicClientApplication } from "@azure/msal-browser";
+import {
+  AuthenticationResult,
+  EventMessage,
+  EventType,
+  PublicClientApplication,
+} from "@azure/msal-browser";
 import { MsalProvider } from "@azure/msal-react";
 import { msalConfig } from "../outlook-integration/authConfig";
 
 // import Analytics from "@june-so/analytics-node";
 import { useEffect } from "react";
+import config from "../outlook-integration/Config";
+import ProvideAppContext from "../outlook-integration/AppContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
-  const msalInstance = new PublicClientApplication(msalConfig);
+  const msalInstance = new PublicClientApplication({
+    auth: {
+      clientId: config.appId,
+      redirectUri: config.redirectUri,
+    },
+    cache: {
+      cacheLocation: "sessionStorage",
+      storeAuthStateInCookie: true,
+    },
+  });
+  const accounts = msalInstance.getAllAccounts();
+  if (accounts && accounts.length > 0) {
+    msalInstance.setActiveAccount(accounts[0]);
+  }
+
+  msalInstance.addEventCallback((event: EventMessage) => {
+    if (event.eventType === EventType.LOGIN_SUCCESS && event.payload) {
+      const authResult = event.payload as AuthenticationResult;
+      msalInstance.setActiveAccount(authResult.account);
+    }
+  });
 
   <Head>
     <meta
@@ -33,7 +60,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Provider store={store}>
         <SessionProvider session={pageProps.session}>
           <MsalProvider instance={msalInstance}>
-            <Component {...pageProps} />
+            <ProvideAppContext>
+              <Component {...pageProps} />
+            </ProvideAppContext>
           </MsalProvider>
         </SessionProvider>
       </Provider>

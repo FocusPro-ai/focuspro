@@ -5,7 +5,11 @@ export const msalConfig = {
     clientId: "66279fbb-b96c-4c5b-8bc1-40015b0fe7a6",
     authority:
       "https://login.microsoftonline.com/3dec2c66-305c-48fc-bace-e9d62b3bef8e",
-    redirectUri: "https://www.focuspro.app",
+    redirectUri:
+      process.env.NODE_ENV === "development" ||
+      process.env.APP_STAGING === "true"
+        ? "http://localhost:3000"
+        : "https://www.focuspro.app",
   },
   cache: {
     cacheLocation: "sessionStorage",
@@ -42,11 +46,17 @@ export const msalConfig = {
 export const loginRequest = {
   scopes: [
     "User.Read",
+    "openid",
+    "profile",
     "Calendars.ReadWrite",
     "Calendars.Read",
-    "MailboxSettings.Read",
-    "MailboxSettings.ReadWrite",
+    "Mail.Read",
+    "Mail.ReadBasic",
   ],
+};
+
+export const CalendarReadToken = {
+  scopes: ["Calendars.ReadWrite", "Calendars.Read"],
 };
 
 export const graphConfig = {

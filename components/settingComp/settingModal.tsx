@@ -7,29 +7,34 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { changeSettingSlice } from "../../slices/settingSlice";
 import Image from "next/image";
 import { useMsal } from "@azure/msal-react";
-import { loginRequest } from "../../outlook-integration/authConfig";
+import {
+  CalendarReadToken,
+  loginRequest,
+} from "../../outlook-integration/authConfig";
 import { useIsAuthenticated } from "@azure/msal-react";
+import { useAppContext } from "../../outlook-integration/AppContext";
 
 const SettingModal = () => {
+  const app = useAppContext();
   const settingModalState = useSelector(
     (state: RootState) => state.settingSlice.setting
   );
   const dispatch = useDispatch();
   const isAuthenticated = useIsAuthenticated();
-  const { instance } = useMsal();
-  const HandleIntegration = (loginType: string) => {
-    if (loginType == "popup") {
-      instance.loginPopup(loginRequest).catch((e) => {
-        console.log(e);
-      });
-    }
-  };
-  const RemoveIntegration = () => {
-    instance.logoutPopup({
-      postLogoutRedirectUri: "/",
-      mainWindowRedirectUri: "/",
-    });
-  };
+  // const { instance } = useMsal();
+  // const HandleIntegration = (loginType: string) => {
+  //   if (loginType == "popup") {
+  //     instance.loginPopup(loginRequest).catch((e) => {
+  //       console.log(e);
+  //     });
+  //   }
+  // };
+  // const RemoveIntegration = () => {
+  //   instance.logoutPopup({
+  //     postLogoutRedirectUri: "/",
+  //     mainWindowRedirectUri: "/",
+  //   });
+  // };
   return (
     <Transition appear show={settingModalState} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => {}}>
@@ -93,7 +98,7 @@ const SettingModal = () => {
                         {isAuthenticated ? (
                           <>
                             <button
-                              onClick={() => RemoveIntegration()}
+                              onClick={app.signOut!}
                               className="bg-red-500 border-none outline-none p-2 rounded-md text-white mt-[1rem]"
                             >
                               Remove Account
@@ -102,7 +107,7 @@ const SettingModal = () => {
                         ) : (
                           <>
                             <button
-                              onClick={() => HandleIntegration("popup")}
+                              onClick={app.signIn!}
                               className="bg-blue-600 border-none outline-none p-2 rounded-md text-white mt-[1rem]"
                             >
                               Connect to Outlook

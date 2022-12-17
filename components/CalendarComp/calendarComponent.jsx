@@ -22,6 +22,9 @@ import { loginRequest } from "../../outlook-integration/authConfig";
 import { useMsal } from "@azure/msal-react";
 import { useIsAuthenticated } from "@azure/msal-react";
 import { callCalendarEvents } from "../../outlook-integration/graph";
+import { useAppContext } from "../../outlook-integration/AppContext";
+import { findIana } from "windows-iana";
+import { getUserCalendar } from "../../outlook-integration/GraphService";
 
 const EventColors = [
   "#039be5",
@@ -40,41 +43,47 @@ const EventColors = [
 
 const CalendarComponent = () => {
   const { data: session } = useSession();
+  const app = useAppContext();
   const [initialEvents, setInitialEvents] = useState([]);
-  const isAuthenticatedWithOutlook = useIsAuthenticated();
+
+  // useEffect(() => {
+  //   const loadEvents = async () => {};
+  //   loadEvents();
+  // });
+  // const isAuthenticatedWithOutlook = useIsAuthenticated();
   const calendarRef = useRef();
   const dispatch = useDispatch();
-  const { instance, accounts, inProgress } = useMsal();
-  const [accessToken, setAccessToken] = useState(null);
-  const name = accounts[0] && accounts[0].name;
+  // const { instance, accounts, inProgress } = useMsal();
+  // const [accessToken, setAccessToken] = useState(null);
+  // const name = accounts[0] && accounts[0].name;
 
   // Request Access Token .
-  function RequestAcessToken() {
-    const request = {
-      ...loginRequest,
-      account: accounts[0],
-    };
-    instance
-      .acquireTokenSilent(request)
-      .then((response) => {
-        setAccessToken(response.accessToken);
-        callCalendarEvents(response.accessToken).then((response) => {
-          console.log(response.value);
-          setInitialEvents(response.value);
-          console.log(initialEvents);
-        });
-      })
-      .catch((e) => {
-        instance.acquireTokenPopup(request).then((response) => {
-          setAccessToken(response.accessToken);
+  // function RequestAcessToken() {
+  //   const request = {
+  //     ...loginRequest,
+  //     account: accounts[0],
+  //   };
+  //   instance
+  //     .acquireTokenSilent(request)
+  //     .then((response) => {
+  //       setAccessToken(response.accessToken);
+  //       callCalendarEvents(accessToken).then((response) => {
+  //         console.log(response.value);
+  //         setInitialEvents(response.value);
+  //         console.log(initialEvents);
+  //       });
+  //     })
+  //     .catch((e) => {
+  //       instance.acquireTokenPopup(request).then((response) => {
+  //         setAccessToken(response.accessToken);
 
-          callCalendarEvents(response.accessToken).then((response) => {
-            setInitialEvents(response.value);
-            console.log(initialEvents);
-          });
-        });
-      });
-  }
+  //         callCalendarEvents(response.accessToken).then((response) => {
+  //           setInitialEvents(response.value);
+  //           console.log(initialEvents);
+  //         });
+  //       });
+  //     });
+  // }
   const eventModalState = useSelector(
     (state) => state.eventModal.eventModalState
   );
@@ -93,11 +102,11 @@ const CalendarComponent = () => {
     }
   }, [eventModalState]);
 
-  useEffect(() => {
-    if (isAuthenticatedWithOutlook) {
-      RequestAcessToken();
-    }
-  }, [isAuthenticatedWithOutlook]);
+  // useEffect(() => {
+  //   if (isAuthenticatedWithOutlook) {
+  //     RequestAcessToken();
+  //   }
+  // }, [isAuthenticatedWithOutlook]);
 
   const getCalendarDB = async () => {
     const response = await fetch("/api/calendarDB/getCalendarDB", {
@@ -192,6 +201,7 @@ const CalendarComponent = () => {
   };
   const getAllEvents = async (start, end) => {
     if (start == undefined && end == undefined) return;
+    const events = [];
     const refresh_token = session?.user.refreshToken;
     const response = await fetch("/api/Calendar/getEvents", {
       method: "POST",
@@ -205,22 +215,21 @@ const CalendarComponent = () => {
       },
     });
     const data = await response.json();
-
-    // Outlook Events
-    // 1. Capturing the token .
-    // 2. Get all outlook events.
-
     const events_list = data.data.items;
 
-    const events = [];
-    console.log("outlook-events", initialEvents);
-    initialEvents?.map((event) => {
+    const ianaTimezones = findIana(app.user?.timeZone);
+    const OutlookEvent = await getUserCalendar(
+      app.authProvider,
+      ianaTimezones[0].valueOf()
+    );
+
+    OutlookEvent?.map((event) => {
       var startTime = new Date(event.start.dateTime);
-      startTime.setHours(startTime.getHours() + 5);
-      startTime.setMinutes(startTime.getMinutes() + 30);
+      // startTime.setHours(startTime.getHours() + 5);
+      // startTime.setMinutes(startTime.getMinutes() + 30);
       var endTime = new Date(event.end.dateTime);
-      endTime.setHours(endTime.getHours() + 5);
-      endTime.setMinutes(endTime.getMinutes() + 30);
+      // endTime.setHours(endTime.getHours() + 5);
+      // endTime.setMinutes(endTime.getMinutes() + 30);
 
       const tempEvent = {
         id: event.id,
