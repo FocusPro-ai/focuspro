@@ -46,44 +46,9 @@ const CalendarComponent = () => {
   const app = useAppContext();
   const [initialEvents, setInitialEvents] = useState([]);
 
-  // useEffect(() => {
-  //   const loadEvents = async () => {};
-  //   loadEvents();
-  // });
-  // const isAuthenticatedWithOutlook = useIsAuthenticated();
   const calendarRef = useRef();
   const dispatch = useDispatch();
-  // const { instance, accounts, inProgress } = useMsal();
-  // const [accessToken, setAccessToken] = useState(null);
-  // const name = accounts[0] && accounts[0].name;
 
-  // Request Access Token .
-  // function RequestAcessToken() {
-  //   const request = {
-  //     ...loginRequest,
-  //     account: accounts[0],
-  //   };
-  //   instance
-  //     .acquireTokenSilent(request)
-  //     .then((response) => {
-  //       setAccessToken(response.accessToken);
-  //       callCalendarEvents(accessToken).then((response) => {
-  //         console.log(response.value);
-  //         setInitialEvents(response.value);
-  //         console.log(initialEvents);
-  //       });
-  //     })
-  //     .catch((e) => {
-  //       instance.acquireTokenPopup(request).then((response) => {
-  //         setAccessToken(response.accessToken);
-
-  //         callCalendarEvents(response.accessToken).then((response) => {
-  //           setInitialEvents(response.value);
-  //           console.log(initialEvents);
-  //         });
-  //       });
-  //     });
-  // }
   const eventModalState = useSelector(
     (state) => state.eventModal.eventModalState
   );
@@ -102,11 +67,18 @@ const CalendarComponent = () => {
     }
   }, [eventModalState]);
 
-  // useEffect(() => {
-  //   if (isAuthenticatedWithOutlook) {
-  //     RequestAcessToken();
-  //   }
-  // }, [isAuthenticatedWithOutlook]);
+  useEffect(() => {
+    let todayButton = document.querySelector(".fc-today-button");
+    let calendarApi = calendarRef.current.getApi();
+    if (todayButton) {
+      todayButton.removeAttribute("disabled");
+      todayButton.addEventListener("click", () => {
+        // alert("Clickked today button");
+        calendarApi.scrollToTime(new Date().toLocaleTimeString());
+        // calendarApi.scrollToTime(new Date.now());
+      });
+    }
+  }, []);
 
   const getCalendarDB = async () => {
     const response = await fetch("/api/calendarDB/getCalendarDB", {
@@ -456,6 +428,8 @@ const CalendarComponent = () => {
         eventDurationEditable={true}
         nowIndicatorClassNames={"now-indicator-line"}
         eventBackgroundColor="#097efa"
+        firstDay={1}
+        // slotLabelInterval={"00:30"}
         // eventDrop={handleEventDrop}
         // when certain event get click;
         // eventClick={handleCheckbox}
