@@ -10,14 +10,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
 }
 
 async function getCalendarDB(req: NextApiRequest, res: NextApiResponse) {
-  const { calendarId } = req.body;
+  const { calendarId, action } = req.body;
   await prisma.taskToCalendar
     .update({
       where: {
         calendarId,
       },
       data: {
-        completed: true,
+        completed: action,
       },
     })
     .then((data) => res.status(200).json(data))

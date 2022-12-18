@@ -106,17 +106,24 @@ const CalendarComponent = () => {
   const { data: checkedTask } = useQuery(["checked-events"], getCheckedTask, {
     refetchInterval: 5000,
   });
-  const handleCheckbox = async (id) => {
+  const handleCheckbox = async (id, completed) => {
     // const id = event.event.id;
+    const contra_completed = !completed;
+    console.log(contra_completed);
     const response = await fetch("/api/calendarDB/checkTask", {
       method: "POST",
       headers: {
         "Content-type": "application/json",
       },
-      body: JSON.stringify({ calendarId: id }),
+
+      body: JSON.stringify({ calendarId: id, action: contra_completed }),
     })
       .then(() => {
-        toast.success("Hurray! Completed the task");
+        if (completed == false) {
+          toast.success("Hurray! Completed the task", { icon: "🎉" });
+        } else {
+          toast.success("You can do this!", { icon: "⏰" });
+        }
         const client = new Analytics("Kh1nkoO8kX6bKr2v");
         client.identify({
           userId: userData?.id,
@@ -237,6 +244,7 @@ const CalendarComponent = () => {
         backgroundColor: event.colorId
           ? EventColors[event.colorId]
           : EventColors[0],
+        completed: eventPresent && eventPresent?.completed,
       };
       events.push(temp_event);
     });
@@ -375,8 +383,8 @@ const CalendarComponent = () => {
         if (!prevent) {
           eventData.find((element) => {
             if (element?.calendarId === info.event.id) {
-              console.log("This is checkbox");
-              handleCheckbox(info.event.id);
+              console.log(info.event.extendedProps.completed);
+              handleCheckbox(info.event.id, info.event.extendedProps.completed);
             }
           });
         }
