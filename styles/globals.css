@@ -67,7 +67,7 @@ body {
   border-bottom: 0.1px solid #333 !important;
 }
 .fc-col-header-cell.fc-day-today {
-  @apply !bg-[#2602f3] !text-white !rounded-full;
+  @apply !bg-[#2602f3] !text-white;
 }
 
 .fc-col-header-cell.fc-day-past,
@@ -115,4 +115,19 @@ body {
 .container-child {
   scroll-snap-align: start;
   height: 100vh;
+}
+
+.fc-today-button,
+.fc-day-GridMonth-button,
+.fc-day-GridWeek-button,
+.fc-day-GridDay-button,
+.fc-prev-button,
+.fc-next-button,
+.fc .fc-button-primary {
+  @apply !bg-[#2602f3];
+}
+
+.fc .fc-button-primary {
+  margin: 0 10px;
+  @apply !rounded-md !border-none;
 }
