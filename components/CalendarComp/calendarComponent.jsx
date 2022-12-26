@@ -109,7 +109,6 @@ const CalendarComponent = () => {
   const handleCheckbox = async (id, completed) => {
     // const id = event.event.id;
     const contra_completed = !completed;
-    console.log(contra_completed);
     const response = await fetch("/api/calendarDB/checkTask", {
       method: "POST",
       headers: {
@@ -150,7 +149,6 @@ const CalendarComponent = () => {
     end,
     colorId,
   }) => {
-    console.log(colorId);
     const refresh_token = session?.user.refreshToken;
     const response = await fetch("/api/Calendar/addEvents", {
       method: "POST",
@@ -165,7 +163,6 @@ const CalendarComponent = () => {
       headers: { "Content-type": "application/json" },
     });
     const data = await response.json();
-    console.log(data);
     const dbResponse = await fetch("/api/calendarDB/addCalendar", {
       method: "POST",
       headers: {
@@ -234,7 +231,7 @@ const CalendarComponent = () => {
       const eventTemplate = `<input type = "checkbox" ${
         checked ? "checked" : ""
       } /> `;
-      // console.log("Google Events", event.start.dateTime);
+
       const temp_event = {
         id: event.id,
         title: `${eventPresent ? eventTemplate : ""}` + `${event?.summary}`,
@@ -245,10 +242,11 @@ const CalendarComponent = () => {
           ? EventColors[event.colorId]
           : EventColors[0],
         completed: eventPresent && eventPresent?.completed,
+        meetingLink: event.hangoutLink && event.hangoutLink,
       };
       events.push(temp_event);
     });
-    console.log("Final Events", events);
+
     return events;
   };
   const updateEvent = async ({
@@ -294,12 +292,11 @@ const CalendarComponent = () => {
     console.log("Date click handling");
   };
   const handleChange = (event) => {
-    console.log(event);
     const background_color = event.event.backgroundColor;
     const colorId = EventColors.findIndex(
       (color) => background_color === color
     );
-    console.log(colorId);
+
     const event_prop = {
       id: event.event._def.publicId,
       event_title: event.event.title,
@@ -308,7 +305,7 @@ const CalendarComponent = () => {
       end: event.event.end,
       colorId,
     };
-    console.log(event_prop);
+
     updateEvent(event_prop);
   };
   const handleEventClick = (event) => {
@@ -316,7 +313,7 @@ const CalendarComponent = () => {
     const colorId = EventColors.findIndex(
       (color) => background_color === color
     );
-
+    console.log(event.event.extendedProps);
     const payload = {
       title: String(event.event.title)
         .replaceAll('<input type = "checkbox"  />', "")
@@ -326,13 +323,13 @@ const CalendarComponent = () => {
       end: event.event.end,
       id: event.event.id,
       colorId,
+      meetingLink: event.event.extendedProps.meetingLink,
     };
 
     dispatch(addEventDescription(payload));
     dispatch(changeEventModalState());
   };
   const handleEventSelection = (info) => {
-    console.log(info.start);
     const payload = {
       title: "",
       description: "",
@@ -343,7 +340,6 @@ const CalendarComponent = () => {
     dispatch(changeEventModalSlice());
   };
   const handleEventRecieve = (event) => {
-    console.log(event);
     let calendarAPI = calendarRef.current.getApi();
     // calendarAPI.
     const event_prop = {
@@ -383,7 +379,6 @@ const CalendarComponent = () => {
         if (!prevent) {
           eventData.find((element) => {
             if (element?.calendarId === info.event.id) {
-              console.log(info.event.extendedProps.completed);
               handleCheckbox(info.event.id, info.event.extendedProps.completed);
             }
           });

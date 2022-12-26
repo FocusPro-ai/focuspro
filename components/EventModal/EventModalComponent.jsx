@@ -8,11 +8,15 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { TrashIcon } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
+import { VideoCameraIcon } from "@heroicons/react/20/solid";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const EventModalComponent = () => {
   const eventModalState = useSelector(
     (state) => state.eventModal.eventModalState
   );
+  const router = useRouter();
   const eventModalInfo = useSelector((state) => state.eventModal.eventModal);
   const { data: session } = useSession();
   const dispatch = useDispatch();
@@ -129,13 +133,18 @@ const EventModalComponent = () => {
                   </p>
                 </div>
 
-                {/* <textarea
-                  cols={100}
-                  placeholder="your description."
-                  className="w-full resize-none p-2 bg-gray-200 flex-1 h-full  outline-none"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                /> */}
+                {eventModalInfo.meetingLink && (
+                  <Link
+                    rel="noreferrer"
+                    target="_blank"
+                    href={eventModalInfo.meetingLink}
+                  >
+                    <button className="bg-blue-600 flex space-x-2 items-center p-2 rounded-md text-white my-2 w-max">
+                      <span>Meet now</span>{" "}
+                      <VideoCameraIcon height={20} width={20} />
+                    </button>
+                  </Link>
+                )}
                 <div
                   contentEditable={true}
                   id="description-id"

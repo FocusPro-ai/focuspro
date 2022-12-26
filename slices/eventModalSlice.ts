@@ -9,6 +9,7 @@ interface eventModalType {
   backgroundColor: string;
   description: string;
   colorId: any;
+  meetingLink: string;
 }
 
 interface initaltype {
@@ -26,6 +27,7 @@ const initialState: initaltype = {
     description: "",
     id: undefined,
     colorId: undefined,
+    meetingLink: "",
   },
 };
 
