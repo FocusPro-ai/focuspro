@@ -80,6 +80,88 @@ const CalendarComponent = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const getEvents = async () => {
+      const today = new Date();
+      const yesterday = new Date();
+      const past_seven_days = new Date();
+      const deadline_date = new Date();
+      deadline_date.setDate(deadline_date.getDate() - 5);
+      yesterday.setDate(today.getDate() - 1);
+      past_seven_days.setDate(today.getDate() - 7);
+
+      console.log("Today", today);
+      console.log("Seven days", past_seven_days);
+      const refresh_token = session?.user.refreshToken;
+      const response = await fetch("/api/Calendar/getEvents", {
+        method: "POST",
+        body: JSON.stringify({
+          refresh_token,
+          start: past_seven_days,
+          end: yesterday,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+      const data = await response.json();
+      const events_list = data.data.items;
+
+      const uncheckResponse = await fetch("/api/calendarDB/uncheckTask", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userData?.id,
+        }),
+      });
+      const uncheckData = await uncheckResponse.json();
+
+      const uncheckCalendarEvent = [];
+      const uncheckCalendarId = [];
+      const eventElementId = [];
+
+      uncheckData.map((element) => {
+        uncheckCalendarId.push(element.calendarId);
+      });
+
+      events_list.map((element) => {
+        eventElementId.push(element.id);
+      });
+
+      uncheckCalendarId = uncheckCalendarId.filter((val) =>
+        eventElementId.includes(val)
+      );
+      // console.log("Events ", events_list);
+      events_list.filter((el) => {
+        if (uncheckCalendarId.includes(el.id)) {
+          uncheckCalendarEvent.push(el);
+        }
+      });
+      // console.log(uncheckCalendarEvent);
+
+      uncheckCalendarEvent.map(async (data) => {
+        console.log(data.summary);
+        const response = await fetch("/api/Task/addTask", {
+          method: "POST",
+          body: JSON.stringify({
+            userId: userData?.id,
+            heading: data.summary,
+            description: data.description,
+            deadline: deadline_date,
+            importance: 9,
+          }),
+          headers: { "Content-type": "application/json" },
+        });
+
+        const resultAddTask = await response.json();
+        console.log(resultAddTask);
+      });
+    };
+    getEvents();
+  }, [session, userData]);
+
   const getCalendarDB = async () => {
     const response = await fetch("/api/calendarDB/getCalendarDB", {
       method: "POST",
