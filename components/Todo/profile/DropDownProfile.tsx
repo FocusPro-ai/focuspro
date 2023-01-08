@@ -17,6 +17,7 @@ import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { showVideoSlice } from "../../../slices/videoSlice";
 import { changeSettingSlice } from "../../../slices/settingSlice";
+import { useRouter } from "next/router";
 
 const DropDownProfile = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -25,6 +26,7 @@ const DropDownProfile = () => {
   const profilePhoto = session?.user?.image;
   const userName = session?.user?.name;
   const email = session?.user?.email;
+  const router = useRouter();
 
   return (
     <div className="relative mr-4 ">
@@ -67,6 +69,20 @@ const DropDownProfile = () => {
               {/* <InboxIcon className="h-5 w-5" /> */}
               <div className="text-[17px]">📥</div>
               <span>Archive</span>
+            </div>
+          </li>
+          <li>
+            <div
+              onClick={() => router.push("/focusmode")}
+              className="flex items-center cursor-pointer space-x-2 py-2 px-4 hover:bg-gray-100  "
+            >
+              <Image
+                src="/favicon.png"
+                height={20}
+                width={20}
+                alt="focus-mode"
+              />
+              <span> Focus mode</span>
             </div>
           </li>
           <li>
